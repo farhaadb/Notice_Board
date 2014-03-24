@@ -1,0 +1,23 @@
+{
+  "name": "notice-board",
+  "version": "0.0.1",
+  "description": "Notice board for lecturers and students",
+  "main": "server.js",
+  "private": true,
+  "dependencies": {
+    "express": "*",
+	"mysql": "*"
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "ssh://52f68e0d5973ca877f000473@nb-noticeboard.rhcloud.com/~/git/nb.git/"
+  },
+  "keywords": [
+    "notice-board"
+  ],
+  "author": "farhaad",
+  "license": "NA"
+}
