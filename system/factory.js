@@ -1,7 +1,7 @@
 noticeboard.factory('myNotices', function($http, $q, $timeout) {
    return {
 		getMsg: function() {
-		    var url = 'http://nb-noticeboard.rhcloud.com/gettable.html';  //url to the server
+		    var url = 'http://dutnoticeboard.co.za/gettable.html';  //url to the server
 			var deferred = $q.defer();
 			$http.get(url)
 				.success(function(data) {
