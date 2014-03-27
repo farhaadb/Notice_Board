@@ -5,7 +5,7 @@ module.exports = function(app, connection, auth){
 	});
 
 	app.post("/login.html", function(req,res){
-		connection.query("select count(*) as count from login where username='" + req.body.user + "' and password='" + req.body.pass + "'",
+		connection.query("select count(*) as count from Login where username='" + req.body.user + "' and password='" + req.body.pass + "'",
 		function(err, rows, fields){
 			if(err){
 				console.log("error" + err);
