@@ -6,7 +6,8 @@
   "private": true,
   "dependencies": {
     "express": "*",
-	"mysql": "*"
+	"mysql": "*",
+	"connect-redis": "1.4.x"
   },
   "scripts": {
     "start": "node server.js"
