@@ -2,14 +2,14 @@ function start(host, db, usr, pwd)
 {
 	var mysql = require("mysql");
 
-	var connection = mysql.createConnection({
+	var pool = mysql.createPool({
 	host     : host,
 	database : db,
 	user     : usr,
 	password : pwd
 	});
 	
-	return connection;
+	return pool;
 }
 
 exports.start = start;
