@@ -1,4 +1,4 @@
-module.exports = function(app, express){
+module.exports = function(app, express, multer){
 
 	app.configure(function() {
 	
@@ -6,7 +6,17 @@ module.exports = function(app, express){
 		
 		app.use(express.static(__dirname + '/../client_modules')); 		// set the static files location /public/img will be /img for users
 		app.use(express.logger('dev')); 						// log every request to the console
-		app.use(express.bodyParser()); 							// pull information from html in POST
+		app.use(multer({
+			dest: './uploads/',
+			rename: function(fieldname, filename) {
+			return filename.replace(/\W+/g, '-').toLowerCase() + Date.now();
+			},
+			limits: {
+				fileSize: 100000,
+			},
+		}));
+		//app.use(express.limit('4mb'));
+		//app.use(express.bodyParser({uploadDir:'./uploads'}));	// pull information from html in POST
 		app.use(express.methodOverride()); 						// simulate DELETE and PUT
 		app.use(express.cookieParser());
 		app.use(express.session({ secret: 'password', 
