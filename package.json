@@ -5,10 +5,11 @@
   "main": "server.js",
   "private": true,
   "dependencies": {
-    "express": "*",
+    "express": "3.x",
 	"mysql": "*",
 	"connect-redis": "1.4.x",
-	"multer": "*"
+	"multer": "*",
+	"excel-parser": "*"
   },
   "scripts": {
     "start": "node server.js"
