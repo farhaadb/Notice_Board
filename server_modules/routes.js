@@ -1,4 +1,4 @@
-module.exports = function(app, pool, auth, dbquery, excelParser){
+module.exports = function(app, pool, auth, dbquery, excelParser, fs, listDir){
 
 	app.get("/", function(req, res){
 		res.sendfile("login.html");
@@ -26,6 +26,12 @@ module.exports = function(app, pool, auth, dbquery, excelParser){
 			console.log(records);
 			res.send("Hello");
 		});
+		
+	
+	});
+	
+	app.get('/dir', function(req,res){
+		listDir.walk(fs,__dirname+"/..", req, res);
 	});
 	
 	app.get('/upload', function(req,res){
