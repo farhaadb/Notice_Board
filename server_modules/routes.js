@@ -1,4 +1,4 @@
-module.exports = function(app, pool, auth, dbquery){
+module.exports = function(app, pool, auth, dbquery, excelParser){
 
 	app.get("/", function(req, res){
 		res.sendfile("login.html");
@@ -14,6 +14,18 @@ module.exports = function(app, pool, auth, dbquery){
 	
 	app.get('/app', auth, function(req,res){
 		res.sendfile("app.html");
+	});
+	
+	app.get('/excel', function(req,res){
+		excelParser.parse({
+		inFile: 'test.xlsx',
+		worksheet: 1,
+		skipEmpty: true,
+		},function(err, records){
+			if(err) console.error(err);
+			console.log(records);
+			res.send("Hello");
+		});
 	});
 	
 	app.get('/upload', function(req,res){
