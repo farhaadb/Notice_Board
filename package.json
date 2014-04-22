@@ -9,7 +9,8 @@
 	"mysql": "*",
 	"connect-redis": "1.4.x",
 	"multer": "*",
-	"excel-parser": "*"
+	"excel-parser": "*",
+	"subdomain": "*"
   },
   "scripts": {
     "start": "node server.js"
