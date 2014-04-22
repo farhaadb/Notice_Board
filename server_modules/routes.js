@@ -38,6 +38,10 @@ module.exports = function(app, pool, auth, dbquery, excelParser, fs, listDir){
 		res.sendfile("upload.html");
 	});
 	
+	app.get('/subdomain/test', function(req,res){
+		res.send("Worked");
+	});
+	
 	app.post('/file-upload', function(req, res) {
 	
 	console.log("test");
