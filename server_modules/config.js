@@ -1,22 +1,21 @@
-module.exports = function(app, express, multer){
+module.exports = function(app, express, busboy, subdomain){
 
 	app.configure(function() {
 	
 		var RedisStore = require('connect-redis')(express);
 		
+		
 		app.use(express.static(__dirname + '/../client_modules')); 		// set the static files location /public/img will be /img for users
 		app.use(express.logger('dev')); 						// log every request to the console
-		app.use(multer({
-			dest: './uploads/',
-			rename: function(fieldname, filename) {
-			return filename.replace(/\W+/g, '-').toLowerCase() + Date.now();
-			},
+		app.use(subdomain({ base : 'dutnoticeboard.co.za', removeWWW : true }));
+		app.use(busboy({
+			highWaterMark: 2 * 1024 * 1024,
 			limits: {
-				fileSize: 100000,
-			},
+			fileSize: 10 * 1024 * 1024 * 1024 * 1024
+			}
 		}));
-		//app.use(express.limit('4mb'));
-		//app.use(express.bodyParser({uploadDir:'./uploads'}));	// pull information from html in POST
+		app.use(express.json());
+		app.use(express.urlencoded());
 		app.use(express.methodOverride()); 						// simulate DELETE and PUT
 		app.use(express.cookieParser());
 		app.use(express.session({ secret: 'password', 
