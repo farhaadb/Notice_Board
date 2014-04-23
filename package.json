@@ -8,7 +8,7 @@
     "express": "3.x",
 	"mysql": "*",
 	"connect-redis": "1.4.x",
-	"multer": "*",
+	"connect-busboy": "*",
 	"excel-parser": "*",
 	"subdomain": "*"
   },
