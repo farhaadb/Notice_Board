@@ -38,8 +38,8 @@ module.exports = function(app, pool, auth, dbquery, excelParser, fs, listDir, pa
 		res.sendfile("upload.html");
 	});
 	
-	app.get('/subdomain/lecturer/upload', function(req,res){
-		res.send("Worked");
+	app.get('/subdomain/lecturer', function(req,res){
+		res.sendfile("lecturer/index.html");
 	});
 	
 	app.post('/file-upload', function(req, res) {
