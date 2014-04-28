@@ -44,10 +44,17 @@ module.exports = function(app, pool, auth, dbquery, excelParser, fs, listDir, pa
 	
 	app.post('/file-upload', function(req, res) {
 	
+		var destination="";
+		
+		req.busboy.on('field', function(fieldname, val, fieldnameTruncated, valTruncated) {
+			console.log('Field [' + fieldname + ']: value: ' + val);
+			destination=val;
+		});
+	
 		req.busboy.on('file', function(fieldname, file, filename, encoding, mimetype) {
 			
-			var saveTo = path.resolve(__dirname, '..', fieldname, path.basename(filename));
-			console.log(saveTo);
+			var saveTo = path.resolve(__dirname, '..', destination, path.basename(filename));
+			console.log(destination);
 			file.pipe(fs.createWriteStream(saveTo));
 		});
 		
