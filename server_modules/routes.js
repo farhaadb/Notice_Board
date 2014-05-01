@@ -13,7 +13,8 @@ module.exports = function(app, pool, auth, dbquery, excelParser, fs, listDir, pa
 	});
 	
 	app.get('/app', auth, function(req,res){
-		res.sendfile("app.html");
+	res.sendfile("lecturer/index.html")
+		//res.sendfile("app.html");
 	});
 	
 	app.get('/excel', function(req,res){
@@ -30,8 +31,11 @@ module.exports = function(app, pool, auth, dbquery, excelParser, fs, listDir, pa
 	
 	});
 	
-	app.get('/dir', function(req,res){
-		listDir.walk(fs,__dirname+"/..", req, res);
+	app.post('/dir', function(req,res){
+	
+		var d = path.resolve(__dirname,"../uploads/lecturer",req.body.path);
+		console.log(d);
+		listDir.walk(fs, d, req, res);
 	});
 	
 	app.get('/upload', function(req,res){
@@ -68,6 +72,28 @@ module.exports = function(app, pool, auth, dbquery, excelParser, fs, listDir, pa
 		//console.log(req.body);
 		//console.log(req.files);
 	
+	});
+	
+	app.post('/addnotice', function(req, res) {
+		console.log(req.body);
+		res.send("thanks");
+	});
+	
+	app.get('/returnid', function(req, res) {
+		dbquery.query(req, res, pool, "returnId");
+	});
+	
+	app.post('/returnsubjects', function(req, res) {
+		dbquery.query(req, res, pool, "returnSubjects");
+	});
+	
+	app.post('/returnnotices', function(req, res) {
+		dbquery.query(req, res, pool, "returnNotices");
+	});
+	
+	app.post('/deletenotice', function(req, res) {
+		console.log(req.body.id);
+		//dbquery.query(req, res, pool, "returnNotices");
 	});
 	
 };

@@ -2,7 +2,12 @@ function walk(fs, path, req, res)
 {
 	console.log("path = " + path);
 	fs.readdir(path, function(err, list) {
-    if (err) return done(err);
+    if (err) 
+	{
+		console.log(err);
+		res.send(err);
+		return;
+	}
 	var filestatus=[];
 	var i = list.length-1;
 	var z = 0;
@@ -14,7 +19,17 @@ function walk(fs, path, req, res)
 	  	filestatus[z]=stats.isDirectory();
 		
 		if (z==i){
-			res.send({names:list,status:filestatus});
+			var test = '[';
+			for(var k=0; k<list.length; k++)
+			{
+				test+="{\"name\":\""+list[k]+"\",\"folder\":\""+filestatus[k]+"\"\,\"path\":\""+req.body.path+"/"+list[k]+"\"},";
+			}
+			
+			var f=test.slice(0, - 1); //get rid of last comma
+			f+=']';
+			console.log(f);
+			
+			res.send(f);
         }
 		z++;
 	 });

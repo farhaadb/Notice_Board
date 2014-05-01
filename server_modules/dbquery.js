@@ -11,7 +11,7 @@ function query(req, res, pool, q){
 			
 				if(rows[0].count==1)
 				{
-					req.session.user_id="test";
+					req.session.user_id=req.body.user;
 				}
 			
 				else
@@ -32,6 +32,40 @@ function query(req, res, pool, q){
 			});
 		}
 		
+		else if(q=="returnId"){
+		
+			connection.query("select id from login where username='"+req.session.user_id+"'",
+			function(err, rows, fields){
+			if(err) throw err;
+			
+			res.send(JSON.stringify(rows));
+			});
+		}
+		
+		else if(q=="returnSubjects"){
+		
+			var id=req.body.id;
+			
+			connection.query("SELECT subject.id, subject.name from subject join lecturer_cs on lecturer_cs.subject_id=subject.id where lecturer_cs.lecturer_id='"+id+"'",
+			function(err, rows, fields){
+			if(err) throw err;
+			
+			res.send(JSON.stringify(rows));
+			});
+		}
+		
+		else if(q=="returnNotices"){
+		
+			var id=req.body.id;
+			
+			connection.query("SELECT notice.id as id, notice.caption as title, notice.article as notice, subject.name as module from notice_lcs join notice on notice.id=notice_lcs.notice_id join subject on notice_lcs.subject_id=subject.id where notice_lcs.lecturer_id='"+id+"'",
+			function(err, rows, fields){
+			if(err) throw err;
+			console.log(JSON.stringify(rows));
+			res.send(JSON.stringify(rows));
+			});
+		}
+				
 		else{
 			console.log("Unhandled query " + q);
 		}
