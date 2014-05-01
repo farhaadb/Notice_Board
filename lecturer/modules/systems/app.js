@@ -1,4 +1,4 @@
-var noticeboard = angular.module('App',['shoppinpal.mobile-menu', 'App.services'])
+var noticeboard = angular.module('App',['shoppinpal.mobile-menu', 'App.services']);
     
 	noticeboard.config(['$routeProvider','$locationProvider',function($routeProvider,$locationProvider){
         $routeProvider
@@ -11,8 +11,9 @@ var noticeboard = angular.module('App',['shoppinpal.mobile-menu', 'App.services'
                 templateUrl: "partial/profile.html",
             })
 			
-            .when("/reports", {
-                templateUrl: "partial/reports.html",
+            .when("/mynotices", {
+                templateUrl: "partial/mynotices.html",
+				controller: 'MainController',
             })
 			
 			 .when("/lecturer", {
