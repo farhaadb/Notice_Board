@@ -45,3 +45,7 @@ a:-webkit-any-link {
   -webkit-tap-highlight-color: rgba(0,0,0,0);
  
 }
+
+.hidden{
+	display:none;
+}
