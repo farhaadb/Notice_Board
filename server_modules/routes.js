@@ -1,4 +1,4 @@
-module.exports = function(app, pool, auth, dbquery, excelParser, fs, listDir, path){
+module.exports = function(app, pool, auth, dbquery, excelParser, fs, dir, path){
 
 	app.get("/", function(req, res){
 		res.sendfile("login.html");
@@ -31,11 +31,32 @@ module.exports = function(app, pool, auth, dbquery, excelParser, fs, listDir, pa
 	
 	});
 	
-	app.post('/dir', function(req,res){
+	app.post('/listDirectory', function(req,res){
 	
 		var d = path.resolve(__dirname,"../uploads/lecturer",req.body.path);
 		console.log(d);
-		listDir.walk(fs, d, req, res);
+		dir.directory(fs, d, req, res, "list");
+	});
+	
+	app.post('/addfolder', function(req,res){
+	
+		var d = path.resolve(__dirname,"../uploads/lecturer",req.body.path);
+		console.log(d);
+		dir.directory(fs, d, req, res, "addFolder");
+	});
+	
+	app.post('/removefile', function(req,res){
+	
+		var d = path.resolve(__dirname,"../uploads/lecturer",req.body.path);
+		console.log(d);
+		dir.directory(fs, d, req, res, "removeFile");
+	});
+	
+	app.post('/removefolder', function(req,res){
+	
+		var d = path.resolve(__dirname,"../uploads/lecturer",req.body.path);
+		console.log(d);
+		dir.directory(fs, d, req, res, "removeFolder");
 	});
 	
 	app.get('/upload', function(req,res){
