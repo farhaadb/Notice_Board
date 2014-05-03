@@ -20,7 +20,7 @@
 		<br>
 		<b>This is what dropbox does. So it needs to look as close too or better than</b><br>
 		
-		<ul id="dropbox" ng-model="html">
+		<ul id="initial" ng-model="html">
 		<li  ng-show="ready" ng-repeat="item in subject" class="topcoat-list__item" style="background-color: #FFFFFF;">
 		
 		<div ng-click='updateView("{{item.id}}")'>
@@ -32,17 +32,32 @@
 		</li>
 		</ul>
 		
-		<ul id="dropbox2" class="hidden" ng-bind-html="myHTML">
+		<div id="directory_options" class="hidden">
+		<input type="button" id="back" value="Up" ng-click="goBack()">
+		<input type="text" id="folder_name" maxlength="30" ng-model="folder_name"  ng-change="checkCharacters()">
+		<input type="button" value="Create Folder" ng-disabled="is_button_disabled" ng-click="addFolder(folder_name)">
+		<span id="folder_error" class="hidden">Cannot create a folder with \ / : * ? " < > | in its name</span>
+		</div>
+		
+		<ul id="folder" class="hidden">
 		<li  ng-show="ready" ng-repeat="item in dir | filter:{folder:'true'}" class="topcoat-list__item" style="background-color: #FFFFFF;">
-		<div ng-click='updateView("{{item.path}}")'>
+		<div>
 		<img style="float:left; width:42px; height:45px; margin-right:10px;"class="movieimg" src="resources/img/{{items.id}}.png" />
-		<strong style="font-size:17px;">{{item.name}}</strong><p style="font-size:12px;">{{item.folder}}</p>
+		<strong style="font-size:17px;"  ng-click='updateView("{{item.path}}")'>{{item.name}}</strong><p style="font-size:12px;"><input type="button" value="Delete Folder" ng-click="removeFolder(item.path)"></p>
 		</div>
 		<div style="clear:both;"></div>   
 
 		</li>
 		</ul>
-		<ul id="dropbox3" class="hidden" ng-bind-html="myHTML">
+		<ul id="file" class="hidden" ng-bind-html="myHTML">
+		<li  ng-show="ready" ng-repeat="item in dir | filter:{folder:'false'}" class="topcoat-list__item" style="background-color: #FFFFFF;">
+		<div>
+		<img style="float:left; width:42px; height:45px; margin-right:10px;"class="movieimg" src="resources/img/{{items.id}}.png" />
+		<strong style="font-size:17px;"><a ng-href="http://localhost:3000/lecturer/{{item.path}}" download>{{item.name}}</a></strong><p style="font-size:12px;"><input type="button" value="Delete File" ng-click="removeFile(item.path)"></p>
+		</div>
+		<div style="clear:both;"></div>   
+
+		</li>
 		</ul>
 		 		 
 	</div>
