@@ -10,7 +10,8 @@
 	"connect-redis": "1.4.x",
 	"connect-busboy": "*",
 	"excel-parser": "*",
-	"subdomain": "*"
+	"subdomain": "*",
+	"rimraf": "*"
   },
   "scripts": {
     "start": "node server.js"
