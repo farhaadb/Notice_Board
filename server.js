@@ -8,14 +8,14 @@ var dbquery = require("./server_modules/dbquery");
 var busboy = require('connect-busboy');
 var excelParser = require('excel-parser');
 var fs = require('fs');
-var listDir = require("./server_modules/directory");
+var dir = require("./server_modules/directory");
 var subdomain = require('subdomain');
 
-var pool = db.start("107.170.89.145","nb","root","athens");
-//var pool = db.start("localhost","nb","root","");
+//var pool = db.start("107.170.89.145","nb","root","athens");
+var pool = db.start("localhost","nb","root","");
 
 var config = require('./server_modules/config.js')(app, express, busboy, subdomain);
-require('./server_modules/routes.js')(app, pool, auth, dbquery, excelParser, fs, listDir, path);
+require('./server_modules/routes.js')(app, pool, auth, dbquery, excelParser, fs, dir, path);
 
-http.createServer(app).listen(80, "107.170.89.145");
-//http.createServer(app).listen(80, "127.0.0.1");
+//http.createServer(app).listen(80, "107.170.89.145");
+http.createServer(app).listen(3000, "127.0.0.1");
