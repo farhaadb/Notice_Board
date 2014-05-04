@@ -19,12 +19,12 @@
 		<b>This is how twitter does it. So it needs to look as close too or better than</b><br>
 		
 		<ul id="feeds" ng-model="html">
-			<li  ng-repeat="item in notices" class="topcoat-list__item" style="background-color: #FFFFFF;">
+			<li  ng-repeat="item in notices | orderBy:item.time" class="topcoat-list__item" style="background-color: #FFFFFF;">
 			<p style="font-size:12px;">{{item.notice}}</p>
 			<p style="font-size:12px;">{{item.id}}</p>
 			<p style="font-size:12px;">{{item.title}}</p>
 			<p style="font-size:12px;">{{item.module}}</p>
-			
+			<p style="font-size:12px;">{{item.time}}</p>
 			<div>
 				<input type="button" value="delete" ng-click="deleteNotice({{item.id}})">
 			</div>
