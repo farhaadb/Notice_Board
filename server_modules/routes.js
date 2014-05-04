@@ -31,28 +31,28 @@ module.exports = function(app, pool, auth, dbquery, excelParser, fs, dir, path){
 	
 	});
 	
-	app.post('/listDirectory', function(req,res){
+	app.post('/listlecturerdirectory', function(req,res){
 	
 		var d = path.resolve(__dirname,"../uploads/lecturer",req.body.path);
 		console.log(d);
 		dir.directory(fs, d, req, res, "list");
 	});
 	
-	app.post('/addfolder', function(req,res){
+	app.post('/addlecturerfolder', function(req,res){
 	
 		var d = path.resolve(__dirname,"../uploads/lecturer",req.body.path);
 		console.log(d);
 		dir.directory(fs, d, req, res, "addFolder");
 	});
 	
-	app.post('/removefile', function(req,res){
+	app.post('/removelecturerfile', function(req,res){
 	
 		var d = path.resolve(__dirname,"../uploads/lecturer",req.body.path);
 		console.log(d);
 		dir.directory(fs, d, req, res, "removeFile");
 	});
 	
-	app.post('/removefolder', function(req,res){
+	app.post('/removelecturerfolder', function(req,res){
 	
 		var d = path.resolve(__dirname,"../uploads/lecturer",req.body.path);
 		console.log(d);
@@ -95,26 +95,24 @@ module.exports = function(app, pool, auth, dbquery, excelParser, fs, dir, path){
 	
 	});
 	
-	app.post('/addnotice', function(req, res) {
-		console.log(req.body);
-		res.send("thanks");
+	app.get('/returnlecturerid', function(req, res) {
+		dbquery.query(req, res, pool, "returnLecturerId");
 	});
 	
-	app.get('/returnid', function(req, res) {
-		dbquery.query(req, res, pool, "returnId");
+	app.post('/returnlecturersubjects', function(req, res) {
+		dbquery.query(req, res, pool, "returnLecturerSubjects");
 	});
 	
-	app.post('/returnsubjects', function(req, res) {
-		dbquery.query(req, res, pool, "returnSubjects");
+	app.post('/returnlecturernotices', function(req, res) {
+		dbquery.query(req, res, pool, "returnLecturerNotices");
 	});
 	
-	app.post('/returnnotices', function(req, res) {
-		dbquery.query(req, res, pool, "returnNotices");
-	});
+	app.post('/addlecturernotice', function(req, res) {
+		dbquery.query(req, res, pool, "addLecturerNotice");
+	});	
 	
-	app.post('/deletenotice', function(req, res) {
-		console.log(req.body.id);
-		//dbquery.query(req, res, pool, "returnNotices");
+	app.post('/deletelecturernotice', function(req, res) {
+		dbquery.query(req, res, pool, "deleteLecturerNotice");
 	});
 	
 };
