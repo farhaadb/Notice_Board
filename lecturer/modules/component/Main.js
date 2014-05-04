@@ -3,9 +3,12 @@
 function MainController($scope,$http ,myNotices,$window) {
 	$scope.statusmessage =  'Updating...';
 	var ip = "http://localhost:3000";
+	$scope.notice_text_limit=140;
 	var path_history=[];
 	var disallowed_characters=["\\", "/", ":", "*", "?", "\"", "<", ">", "|"];
-	$scope.is_button_disabled=true;
+	$scope.is_folder_button_disabled=true;
+	$scope.is_notice_button_disabled=true;
+	
 	$scope.reload =function(){
 	$window.location.reload();
 	$scope.dir;
@@ -14,11 +17,12 @@ function MainController($scope,$http ,myNotices,$window) {
 	//Makes call to factory to get lecturer id
 		function init(){
 				$scope.conn = true;
-				var url = ip+'/returnid';
+				var url = ip+'/returnlecturerid';
 				
 				myNotices.get(url).then(function(data) { //success
 					$scope.msg = data;
 					$scope.lecturer_id=data[0].id;
+					localStorage.setItem("lecturer_id",$scope.lecturer_id);
 					$scope.ready = true;
 					getSubjects();
 				},
@@ -34,13 +38,11 @@ function MainController($scope,$http ,myNotices,$window) {
 		//--------------------Makes call to factory to get subjects-----------------------------//
 		function getSubjects(){
 		var d={'id' : $scope.lecturer_id};
-		var url = ip+'/returnsubjects';
+		var url = ip+'/returnlecturersubjects';
 		
 		myNotices.post(url,d).then(function(subject) {
 						console.log(subject);
 						$scope.subject=subject;
-						console.log($scope.subject);
-						//$scope.updateView("DSYS102");
 						getNotices();
 		},
 				function(data) { //failure
@@ -53,10 +55,17 @@ function MainController($scope,$http ,myNotices,$window) {
 		};
 			//--------------------Makes call to factory to get notices----------------------------//
 		function getNotices(){
-		var url = ip+'/returnnotices';
+		var url = ip+'/returnlecturernotices';
 		
 		myNotices.post(url,{'id':$scope.lecturer_id}).then(function(notices) {
 						console.log(notices);
+						
+						//show time in human readable manner
+						for(var i=0; i<notices.length; ++i)
+						{
+							notices[i].time=notices[i].time.slice(0, 19).replace('T', ' ');
+						}
+						
 						$scope.notices=notices;
 						console.log($scope.notices);
 					
@@ -70,15 +79,39 @@ function MainController($scope,$http ,myNotices,$window) {
 		
 		}
 		
+		$scope.addNotice = function(subject, title, body){
+						
+			var url = ip+'/addlecturernotice';
+			
+			myNotices.post(url,{'subject':subject, 'title':title, 'body':body, 'lecturer':$scope.lecturer_id}).then(function(status) {
+					
+					if(status.status=="success");
+					{
+						$scope.notice_title="";
+						$scope.notice_body="";
+						$scope.notice_text_limit=140;
+					}
+								
+			},
+			function(data) { //failure
+				console.log('WE ARE HAVING TROUBLE ADDING YOUR NOTICE');
+				$scope.statusmessage =  'WE ARE HAVING TROUBLE ADDING YOUR NOTICE';
+				$scope.ready =true;
+				$scope.conn = false;
+        	});
+			
+		}
+		
 		$scope.deleteNotice = function(id){
 			console.log(id);
 				
-			var url = ip+'/deletenotice';
+			var url = ip+'/deletelecturernotice';
 				
 			myNotices.post(url,{'id':id}).then(function(notices) {
-					console.log(notices);
-					$scope.notices=notices;
-					console.log($scope.notices);
+					if(notices.status=="success")
+					{
+						getNotices();
+					}
 					
 			},
 			function(data) { //failure
@@ -88,6 +121,25 @@ function MainController($scope,$http ,myNotices,$window) {
 				$scope.conn = false;
         	});
 			
+		}
+		
+		$scope.checkLimit = function(){
+			$scope.notice_text_limit=140-$scope.notice_body.length;	
+			$scope.checkNoticeButton();
+		}
+		
+		$scope.checkNoticeButton = function(){
+			if($scope.notice_subject==undefined || $scope.notice_subject=="" || $scope.notice_title==undefined || $scope.notice_title=="" ||
+			$scope.notice_body==undefined || $scope.notice_body=="")
+			{
+				$scope.is_notice_button_disabled=true;
+			}
+			
+			else
+			{
+				$scope.is_notice_button_disabled=false;
+			}
+		
 		}
 		
 		//-------------------------------------------------------------------------------------//
@@ -122,7 +174,7 @@ function MainController($scope,$http ,myNotices,$window) {
 		console.log(path);
 		
 		if(path_history.length>0) //don't store duplicates
-		{ console.log(path_history[(path_history.length-1)]+"==="+path);
+		{ 
 			if(path_history[(path_history.length-1)]!=path)
 			{
 				path_history.push(path);		
@@ -133,7 +185,7 @@ function MainController($scope,$http ,myNotices,$window) {
 		{
 			path_history.push(path);
 		}
-		var url = ip+'/listDirectory';
+		var url = ip+'/listlecturerdirectory';
 		
 		myNotices.post(url,{'path':path}).then(function(dir) {
 						console.log(dir);
@@ -141,6 +193,8 @@ function MainController($scope,$http ,myNotices,$window) {
 						
 						if(dir.status!=undefined) //no file or folder in directory
 						{
+							document.getElementById("directory_options").className = "";
+							document.getElementById("initial").className = "hidden";
 							document.getElementById("file").className = "hidden";
 							document.getElementById("folder").className = "hidden";
 							return;
@@ -221,7 +275,7 @@ function MainController($scope,$http ,myNotices,$window) {
 			
 			if(s==="" || s==null)
 			{
-				$scope.is_button_disabled=true;
+				$scope.is_folder_button_disabled=true;
 				return;
 			}
 						
@@ -238,13 +292,13 @@ function MainController($scope,$http ,myNotices,$window) {
 			
 			if(found_disallowed)
 			{
-				$scope.is_button_disabled=true;
+				$scope.is_folder_button_disabled=true;
 				document.getElementById("folder_error").className = "";
 			}
 			
 			else
 			{
-				$scope.is_button_disabled=false;
+				$scope.is_folder_button_disabled=false;
 				document.getElementById("folder_error").className = "hidden";
 			}
 						
@@ -254,7 +308,7 @@ function MainController($scope,$http ,myNotices,$window) {
 		$scope.addFolder = function(folder){
 			
 			var path=path_history[(path_history.length-1)]+"/"+folder;
-			var url = ip+'/addfolder';
+			var url = ip+'/addlecturerfolder';
 			
 			myNotices.post(url,{'path':path}).then(function(status) {
 			
@@ -264,7 +318,7 @@ function MainController($scope,$http ,myNotices,$window) {
 				{
 					$scope.updateView(path_history[(path_history.length-1)]);
 					$scope.folder_name="";
-					$scope.is_button_disabled=true;
+					$scope.is_folder_button_disabled=true;
 				}
 						
 			},
@@ -281,7 +335,7 @@ function MainController($scope,$http ,myNotices,$window) {
 		$scope.removeFile = function(path){
 			console.log(path);
 			
-			var url = ip+'/removefile';
+			var url = ip+'/removelecturerfile';
 			
 			myNotices.post(url,{'path':path}).then(function(status) {
 			
@@ -306,7 +360,7 @@ function MainController($scope,$http ,myNotices,$window) {
 		$scope.removeFolder = function(path){
 			console.log(path);
 			
-			var url = ip+'/removefolder';
+			var url = ip+'/removelecturerfolder';
 			
 			myNotices.post(url,{'path':path}).then(function(status) {
 			
