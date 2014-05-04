@@ -35,7 +35,7 @@
 		<div id="directory_options" class="hidden">
 		<input type="button" id="back" value="Up" ng-click="goBack()">
 		<input type="text" id="folder_name" maxlength="30" ng-model="folder_name"  ng-change="checkCharacters()">
-		<input type="button" value="Create Folder" ng-disabled="is_button_disabled" ng-click="addFolder(folder_name)">
+		<input type="button" value="Create Folder" ng-disabled="is_folder_button_disabled" ng-click="addFolder(folder_name)">
 		<span id="folder_error" class="hidden">Cannot create a folder with \ / : * ? " < > | in its name</span>
 		</div>
 		
@@ -43,7 +43,7 @@
 		<li  ng-show="ready" ng-repeat="item in dir | filter:{folder:'true'}" class="topcoat-list__item" style="background-color: #FFFFFF;">
 		<div>
 		<img style="float:left; width:42px; height:45px; margin-right:10px;"class="movieimg" src="resources/img/{{items.id}}.png" />
-		<strong style="font-size:17px;"  ng-click='updateView("{{item.path}}")'>{{item.name}}</strong><p style="font-size:12px;"><input type="button" value="Delete Folder" ng-click="removeFolder(item.path)"></p>
+		<strong style="font-size:17px;" ng-click='updateView("{{item.path}}")'>{{item.name}}</strong><p style="font-size:12px;"><input type="button" value="Delete Folder" ng-click="removeFolder(item.path)"></p>
 		</div>
 		<div style="clear:both;"></div>   
 
@@ -70,16 +70,15 @@
     <ul>
 	
 	 <li>
-		<form id="addnotice" method="post" action="http://10.0.0.10:3000/addnotice" >
-		Who gets to see this?<select name="module" >
-		<option value="all">All</option>
+		Who gets to see this?<select name="module" ng-model="notice_subject" ng-change="checkNoticeButton()">
+		
+		<option value="ALL">All</option>
 		<option ng-repeat="item in subject" value={{item.id}}>{{item.name}}</option>
 		</select>
-		<input type="text" name="title" placeholder="Enter title"></input></br>
-         Notice<textarea name="notice"></textarea>
-		 <input type="hidden" name="lecturer" value={{lecturer_id}}>
-		<button type="submit">Go</button>
-		</form>
+		
+		<input type="text" name="title" placeholder="Enter title" ng-model="notice_title" ng-change="checkNoticeButton()"></input></br>
+         Notice<textarea name="notice" maxlength="140" ng-model="notice_body" ng-change="checkLimit()"></textarea>{{notice_text_limit}}
+		<input type="button" value="Add" ng-disabled="is_notice_button_disabled" ng-click="addNotice(notice_subject, notice_title, notice_body)"></input>
 		</li>
       <li class="tab-item active">
         <a href="#/">
