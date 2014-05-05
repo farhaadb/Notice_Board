@@ -69,17 +69,17 @@ module.exports = function(app, pool, auth, dbquery, excelParser, fs, dir, path){
 	
 	app.post('/file-upload', function(req, res) {
 	
-		var destination="";
+		var destination; 
 		
 		req.busboy.on('field', function(fieldname, val, fieldnameTruncated, valTruncated) {
 			console.log('Field [' + fieldname + ']: value: ' + val);
-			destination=val;
+			destination=path.resolve(__dirname,"../uploads/lecturer",val);
 		});
 	
 		req.busboy.on('file', function(fieldname, file, filename, encoding, mimetype) {
 			
-			var saveTo = path.resolve(__dirname, '..', destination, path.basename(filename));
-			console.log(destination);
+			var saveTo = path.resolve(destination, path.basename(filename));
+			console.log(saveTo);
 			file.pipe(fs.createWriteStream(saveTo));
 		});
 		
