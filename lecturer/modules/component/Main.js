@@ -1,13 +1,19 @@
 'use strict';
    
-function MainController($scope,$http ,myNotices,$window) {
+function MainController($scope,$http ,myNotices,$window, $fileUploader) {
 	$scope.statusmessage =  'Updating...';
 	var ip = "http://localhost:3000";
 	$scope.notice_text_limit=140;
-	var path_history=[];
-	var disallowed_characters=["\\", "/", ":", "*", "?", "\"", "<", ">", "|"];
+	$scope.path_history=[];
+	$scope.disallowed_characters=["\\", "/", ":", "*", "?", "\"", "<", ">", "|"];
 	$scope.is_folder_button_disabled=true;
 	$scope.is_notice_button_disabled=true;
+	
+	$scope.show_initial=true;
+	$scope.show_file=false;
+	$scope.show_folder=false;
+	$scope.show_directory_options=false;
+	$scope.show_file_upload=false;
 	
 	$scope.reload =function(){
 	$window.location.reload();
@@ -150,19 +156,30 @@ function MainController($scope,$http ,myNotices,$window) {
 		//--------------------Makes call to factory to update View-----------------------------//
 		$scope.updateView = function(subject, initial_view){
 		
+		//to disable navigation when uploading
+		if($scope.uploader.isUploading)
+		{
+			return;
+		}
+		
 		initial_view = initial_view || false; //assigns false by default if no parameter is passed in
 		
 		if(initial_view)
 		{
-			document.getElementById("initial").className = "";
-			document.getElementById("file").className = "hidden";
-			document.getElementById("folder").className = "hidden";
-			document.getElementById("directory_options").className = "hidden";
+			$scope.show_initial=true;
+			$scope.show_file=false;
+			$scope.show_folder=false;
+			$scope.show_directory_options=false;
+			$scope.show_file_upload=false;
+			
+			//document.getElementById("initial").className = "";
+			//document.getElementById("file").className = "hidden";
+			//document.getElementById("folder").className = "hidden";
+			//document.getElementById("directory_options").className = "hidden";
 			return;
 		}
 		
-		if((document.getElementById("folder").className) == "hidden" && (document.getElementById("file").className) == "hidden"
-			&& (document.getElementById("directory_options").className) == "hidden")
+		if(!$scope.show_folder && !$scope.show_file && !$scope.show_directory_options && !$scope.show_file_upload)
 		{
 			var path = $scope.lecturer_id+"/subjects/"+subject;
 		}
@@ -173,19 +190,22 @@ function MainController($scope,$http ,myNotices,$window) {
 		}
 		console.log(path);
 		
-		if(path_history.length>0) //don't store duplicates
+		if($scope.path_history.length>0) //don't store duplicates
 		{ 
-			if(path_history[(path_history.length-1)]!=path)
+			if($scope.path_history[($scope.path_history.length-1)]!=path)
 			{
-				path_history.push(path);		
+				$scope.path_history.push(path);		
 			}
 		}
 		
 		else
 		{
-			path_history.push(path);
+			$scope.path_history.push(path);
 		}
 		var url = ip+'/listlecturerdirectory';
+		
+		//push new path to file uploader
+		updateUploadPath();
 		
 		myNotices.post(url,{'path':path}).then(function(dir) {
 						console.log(dir);
@@ -193,14 +213,20 @@ function MainController($scope,$http ,myNotices,$window) {
 						
 						if(dir.status!=undefined) //no file or folder in directory
 						{
-							document.getElementById("directory_options").className = "";
-							document.getElementById("initial").className = "hidden";
-							document.getElementById("file").className = "hidden";
-							document.getElementById("folder").className = "hidden";
+							$scope.show_initial=false;
+							$scope.show_file=false;
+							$scope.show_folder=false;
+							$scope.show_directory_options=true;
+							$scope.show_file_upload=true;
+							
+							
+							//document.getElementById("directory_options").className = "";
+							//document.getElementById("file").className = "hidden";
+							//document.getElementById("folder").className = "hidden";
 							return;
 						}
-						
-						document.getElementById("initial").className = "hidden";
+						$scope.show_initial=false;
+						//document.getElementById("initial").className = "hidden";
 						
 						var has_folder=false;
 						var has_file=false;
@@ -220,26 +246,27 @@ function MainController($scope,$http ,myNotices,$window) {
 						
 						if(has_file)
 						{
-							document.getElementById("file").className = "";
+							$scope.show_file=true;
 						}
 						
 						else
 						{
-							document.getElementById("file").className = "hidden";
+							$scope.show_file=false;
 						}
 						
 						if(has_folder)
 						{
-							document.getElementById("folder").className = "";
+							$scope.show_folder=true;
 						}
 						
 						else
 						{
-							document.getElementById("folder").className = "hidden";
+							$scope.show_folder=false;
 						}
 						
 						
-						document.getElementById("directory_options").className = "";
+						$scope.show_directory_options=true;
+						$scope.show_file_upload=true;
 		},
 			function(data) { //failure
 				console.log('WE ARE HAVING TROUBLE RETRIEVING PATH DATA');
@@ -253,16 +280,16 @@ function MainController($scope,$http ,myNotices,$window) {
 		//--------------------Goes up one level to previous folder-----------------------------//
 		$scope.goBack = function(){
 		
-			var path=path_history.pop();
+			var path=$scope.path_history.pop();
 			
-			if(path_history.length==0)
+			if($scope.path_history.length==0)
 			{
 				$scope.updateView(path, true);
 			}
 			
 			else
 			{
-				path=path_history.pop(); //pop another since the current directory will be stored as well
+				path=$scope.path_history.pop(); //pop another since the current directory will be stored as well
 				$scope.updateView(path);
 			}
 						
@@ -281,10 +308,10 @@ function MainController($scope,$http ,myNotices,$window) {
 						
 			var found_disallowed=false;
 			
-			for(var i=0; i<disallowed_characters.length; ++i)
+			for(var i=0; i<$scope.disallowed_characters.length; ++i)
 			{
 			
-				if(s.indexOf(disallowed_characters[i])!=-1)
+				if(s.indexOf($scope.disallowed_characters[i])!=-1)
 				{
 					found_disallowed=true;
 				}
@@ -307,7 +334,7 @@ function MainController($scope,$http ,myNotices,$window) {
 		//--------------------Creates a new folder within working directory-----------------------------//
 		$scope.addFolder = function(folder){
 			
-			var path=path_history[(path_history.length-1)]+"/"+folder;
+			var path=$scope.path_history[($scope.path_history.length-1)]+"/"+folder;
 			var url = ip+'/addlecturerfolder';
 			
 			myNotices.post(url,{'path':path}).then(function(status) {
@@ -316,7 +343,7 @@ function MainController($scope,$http ,myNotices,$window) {
 				
 				if(status.status=="success")
 				{
-					$scope.updateView(path_history[(path_history.length-1)]);
+					$scope.updateView($scope.path_history[($scope.path_history.length-1)]);
 					$scope.folder_name="";
 					$scope.is_folder_button_disabled=true;
 				}
@@ -343,7 +370,7 @@ function MainController($scope,$http ,myNotices,$window) {
 				
 				if(status.status=="success")
 				{
-					$scope.updateView(path_history[(path_history.length-1)]);
+					$scope.updateView($scope.path_history[($scope.path_history.length-1)]);
 				}
 						
 			},
@@ -368,7 +395,7 @@ function MainController($scope,$http ,myNotices,$window) {
 	
 				if(status.status=="success")
 				{
-					$scope.updateView(path_history[(path_history.length-1)]);
+					$scope.updateView($scope.path_history[($scope.path_history.length-1)]);
 				}
 						
 			},
@@ -385,6 +412,31 @@ function MainController($scope,$http ,myNotices,$window) {
 		//End of all functions pertaining to the directory listing
 		//-------------------------------------------------------------------------------------//
 		
+		//-------------------------------------------------------------------------------------//
+		//All functions pertaining to file uploads
+		//-------------------------------------------------------------------------------------//
 		
+		// create a uploader with options
+        var uploader = $scope.uploader = $fileUploader.create({
+            scope: $scope,                          // to automatically update the html. Default: $rootScope
+            url: '../file-upload',
+            filters: [
+                function (item) {                    // first user filter
+                    console.info('filter1');
+                    return true;
+                }
+            ]
+        });
+		
+				
+		uploader.bind('completeall', function (event, items) {
+            $scope.updateView($scope.path_history[($scope.path_history.length-1)]);
+        });
+		
+		//update path to upload to
+		function updateUploadPath(){
+			uploader.formData.push({ key: $scope.path_history[($scope.path_history.length-1)] });
+		}
+
 		
 }						
