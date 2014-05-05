@@ -1,4 +1,4 @@
-var noticeboard = angular.module('App',['shoppinpal.mobile-menu', 'App.services']);
+var noticeboard = angular.module('App',['shoppinpal.mobile-menu', 'App.services', 'angularFileUpload']);
     
 	noticeboard.config(['$routeProvider','$locationProvider',function($routeProvider,$locationProvider){
         $routeProvider
