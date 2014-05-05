@@ -49,3 +49,11 @@ a:-webkit-any-link {
 .hidden{
 	display:none;
 }
+
+.my-drop-zone { 
+	border: dotted 3px lightgray; 
+}
+
+.ng-file-over {
+border: dotted 3px red; 
+} /* Default class applied to drop zones on over */
