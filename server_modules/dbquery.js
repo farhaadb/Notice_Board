@@ -112,6 +112,17 @@ function query(req, res, pool, q){
 				res.send({'status':'success'});
 			});
 		}
+		
+		else if(q=="returnLecturerDetails"){
+		
+			var id=req.body.id;
+			
+			connection.query("SELECT title, fname, lname, email from lecturer where id="+id,
+			function(err, rows, fields){
+				if(err) throw err;
+				res.send(JSON.stringify(rows));
+			});
+		}
 				
 		else{
 			console.log("Unhandled query " + q);
