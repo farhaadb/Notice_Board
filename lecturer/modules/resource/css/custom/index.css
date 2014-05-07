@@ -57,3 +57,31 @@ a:-webkit-any-link {
 .ng-file-over {
 border: dotted 3px red; 
 } /* Default class applied to drop zones on over */
+
+
+/* used in settings to overlay image on profile pic*/
+ .gallerypic{
+  width:140px;
+  text-decoration:none;
+  position:relative;
+  display:block;
+  border:1px solid #666;
+  padding:3px;
+  margin-right:5px;
+  float:left;
+}
+
+.gallerypic span.zoom-icon{
+  visibility:hidden;
+  position:absolute;
+  left:40%;
+  top:35%;
+  filter:alpha(opacity=50);
+  -moz-opacity:2.5;
+  -khtml-opacity: 2.5;
+  opacity: 2.5;
+}
+
+.gallerypic:hover span.zoom-icon{
+  visibility:visible;
+}
