@@ -19,9 +19,9 @@ module.exports = function(app, pool, auth, dbquery, excelParser, fs, dir, path){
 	
 	app.get('/excel', function(req,res){
 		excelParser.parse({
-		inFile: 'test.xlsx',
+		inFile: 'Marks.xlsx',
 		worksheet: 1,
-		skipEmpty: true,
+		skipEmpty: false,
 		},function(err, records){
 			if(err) console.error(err);
 			console.log(records);
@@ -113,6 +113,16 @@ module.exports = function(app, pool, auth, dbquery, excelParser, fs, dir, path){
 	
 	app.post('/deletelecturernotice', function(req, res) {
 		dbquery.query(req, res, pool, "deleteLecturerNotice");
+	});
+	
+	app.post('/returnlecturerdetails', function(req, res) {
+		dbquery.query(req, res, pool, "returnLecturerDetails");
+	});
+	
+	app.post('/returnlecturerpicture', function(req, res) {
+		var d = path.resolve(__dirname,"../uploads/lecturer",req.body.path,"profile");
+		console.log(d);
+		dir.directory(fs, d, req, res, "list");
 	});
 	
 };
