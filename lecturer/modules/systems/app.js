@@ -23,6 +23,7 @@ var noticeboard = angular.module('App',['shoppinpal.mobile-menu', 'App.services'
 			
 			 .when("/settings", {
                 templateUrl: "partial/settings.html",
+				 controller: 'SettingsController',
             })
 			
             .otherwise({
