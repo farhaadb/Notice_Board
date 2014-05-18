@@ -24,6 +24,14 @@
 	Last Name: <input type="text" ng-model="user_lname" /><br />
     E-mail: <input type="email" ng-model="user_email" /><br />
 	<input type="button" ng-click="save()" value="Save">
+	<span ng-show="show_details_status">{{details_status}}</span>
+	
+	<h2>Change Password</h2>
+	Current password: <input type="password" ng-model="current_password" /><br />
+	New password: <input type="password" ng-model="new_password" /><br />
+	Confirm new password: <input type="password" ng-model="confirm_password" /><br />
+	<input type="button" ng-click="savePassword()" value="Save">
+	<span ng-show="show_password_status">{{password_status}}</span>
     
 
   </form>
