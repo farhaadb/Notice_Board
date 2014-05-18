@@ -123,6 +123,107 @@ function query(req, res, pool, q){
 				res.send(JSON.stringify(rows));
 			});
 		}
+		
+		else if(q=="updateLecturerSettings"){
+		
+			var sql=req.body.sql;
+			
+			connection.query(sql,
+			function(err, rows, fields){
+				if(err) throw err;
+				res.send({status:"success"});
+			});
+		}
+		
+		else if(q=="addStudent"){
+			
+			var students=req.body.students;
+			var subject=req.body.subject;
+			var lecturer=req.body.lecturer;
+			
+			//student needs to exist first - get valid student id's
+			var first_sql = "SELECT id from student WHERE ";
+			for(var i=0; i<students.length; ++i)
+			{
+				if(i>0)
+				{
+					first_sql+=" OR id='"+students[i]+"'";
+				}
+				
+				else //i==0
+				{
+					first_sql+="id='"+students[i]+"'";
+				}
+			}
+			
+			connection.query(first_sql,
+			function(err, rows, fields){
+				if(err) throw err;
+				
+				var students2=[];
+				var second_sql="select student.id from student join student_ls on student.id=student_ls.student_id where student.id in (";
+				
+				for(var j=0; j<rows.length; ++j)
+				{
+					students2.push(rows[j].id);
+					
+					if(j>0)
+					{
+						second_sql+=", '"+rows[j].id+"'";
+					}
+					
+					else
+					{
+						second_sql+="'"+rows[j].id+"'";
+					}
+				}
+				
+				second_sql+=") and student_ls.subject_id='"+subject+"'";
+				
+				//then we need to check if the student is already assigned to that subject - get list of students already assigned
+				connection.query(second_sql,
+					function(err, rows, fields){
+					if(err) throw err;
+					
+					//prune array - remove those that are common
+					var remove;
+					
+					for(var k=0; k<rows.length; ++k)
+					{
+						remove=rows[k].id;
+						console.log(students2);
+						for(var m = students2.length -1; m >= 0 ; m--){
+							if(students2[m] == remove){
+								students2.splice(m, 1);
+							}
+						}
+					}
+					
+					console.log(students2);
+					//then we do an insert
+					for(var n=0; n<students2.length; ++n)
+					{
+						var third_sql="INSERT into student_ls VALUES('"+students2[n]+"','"+lecturer+"','"+subject+"')";
+						
+						connection.query(third_sql,
+						function(err, rows, fields){
+							if(err) throw err;
+						});
+					}
+					
+				});
+				
+			});
+			
+		/*
+			var sql=req.body.sql;
+			
+			connection.query(sql,
+			function(err, rows, fields){
+				if(err) throw err;
+				res.send({status:"success"});
+			});*/
+		}
 				
 		else{
 			console.log("Unhandled query " + q);
