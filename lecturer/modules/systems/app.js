@@ -26,6 +26,11 @@ var noticeboard = angular.module('App',['shoppinpal.mobile-menu', 'App.services'
 				 controller: 'SettingsController',
             })
 			
+			.when("/students", {
+                templateUrl: "partial/students.html",
+				 controller: 'StudentsController',
+            })
+			
             .otherwise({
                 redirectTo: "/main"
             });
