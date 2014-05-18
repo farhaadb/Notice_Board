@@ -1,4 +1,4 @@
-module.exports = function(app, pool, auth, dbquery, excelParser, fs, dir, path){
+module.exports = function(app, pool, auth, dbquery, excelParser, excel, fs, dir, path){
 
 	app.get("/", function(req, res){
 		res.sendfile("login.html");
@@ -59,10 +59,6 @@ module.exports = function(app, pool, auth, dbquery, excelParser, fs, dir, path){
 		dir.directory(fs, d, req, res, "removeFolder");
 	});
 	
-	app.get('/upload', function(req,res){
-		res.sendfile("upload.html");
-	});
-	
 	app.get('/subdomain/lecturer', function(req,res){
 		res.sendfile("lecturer/index.html");
 	});
@@ -88,10 +84,63 @@ module.exports = function(app, pool, auth, dbquery, excelParser, fs, dir, path){
 		});
 		
 		req.pipe(req.busboy);
-		 
-		//console.log(req.headers);	
-		//console.log(req.body);
-		//console.log(req.files);
+	
+	});
+	
+	app.post('/upload-student-data', function(req, res) {
+	
+		var destination; 
+		var name;
+		var saveTo;
+		var ext;
+		var type;
+		
+		req.busboy.on('field', function(fieldname, val, fieldnameTruncated, valTruncated) {
+			console.log('Field [' + fieldname + ']: value: ' + val);
+			
+			if(fieldname=="path")
+				destination=path.resolve(__dirname,"../uploads/lecturer",val);
+			if(fieldname=="type")
+				type=val;
+			if(fieldname=="lecturer")
+				req.body.lecturer=val;
+			if(fieldname=="subject")
+			{
+				name=val;
+				req.body.subject=val;
+			}
+						
+		});
+	
+		req.busboy.on('file', function(fieldname, file, filename, encoding, mimetype) {
+			
+			ext = path.extname(filename);
+			var f = name+"_temp"+ext;
+			saveTo = path.resolve(destination, f);
+			//console.log(saveTo);
+			file.pipe(fs.createWriteStream(saveTo));
+		});
+		
+		req.busboy.on('finish', function() {
+			var new_destination = path.resolve(destination, name+ext);
+
+			fs.rename(saveTo, new_destination, function (err) {
+				if (err) console.log(err);
+				
+				if(type=="students")
+				{
+					req.body.path=new_destination;
+					req.body.type="upload_students"; //used by parser to identify type of operation
+					
+					excel.parse(req, res, dbquery, pool, excelParser);
+				}
+			
+			});
+			
+			res.send("success");
+		});
+		
+		req.pipe(req.busboy);
 	
 	});
 	
@@ -123,6 +172,10 @@ module.exports = function(app, pool, auth, dbquery, excelParser, fs, dir, path){
 		var d = path.resolve(__dirname,"../uploads/lecturer",req.body.path,"profile");
 		console.log(d);
 		dir.directory(fs, d, req, res, "list");
+	});
+	
+	app.post('/updatelecturersettings', function(req, res) {
+		dbquery.query(req, res, pool, "updateLecturerSettings");
 	});
 	
 };
