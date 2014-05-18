@@ -8,6 +8,9 @@ $scope.pro_pic="http://localhost:3000/default/download.jpg";
 $scope.show_default_image=false;
 $scope.show_custom_image=false;
 
+$scope.show_details_status=false;
+$scope.show_password_status=false;
+
 var ip="http://localhost:3000";
 
 $scope.titles =[
@@ -52,6 +55,12 @@ getProfilePic();
 						$scope.user_lname=lecturer.lname;
 						$scope.user_email=lecturer.email;
 						$scope.user_title=lecturer.title;
+						
+						//use the below to check for any differences before saving
+						$scope.saved_user_name = lecturer.fname;
+						$scope.saved_user_lname = lecturer.lname;
+						$scope.saved_user_email = lecturer.email;
+						$scope.saved_user_title = lecturer.title;
 						//$scope.selectedTitle=lecturer.title;
 						//$scope.name=;
 		},
@@ -111,6 +120,121 @@ getProfilePic();
 					$scope.statusmessage =  'WE ARE HAVING TROUBLE DELETING THE PROFILE PICTURE';
         		}); 
 
+		}
+		
+		$scope.save = function(){
+		
+			var has_started_string_construction = false;
+			var sql;
+			
+			if($scope.saved_user_name!=$scope.user_name && $scope.user_name!="")
+			{
+				sql = "UPDATE lecturer SET fname='"+$scope.user_name+"'";
+				has_started_string_construction=true;
+				
+			}
+			
+			if($scope.saved_user_lname!=$scope.user_lname && $scope.user_lname!="")
+			{
+				if(has_started_string_construction)
+				{
+					sql+=",lname='"+$scope.user_lname+"'";
+				}
+				
+				else
+				{
+					sql = "UPDATE lecturer SET lname='"+$scope.user_lname+"'";
+					has_started_string_construction=true;
+				}
+			}
+			
+			if($scope.saved_user_email!=$scope.user_email && $scope.user_email!="" && $scope.user_email!=undefined)
+			{
+				if(has_started_string_construction)
+				{
+					sql+=",email='"+$scope.user_email+"'";
+				}
+				
+				else
+				{
+					sql = "UPDATE lecturer SET email='"+$scope.user_email+"'";
+					has_started_string_construction=true;
+				}
+			}
+			
+			if($scope.saved_user_title!=$scope.user_title && $scope.user_title!="")
+			{
+				if(has_started_string_construction)
+				{
+					sql+=",title='"+$scope.user_title+"'";
+				}
+				
+				else
+				{
+					sql = "UPDATE lecturer SET title='"+$scope.user_title+"'";
+					has_started_string_construction=true;
+				}
+			}
+			
+			if(has_started_string_construction)
+			{
+				sql+=" WHERE id='"+$scope.lecturer_id+"'";
+				
+				var url=ip+"/updatelecturersettings";
+				
+				myNotices.post(url,{'sql': sql}).then(function(status) {
+					getDetails();
+					$scope.show_details_status=true;
+					if(status.status=="success")
+					{
+						$scope.details_status="Details successfully changed";
+					}
+				},
+				function(data) { //failure
+					console.log('WE ARE HAVING TROUBLE RETRIEVING THE LECTURER DETAILS');
+					$scope.statusmessage =  'WE ARE HAVING TROUBLE RETRIEVING THE LECTURER DETAILS';
+        		}); 
+
+			}
+			
+			else
+			{
+				console.log("Nothing to save");
+			}	
+		
+		
+		}
+		
+		$scope.savePassword = function(){
+		
+			console.log($scope.new_password);
+			
+			var is_empty = ($scope.current_password == undefined || $scope.new_password == undefined ||  $scope.confirm_password == undefined);
+			
+			if(is_empty)
+			{
+				$scope.show_password_status=true;
+				$scope.password_status="Please enter all fields";
+				return;
+			}
+			
+			else if($scope.new_password.indexOf(' ') >= 0 ||  $scope.confirm_password.indexOf(' ') >= 0)
+			{
+				$scope.show_password_status=true;
+				$scope.password_status="Your new password cannot contain spaces";
+			}
+			
+			else if($scope.new_password != $scope.confirm_password)
+			{
+				$scope.show_password_status=true;
+				$scope.password_status="Passwords do not match";
+			}
+			
+			else
+			{
+				$scope.show_password_status=false;
+			}
+		
 		}
 		
 		
