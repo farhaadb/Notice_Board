@@ -13,7 +13,7 @@ var noticeboard = angular.module('App',['shoppinpal.mobile-menu', 'App.services'
 			
             .when("/mynotices", {
                 templateUrl: "partial/mynotices.html",
-				controller: 'MainController',
+				controller: 'NoticesController',
             })
 			
 			 .when("/lecturer", {
