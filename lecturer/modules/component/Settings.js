@@ -205,39 +205,6 @@ getProfilePic();
 		
 		}
 		
-		$scope.savePassword = function(){
-		
-			console.log($scope.new_password);
-			
-			var is_empty = ($scope.current_password == undefined || $scope.new_password == undefined ||  $scope.confirm_password == undefined);
-			
-			if(is_empty)
-			{
-				$scope.show_password_status=true;
-				$scope.password_status="Please enter all fields";
-				return;
-			}
-			
-			else if($scope.new_password.indexOf(' ') >= 0 ||  $scope.confirm_password.indexOf(' ') >= 0)
-			{
-				$scope.show_password_status=true;
-				$scope.password_status="Your new password cannot contain spaces";
-			}
-			
-			else if($scope.new_password != $scope.confirm_password)
-			{
-				$scope.show_password_status=true;
-				$scope.password_status="Passwords do not match";
-			}
-			
-			else
-			{
-				$scope.show_password_status=false;
-			}
-		
-		}
-		
-		
 		var uploader = $scope.uploader = $fileUploader.create({
             scope: $scope,                          // to automatically update the html. Default: $rootScope
             url: '../file-upload',
