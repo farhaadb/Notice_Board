@@ -1,0 +1,210 @@
+<!------------------------ Menu Slider ------------------------>
+<div id="sp-page">
+<!------------------------ Main Page Top Bar ------------------------>
+    <div class="topcoat-navigation-bar">
+        <div class="topcoat-navigation-bar__item left quarter">
+           
+        </div>
+        <div class="topcoat-navigation-bar__item center half">
+              <a href="#main"><h1 class="topcoat-navigation-bar__title">NoticeBoard</h1></a>
+        </div>
+    </div>
+ <!------------------------ Main Content------------------------>   
+	<div class="content">	
+   	
+		<b>Drag and Drop: What needs to be done here</b>
+		 <a href="#dropbox">Dropbox</a>
+		<br><br>
+		On load we will receive a json file from the server telling us what subjects the lecturer is teaching.
+		A list will then be populated,  with the name of all the subjects that the lecturer teaches and he will be able to access these files triggering a new request each time. It will be good to make only this part of the screen update. / Ajax can do that /	
+		<br>
+		<b>This is what dropbox does. So it needs to look as close too or better than</b><br>
+		
+		<ul id="initial" ng-model="html" ng-show="show_initial">
+		<li  ng-repeat="item in subject" class="topcoat-list__item" style="background-color: #FFFFFF;">
+		<div ng-click='updateView(item.id)'>
+		<img style="float:left; width:42px; height:45px; margin-right:10px;"class="movieimg" src="lecturermodules/resources/img/{{item.empid}}.png" />
+		<strong style="font-size:17px;">{{item.name}}</strong><p style="font-size:12px;">{{item.id}}</p>
+		</div>
+		<div style="clear:both;"></div>   
+
+		</li>
+		</ul>
+		
+		<ul id="directory_options" ng-show="show_directory_options">
+		<li>
+		<div>
+		<input type="button" id="back" value="Up" ng-click="goBack()">
+		<input type="text" id="folder_name" maxlength="30" ng-model="folder_name"  ng-change="checkCharacters()">
+		<input type="button" value="Create Folder" ng-disabled="is_folder_button_disabled" ng-click="addFolder(folder_name)">
+		<span id="folder_error" class="hidden">Cannot create a folder with \ / : * ? " < > | in its name</span>
+		</div>
+		</ul>
+		</li>
+		
+		<ul id="folder" ng-show="show_folder">
+		<li  ng-repeat="item in dir | filter:{folder:'true'}" class="topcoat-list__item" style="background-color: #FFFFFF;">
+		<div>
+		<img style="float:left; width:42px; height:45px; margin-right:10px;"class="movieimg" src="lecturermodules/resources/img/{{items.id}}.png" />
+		<strong style="font-size:17px;" ng-click='updateView("{{item.path}}")'>{{item.name}}</strong><p style="font-size:12px;"><input type="button" value="Delete Folder" ng-click="removeFolder(item.path)"></p>
+		</div>
+		<div style="clear:both;"></div>   
+
+		</li>
+		</ul>
+		
+		<ul id="file" ng-show="show_file">
+		<li  ng-show="ready" ng-repeat="item in dir | filter:{folder:'false'}" class="topcoat-list__item" style="background-color: #FFFFFF;">
+		<div>
+		<img style="float:left; width:42px; height:45px; margin-right:10px;"class="movieimg" src="lecturermodules/resources/img/{{items.id}}.png" />
+		<strong style="font-size:17px;"><a ng-href="http://localhost:3000/lecturer/{{item.path}}" download>{{item.name}}</a></strong><p style="font-size:12px;"><input type="button" value="Delete File" ng-click="removeFile(item.path)"></p>
+		</div>
+		<div style="clear:both;"></div>   
+
+		</li>
+		</ul>
+
+	</div>
+	
+		<div id="file-upload" class="row" ng-show="show_file_upload" ng-file-drop>
+
+                <div>
+
+                    <h3>Select files</h3>
+
+                    <div ng-show="uploader.isHTML5">
+                        <!-- 3. ng-file-over | ng-file-over="className" -->
+                        <div class="well my-drop-zone" ng-file-over>
+                            Base drop zone
+                        </div>
+                    </div>
+
+                    <!-- 2. ng-file-select | ng-file-select="options" -->
+                    Multiple
+                    <input ng-file-select type="file" multiple  /><br/>
+                </div>
+
+                <div class="col-md-9" style="margin-bottom: 40px">
+
+                    <h3>Upload queue</h3>
+                    <p>Queue length: {{ uploader.queue.length }}</p>
+
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th width="50%">Name</th>
+                                <th ng-show="uploader.isHTML5">Size</th>
+                                <th ng-show="uploader.isHTML5">Progress</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in uploader.queue">
+                                <td><strong>{{ item.file.name }}</strong></td>
+                                <td ng-show="uploader.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
+                                <td ng-show="uploader.isHTML5">
+                                    <div class="progress" style="margin-bottom: 0;">
+                                        <div class="progress-bar" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
+                                    </div>
+                                </td>
+                                <td class="text-center">
+                                    <span ng-show="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
+                                    <span ng-show="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
+                                    <span ng-show="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
+                                </td>
+                                <td nowrap>
+                                    <button type="button" class="btn btn-success btn-xs" ng-click="item.upload()" ng-disabled="item.isReady || item.isUploading || item.isSuccess">
+                                        <span class="glyphicon glyphicon-upload"></span> Upload
+                                    </button>
+                                    <button type="button" class="btn btn-warning btn-xs" ng-click="item.cancel()" ng-disabled="!item.isUploading">
+                                        <span class="glyphicon glyphicon-ban-circle"></span> Cancel
+                                    </button>
+                                    <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
+                                        <span class="glyphicon glyphicon-trash"></span> Remove
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div>
+                        <p>
+                            Queue progress:
+                            <div class="progress" style="">
+                                <div class="progress-bar" role="progressbar" ng-style="{ 'width': uploader.progress + '%' }"></div>
+                            </div>
+                        </p>
+                        <button type="button" class="btn btn-success btn-s" ng-click="uploader.uploadAll()" ng-disabled="!uploader.getNotUploadedItems().length">
+                            <span class="glyphicon glyphicon-upload"></span> Upload all
+                        </button>
+                        <button type="button" class="btn btn-warning btn-s" ng-click="uploader.cancelAll()" ng-disabled="!uploader.isUploading">
+                            <span class="glyphicon glyphicon-ban-circle"></span> Cancel all
+                        </button>
+                        <button type="button" class="btn btn-danger btn-s" ng-click="uploader.clearQueue()" ng-disabled="!uploader.queue.length">
+                            <span class="glyphicon glyphicon-trash"></span> Remove all
+                        </button>
+                    </div>
+
+                </div>
+
+            </div>
+	
+		 		 
+	
+	
+	 
+	
+
+	<!-----Nav------------------------------------>
+	  <nav class="bar-tab">
+	  
+    <ul>
+	
+	 <li>
+		Who gets to see this?<select name="module" ng-model="notice_subject" ng-change="checkNoticeButton()">
+		
+		<option value="ALL">All</option>
+		<option ng-repeat="item in subject" value={{item.id}}>{{item.name}}</option>
+		</select>
+		
+		<input type="text" name="title" placeholder="Enter title" ng-model="notice_title" ng-change="checkNoticeButton()"></input></br>
+         Notice<textarea name="notice" maxlength="140" ng-model="notice_body" ng-change="checkLimit()"></textarea>{{notice_text_limit}}
+		<input type="button" value="Add" ng-disabled="is_notice_button_disabled" ng-click="addNotice(notice_subject, notice_title, notice_body)"></input>
+		</li>
+      <li class="tab-item active">
+        <a href="#/">
+          <img class="tab-icon" src="lecturermodules/resources/img/icon-home1.png">
+          <div class="tab-label">Drag And Drop</div>
+        </a>
+      </li>
+      <li class="tab-item">
+        <a href="#/mynotices">
+          <img class="tab-icon" src="lecturermodules/resources/img/icon-profile.png">
+          <div class="tab-label">Add Notices</div>
+        </a>
+      </li>
+      <li class="tab-item">
+        <a href="#settings">
+          <img class="tab-icon" src="lecturermodules/resources/img/icon-settings0.png">
+          <div class="tab-label">Settings</div>
+        </a>
+      </li>
+	  <li class="tab-item">
+        <a href="#/students">
+          <img class="tab-icon" src="lecturermodules/resources/img/icon-profile.png">
+          <div class="tab-label">Students</div>
+        </a>
+      </li>
+	  <li class="tab-item">
+	   <a href="#profile">
+      <br>Art
+	   </a>
+      </li>
+	    <li class="tab-item">
+      <br>Log Out
+      </li>
+	
+    </ul>
+  </nav>
+  
