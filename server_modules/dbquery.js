@@ -3,28 +3,69 @@ function query(req, res, pool, q){
 	pool.getConnection(function(err, connection) {
 		if(err) throw err;
 		
-		if(q=="login"){
-			connection.query("select count(*) as count from Login where username='" + req.body.user + "' and password='" + req.body.pass + "'",
+		if(q=="studentLoginReq"){
+			connection.query("select count(*) as count from student where id='" + req.body.user + "' and password='" + req.body.pass + "'",
 			function(err, rows, fields){
 			
 				if(err) throw err;
-			
 				if(rows[0].count==1)
 				{
-					req.session.user_id=req.body.user;
+					req.session.student_id=req.body.user;
+					res.send({'status':'true','id':req.body.user});
 				}
 			
 				else
 				{
 					req.session.user_id=0;
+					res.send({'status':'false'});
 				}
-				res.redirect('/app');
+				
+			});
+		}
+		
+		else if(q=="lecturerLoginReq"){
+		
+			connection.query("select count(*) as count from lecturer where id='" + req.body.user + "' and password='" + req.body.pass + "'",
+			function(err, rows, fields){
+				
+				if(err) throw err;
+				if(rows[0].count==1)
+				{
+					req.session.lecturer_id=req.body.user;
+					res.send({'status':'true','id':req.body.user});
+				}
+			
+				else
+				{
+					req.session.user_id=0;
+					res.send({'status':'false'});
+				}
+			});
+		}
+		
+		else if(q=="studentAppLogin"){
+			console.log(req.body);
+			connection.query("select count(*) as count from student where id='" + req.body.student_no + "' and password='" + req.body.password + "'",
+			function(err, rows, fields){
+			
+				if(err) throw err;
+				if(rows[0].count==1)
+				{
+					console.log("sending true");
+					res.send({'status':'true'});
+				}
+			
+				else
+				{
+					console.log("sending false");
+					res.send({'status':'false'});
+				}
 			});
 		}
 		
 		else if(q=="getNotices"){
 		
-			connection.query('select notice_id as id,lecturer_id as empid, lname AS name, caption AS notice FROM Notice_LCS join Lecturer on Notice_LCS.lecturer_id=Lecturer.id join Notice on Notice_LCS.notice_id=Notice.id ORDER BY name',
+			connection.query('select notice_id as id,lecturer_id as empid, lname AS name, body AS notice FROM notice_ls join lecturer on notice_ls.lecturer_id=lecturer.id join notice on notice_ls.notice_id=notice.id ORDER BY name',
 			function(err, rows, fields){
 			if(err) throw err;
 			

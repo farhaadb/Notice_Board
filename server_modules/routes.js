@@ -1,20 +1,54 @@
 module.exports = function(app, pool, auth, dbquery, excelParser, excel, fs, dir, path){
 
 	app.get("/", function(req, res){
-		res.sendfile("login.html");
+		res.sendfile("studentlogin.html");
 	});
 
-	app.post("/login.html", function(req, res){
-		dbquery.query(req, res, pool, "login");
+	app.get("/lecturer", function(req, res){
+		res.sendfile("lecturerlogin.html");
 	});
+	
+	app.get("/android", function(req, res){
+		res.sendfile("android/index.html");
+	});
+	
+	app.post("/studentloginreq", function(req, res){
+		console.log(req.body);
+		dbquery.query(req, res, pool, "studentLoginReq");
+	});
+	
+	app.post("/lecturerloginreq", function(req, res){
+		console.log(req.body);
+		dbquery.query(req, res, pool, "lecturerLoginReq");
+	});
+	
+	app.post("/studentapplogin", function(req, res){
+		dbquery.query(req, res, pool, "studentAppLogin");
+	});
+	
 	
 	app.get("/gettable.html", function(req, res) {
 		dbquery.query(req, res, pool, "getNotices");
 	});
 	
-	app.get('/app', auth, function(req,res){
+	app.get('/studentindex', auth, function(req,res){
+	res.sendfile("student/index.html")
+		//res.sendfile("app.html");
+	});
+	
+	app.get('/lecturerindex', auth, function(req,res){
 	res.sendfile("lecturer/index.html")
 		//res.sendfile("app.html");
+	});
+	
+	app.get("/studentlogout", function(req, res){
+		req.session.destroy();
+		res.redirect("/");
+	});
+	
+	app.get("/lecturerlogout", function(req, res){
+		req.session.destroy();
+		res.redirect("/lecturer");
 	});
 	
 	app.get('/excel', function(req,res){
