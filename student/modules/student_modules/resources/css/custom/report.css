@@ -1,0 +1,71 @@
+
+#mark{
+font-size:400%;
+color: white;
+}
+
+#title{
+font-size: 115%;
+color: white;
+text-align: left;
+padding-left: 10px;
+margin-top: 39px;
+}
+
+#reportheader{
+position: absolute;
+top:55px;
+width:100%;
+text-align: center;
+}
+
+#first{
+position: absolute;
+background-color: #9BBB58;
+height: 43%;
+width: 48.5%;
+top: 12%;
+left: 1%;
+text-align: center;
+vertical-align: middle;
+line-height: 90px; 
+border-radius: 160px;
+}
+
+#second{
+position: absolute;
+background-color: #C0504C;
+height: 43%;
+width: 48.5%;
+top: 12%;
+left: 50.5%;
+text-align: center;
+vertical-align: middle;
+line-height: 90px; 
+border-radius: 160px;
+}
+
+#third{
+position: absolute;
+background-color: #49ABC4;
+height: 43%;
+width: 48.5%;
+top: 56%;
+left: 1%;
+text-align: center;
+vertical-align: middle;
+line-height: 90px;  
+border-radius: 160px;
+}
+
+#fourth{
+position: absolute;
+background-color: #7E64A1;
+height: 43%;
+width: 48.5%;
+top: 56%;
+left: 50.5%;
+font-size: 100%;
+overflow: auto;
+border-radius: 160px;
+};

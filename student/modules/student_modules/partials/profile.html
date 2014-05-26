@@ -1,0 +1,83 @@
+<!------------------------ Menu Slider ------------------------>
+<div id="sp-nav">
+    <div class="topcoat-list-container">
+        <ul class="topcoat-list">
+         
+		 <li class="topcoat-list__item2"  style="height:88px">
+		    <a href="#/profile">
+			<img style="float:left; width:84px; height:91px; margin-right:10px;border-radius: 40px 40px 40px 40px;" src="student_modules/resources/img/0003.png" />
+			Hayden Sookchand<br>Electronic Eng
+			</a>
+		 </li>   
+		
+		<li class="topcoat-list__item2">
+		    <img src="student_modules/resources/img/home.png" />
+			<a href="#/main">Home</a>
+		</li>		  
+		
+		<li class="topcoat-list__item2" >
+		    <img  src="student_modules/resources/img/gmap.png" />
+			<a href="#/reports">Reports</a>
+		</li>
+        
+		<li class="topcoat-list__item2" >
+		    <img src="student_modules/resources/img/settings.png" />
+			<a href="#/settings">Settings</a>
+		</li>
+		
+		<li class="topcoat-list__item2" ng-click="reload()">
+		   <img src="student_modules/resources/img/refresh.png" />
+			Refresh
+		</li>	
+		
+		 <li class="topcoat-list__item2" style="height:15px">
+		   <img src="student_modules/resources/img/logout.png" />
+		   <a href="#/">Logout</a>
+		 </li>
+		 
+        </ul>
+    </div>
+</div>
+<div id="sp-page">
+<!------------------------ Main Page Top Bar ------------------------>
+    <div class="topcoat-navigation-bar">
+        <div class="topcoat-navigation-bar__item left quarter">
+          
+             <h1 class="topcoat-navigation-bar__title"  ng-click="$spMenu.toggle()"><img style="float:center; width:29px; height:34px; margin-top:-1px;"  src="student_modules/resources/img/list.png" ></img></h1>
+            
+        </div>
+        <div class="topcoat-navigation-bar__item center half">
+              <a href="#main"><h1 class="topcoat-navigation-bar__title"><img style="float:center; width:128px; height:52px; margin-right:10px;"  src="student_modules/resources/img/NB_logo.png" ></img></h1></a>
+        </div>
+		
+		  <div class="topcoat-navigation-bar__item right quarter">
+             
+        </div>
+		
+    </div>
+ <!------------------------ Main Content------------------------>  	
+  
+   <div class="content">
+		<ul class="topcoat-list">
+		   
+		 <li class="topcoat-list__item2" id="personal-window">
+			<div id="personal-lecturer">
+			<center>
+			<img id= "lecturer-image" src="student_modules/resources/img/0003.png" />
+		    </center>
+			<p><center>[TODO- STUDENT NAME HERE]</center></p>
+			<p><center>[TODO: STUDENT COURSE HERE}</center></p>
+			</div>
+		 </li>  
+		 
+		<li class="topcoat-list__item2" class="home">
+		
+		<div id="mark-history"><strong>[TEST SUBJECTS] - [TEST MARKS]</strong></div>
+		
+		<div id="mark-date">[TODO - PULL DATE HERE]</div> 
+			<div id ="temp"><br>[TODO- NEED TO ADD NG REPEAT AND CONFIGURE THE CONTROLLER]</div>
+		</li>
+		
+		</ul>
+	</div>
+</div>
