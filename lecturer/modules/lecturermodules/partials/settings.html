@@ -66,13 +66,13 @@
 	</div>
 	
 	<div ng-show="show_default_image">
-		<img src="http://localhost:3000/default/download.jpg" />
+		<img ng-src="{{default_pic}}" />
 	</div>
 	
 	<div ng-show="show_custom_image" class="gallerypic" ng-click="deleteProfilePic()">
 
 		<img src={{img}} height="140" width="140" alt="[Gallery Photo]" class="pic" />
-		<span class="zoom-icon"><img src="http://localhost:3000/default/y.png" width="50" height="50" alt="Zoom"></span>
+		<span class="zoom-icon"><img ng-src="{{delete_pic}}" width="50" height="50" alt="Zoom"></span>
 
 	</div>
 	
