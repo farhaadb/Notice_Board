@@ -16,11 +16,6 @@ var noticeboard = angular.module('App',['ngRoute', 'shoppinpal.mobile-menu', 'Ap
 				controller: 'NoticesController',
             })
 			
-			 .when("/lecturer", {
-                templateUrl: "lecturermodules/partials/lecturer.html",
-				  controller: 'LecturerController',
-            })
-			
 			 .when("/settings", {
                 templateUrl: "lecturermodules/partials/settings.html",
 				 controller: 'SettingsController',
