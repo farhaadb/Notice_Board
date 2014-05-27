@@ -208,6 +208,10 @@ module.exports = function(app, pool, auth, dbquery, excelParser, excel, fs, dir,
 		dir.directory(fs, d, req, res, "list");
 	});
 	
+	app.post('/updatelecturerpicture', function(req, res) {
+		dbquery.query(req, res, pool, "updateLecturerPicture");
+	});
+	
 	app.post('/updatelecturersettings', function(req, res) {
 		dbquery.query(req, res, pool, "updateLecturerSettings");
 	});
