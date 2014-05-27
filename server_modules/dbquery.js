@@ -27,7 +27,7 @@ function query(req, res, pool, q){
 		
 			connection.query("select count(*) as count from lecturer where id='" + req.body.user + "' and password='" + req.body.pass + "'",
 			function(err, rows, fields){
-				
+				console.log(rows);
 				if(err) throw err;
 				if(rows[0].count==1)
 				{
@@ -99,7 +99,7 @@ function query(req, res, pool, q){
 		
 			var id=req.body.id;
 			
-			connection.query("SELECT notice.id as id, notice.title as title, notice.body as notice, notice.timestamp as time, subject.name as module from notice_ls join notice on notice.id=notice_ls.notice_id join subject on notice_ls.subject_id=subject.id where notice_ls.lecturer_id='"+id+"'",
+			connection.query("SELECT notice.id as id, notice.title as title, notice.body as notice, CONVERT_TZ(notice.timestamp,'+00:00','+02:00') as time, subject.name as module from notice_ls join notice on notice.id=notice_ls.notice_id join subject on notice_ls.subject_id=subject.id where notice_ls.lecturer_id='"+id+"'",
 			function(err, rows, fields){
 			if(err) throw err;
 			console.log(JSON.stringify(rows));
@@ -113,7 +113,9 @@ function query(req, res, pool, q){
 			var lecturer=req.body.lecturer;
 			var title=req.body.title;
 			var body=req.body.body;
-			var time=new Date().toISOString().slice(0, 19).replace('T', ' ');
+			var now=new Date();
+			var time = [[now.getFullYear(), AddZero(now.getMonth() + 1), AddZero(now.getDate())].join("-"), [AddZero(now.getHours()), AddZero(now.getMinutes()), AddZero(now.getSeconds())].join(":")].join(" ");
+			
 			var notice_id;
 			
 				
@@ -274,5 +276,10 @@ function query(req, res, pool, q){
 	});
 
 };
+
+//Pad given value to the left with "0"
+function AddZero(num) {
+    return (num >= 0 && num < 10) ? "0" + num : num + "";
+}
 
 exports.query = query;
