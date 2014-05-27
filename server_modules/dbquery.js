@@ -178,6 +178,22 @@ function query(req, res, pool, q){
 			});
 		}
 		
+		else if(q=="updateLecturerPicture"){
+		
+			if(req.body.picture=="empty"){
+				var sql="UPDATE lecturer SET picture=NULL WHERE id='"+req.body.id+"'";
+			}
+			
+			else{
+				var sql="UPDATE lecturer SET picture='"+req.body.picture+"' WHERE id='"+req.body.id+"'";
+			}
+			connection.query(sql,
+			function(err, rows, fields){
+				if(err) throw err;
+				res.send({status:"success"});
+			});
+		}
+		
 		else if(q=="addStudent"){
 			
 			var students=req.body.students;
@@ -277,7 +293,7 @@ function query(req, res, pool, q){
 
 };
 
-//Pad given value to the left with "0"
+//Pad given value to the left with "0" - used for generating timestamp in query above
 function AddZero(num) {
     return (num >= 0 && num < 10) ? "0" + num : num + "";
 }
