@@ -3,7 +3,9 @@
 function SettingsController($scope,$http,myNotices, $fileUploader) {
 
 $scope.is_upload_complete=false;
-$scope.pro_pic="http://localhost:3000/default/download.jpg";
+var ip="http://localhost:3000";
+$scope.default_pic=ip+"/default/download.jpg";
+$scope.delete_pic=ip+"/default/y.png";
 
 $scope.show_default_image=false;
 $scope.show_custom_image=false;
@@ -11,8 +13,9 @@ $scope.show_custom_image=false;
 $scope.show_details_status=false;
 $scope.show_password_status=false;
 
-var ip="http://localhost:3000";
 
+
+//not used at the moment
 $scope.titles =[
     {
         "name": "Prof"
@@ -71,7 +74,7 @@ getProfilePic();
 
 		}
 		
-		function getProfilePic(){
+	function getProfilePic(){
 	
 		var d = $scope.lecturer_id;
 		var url = ip+"/returnlecturerpicture";
@@ -83,6 +86,8 @@ getProfilePic();
 							$scope.show_default_image=true;
 							
 							$scope.is_upload_complete=false; //we do this in case a picture is uploaded and then deleted
+							
+							updateLecturerPicture("empty");
 						}
 						
 						else
@@ -92,6 +97,8 @@ getProfilePic();
 							$scope.img=ip+"/lecturer/"+$scope.lecturer_id+"/profile/"+$scope.image_name;
 							$scope.show_default_image=false;
 							$scope.show_custom_image=true;	
+							
+							updateLecturerPicture($scope.image_name);
 						}
 		},
 				function(data) { //failure
@@ -249,6 +256,21 @@ getProfilePic();
 		//update path to upload to
 		function updateUploadPath(){
 			uploader.formData.push({ key: $scope.lecturer_id+"/profile" });
+		}
+		
+		function updateLecturerPicture(picture){
+		
+			var url=ip+"/updatelecturerpicture";
+		
+			myNotices.post(url,{'id': $scope.lecturer_id, 'picture': picture}).then(function(pic) {
+				console.log("image successfully uploaded");
+			},
+			
+			function(data) { //failure
+				console.log('WE ARE HAVING TROUBLE ADDING THE PROFILE PICTURE TO THE DATABASE');
+				$scope.statusmessage =  'WE ARE HAVING ADDING THE PROFILE PICTURE TO THE DATABASE';
+       		}); 
+
 		}
 		
 
