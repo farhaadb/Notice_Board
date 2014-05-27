@@ -15,10 +15,10 @@ function MainController($scope,$http ,myNotices,$window, $fileUploader) {
 	$scope.show_folder=false;
 	$scope.show_directory_options=false;
 	$scope.show_file_upload=false;
+	$scope.dir;
 
 	$scope.reload =function(){
 	$window.location.reload();
-	$scope.dir;
 	}
 	getSubjects();
 
@@ -41,6 +41,7 @@ function MainController($scope,$http ,myNotices,$window, $fileUploader) {
 
 		};
 
+		//this function is also called when files are added so beware when changing this
 		$scope.addNotice = function(subject, title, body){
 
 			var url = ip+'/addlecturernotice';
@@ -118,6 +119,7 @@ function MainController($scope,$http ,myNotices,$window, $fileUploader) {
 		if(!$scope.show_folder && !$scope.show_file && !$scope.show_directory_options && !$scope.show_file_upload)
 		{
 			var path = $scope.lecturer_id+"/subjects/"+subject;
+			$scope.subject_directory = subject //used for uploading a notice after upload complete
 		}
 
 		else
@@ -367,6 +369,21 @@ function MainController($scope,$http ,myNotices,$window, $fileUploader) {
 
 		uploader.bind('completeall', function (event, items) {
             $scope.updateView($scope.path_history[($scope.path_history.length-1)]);
+			
+			
+			//upload notice here
+			
+			//remove lecturer_id/subjects from path
+			var str = $scope.path_history[($scope.path_history.length-1)],
+			delimiter = '/',
+			start = 2,
+			tokens = str.split(delimiter).slice(start),
+			result = tokens.join(delimiter);
+			
+			var title="Files uploaded";
+			var body="New files have been uploaded to " + result;
+			
+			$scope.addNotice($scope.subject_directory,title,body);
         });
 
 		//update path to upload to
