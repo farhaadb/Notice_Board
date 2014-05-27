@@ -46,7 +46,7 @@
 		<li  ng-repeat="item in dir | filter:{folder:'true'}" class="topcoat-list__item" style="background-color: #FFFFFF;">
 		<div>
 		<img style="float:left; width:42px; height:45px; margin-right:10px;"class="movieimg" src="lecturermodules/resources/img/{{items.id}}.png" />
-		<strong style="font-size:17px;" ng-click='updateView("{{item.path}}")'>{{item.name}}</strong><p style="font-size:12px;"><input type="button" value="Delete Folder" ng-click="removeFolder(item.path)"></p>
+		<strong style="font-size:17px;" ng-click='updateView(item.path)'>{{item.name}}</strong><p style="font-size:12px;"><input type="button" value="Delete Folder" ng-click="removeFolder(item.path)"></p>
 		</div>
 		<div style="clear:both;"></div>   
 
@@ -54,7 +54,7 @@
 		</ul>
 		
 		<ul id="file" ng-show="show_file">
-		<li  ng-show="ready" ng-repeat="item in dir | filter:{folder:'false'}" class="topcoat-list__item" style="background-color: #FFFFFF;">
+		<li  ng-repeat="item in dir | filter:{folder:'false'}" class="topcoat-list__item" style="background-color: #FFFFFF;">
 		<div>
 		<img style="float:left; width:42px; height:45px; margin-right:10px;"class="movieimg" src="lecturermodules/resources/img/{{items.id}}.png" />
 		<strong style="font-size:17px;"><a ng-href="http://localhost:3000/lecturer/{{item.path}}" download>{{item.name}}</a></strong><p style="font-size:12px;"><input type="button" value="Delete File" ng-click="removeFile(item.path)"></p>
