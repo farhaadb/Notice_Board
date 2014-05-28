@@ -5,6 +5,8 @@ function StudentsController($scope,$http ,myNotices,$window, $fileUploader) {
 	var ip="http://localhost:3000";
 	var m = document.getElementById("mark_subject");
 	var s = document.getElementById("student_subject");
+	var post_notice=false; //check if we need to post a notice or not
+	var subject; //used when adding a notice
 	
 	$scope.lecturer_id=localStorage.getItem("lecturer_id");
 
@@ -31,6 +33,22 @@ function StudentsController($scope,$http ,myNotices,$window, $fileUploader) {
         });
 
 	};
+	
+	//this function is also called only when marks are uploaded
+	$scope.addNotice = function(subject, title, body){
+
+		var url = ip+'/addlecturernotice';
+
+		myNotices.post(url,{'subject':subject, 'title':title, 'body':body, 'lecturer':$scope.lecturer_id}).then(function(status) {
+			console.log("successfully added notice");
+		},
+		function(data) { //failure
+			console.log('WE ARE HAVING TROUBLE ADDING YOUR NOTICE');
+			$scope.statusmessage =  'WE ARE HAVING TROUBLE ADDING YOUR NOTICE';
+			$scope.ready =true;
+			$scope.conn = false;
+       	});
+	}
 	
 	$scope.invertMarks = function(){
 	
@@ -70,10 +88,25 @@ function StudentsController($scope,$http ,myNotices,$window, $fileUploader) {
 
 	uploader.bind('completeall', function (event, items) {
 		$scope.is_upload_complete=true;
+		
+		if(post_notice)
+		{
+			var title="Marks uploaded";
+			var body="Marks have been uploaded for " + subject.text;
+			
+			$scope.addNotice(subject.value, title, body);
+			post_notice=false;
+		}
     });
 		
 	uploader.bind('afteraddingfile', function (event, items) {
 		$scope.is_upload_complete=false;  
+		
+		if($scope.show_marks)
+		{
+			subject = m.options[m.selectedIndex];
+			post_notice=true;
+		}
     });
 	
 	function updateUploadPath(path){
