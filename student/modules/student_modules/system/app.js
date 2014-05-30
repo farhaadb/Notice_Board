@@ -21,6 +21,11 @@ var noticeboard = angular.module('App',['ngRoute', 'shoppinpal.mobile-menu', 'Ap
 				  controller: 'LecturerController',
             })
 			
+			.when("/files", {
+                templateUrl: "student_modules/partials/files.html",
+				  controller: 'FilesController',
+            })
+			
 			 .when("/settings", {
                 templateUrl: "student_modules/partials/settings.html",
             })
