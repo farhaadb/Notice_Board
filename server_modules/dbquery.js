@@ -283,6 +283,18 @@ function query(req, res, pool, q){
 				res.send({status:"success"});
 			});*/
 		}
+		
+		else if(q=="returnStudentSubjects"){
+		
+			var id=req.body.id;
+			
+			connection.query("SELECT subject.id, subject.name, student_ls.lecturer_id from subject join student_ls on student_ls.subject_id=subject.id where student_ls.student_id='"+id+"'",
+			function(err, rows, fields){
+			if(err) throw err;
+			
+			res.send(JSON.stringify(rows));
+			});
+		}
 				
 		else{
 			console.log("Unhandled query " + q);

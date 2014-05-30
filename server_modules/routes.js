@@ -216,4 +216,8 @@ module.exports = function(app, pool, auth, dbquery, excelParser, excel, fs, dir,
 		dbquery.query(req, res, pool, "updateLecturerSettings");
 	});
 	
+	app.post('/returnstudentsubjects', function(req, res) {
+		dbquery.query(req, res, pool, "returnStudentSubjects");
+	});
+	
 };
