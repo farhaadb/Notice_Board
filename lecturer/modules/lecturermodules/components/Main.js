@@ -378,7 +378,7 @@ function MainController($scope,$http ,myNotices,$window, $fileUploader) {
 			delimiter = '/',
 			start = 2,
 			tokens = str.split(delimiter).slice(start),
-			result = tokens.join(delimiter);
+			result = $scope.lecturer_id+"/subjects/"+tokens.join(delimiter);
 			
 			var title="Files uploaded";
 			var body="New files have been uploaded to " + result;
