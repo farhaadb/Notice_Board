@@ -130,6 +130,7 @@ function query(req, res, pool, q){
 			var lecturer=req.body.lecturer;
 			var title=req.body.title;
 			var body=req.body.body;
+			var type=req.body.type;
 			var now=new Date();
 			var time = [[now.getFullYear(), AddZero(now.getMonth() + 1), AddZero(now.getDate())].join("-"), [AddZero(now.getHours()), AddZero(now.getMinutes()), AddZero(now.getSeconds())].join(":")].join(" ");
 			
@@ -143,7 +144,7 @@ function query(req, res, pool, q){
 						{
 							notice_id=(rows1[0].id)+1;
 							
-							var values1=notice_id+",'"+title+"','"+body+"','"+time+"'";
+							var values1=notice_id+",'"+title+"','"+body+"','"+type+"','"+time+"'";
 							var values2=lecturer+",'"+subject+"',"+notice_id;
 							
 							connection.query("INSERT into notice VALUES("+values1+")",
