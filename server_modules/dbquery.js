@@ -65,7 +65,24 @@ function query(req, res, pool, q){
 		
 		else if(q=="getNotices"){
 		
-			connection.query('select notice_id as id,lecturer_id as empid, lname AS name, body AS notice FROM notice_ls join lecturer on notice_ls.lecturer_id=lecturer.id join notice on notice_ls.notice_id=notice.id ORDER BY name',
+			var student = req.body.student_id;
+			var sql = "select notice_id,lecturer_id, fname, lname, notice.title, notice.body, notice.type, notice_ls.subject_id, subject.name as subject_name, lecturer.picture, CONVERT_TZ(notice.timestamp,'+00:00','+02:00') as timestamp FROM notice_ls join lecturer on notice_ls.lecturer_id=lecturer.id join notice on notice_ls.notice_id=notice.id join subject on notice_ls.subject_id=subject.id WHERE lecturer_id IN (select lecturer_id from student_ls where student_id='"+student+"') AND (notice_ls.subject_id IN (select subject_id from student_ls WHERE student_id='"+student+"') OR notice_ls.subject_id='ALL') ORDER BY timestamp";
+			
+			connection.query(sql,
+			function(err, rows, fields){
+			if(err) throw err;
+			
+			res.send(JSON.stringify(rows));
+			});
+		}
+		
+		else if(q=="getNoticesById"){
+		
+			var lecturer = req.body.lecturer_id;
+			var student = req.body.student_id;
+			var sql = "select notice_id,lecturer_id, fname, lname, notice.title, notice.body, notice.type, notice_ls.subject_id, subject.name as subject_name, lecturer.picture,lecturer.email, lecturer.title as lecturer_title, CONVERT_TZ(notice.timestamp,'+00:00','+02:00') as timestamp FROM notice_ls join lecturer on notice_ls.lecturer_id=lecturer.id join notice on notice_ls.notice_id=notice.id join subject on notice_ls.subject_id=subject.id WHERE lecturer_id = '"+lecturer+"' AND (notice_ls.subject_id IN (select subject_id from student_ls WHERE student_id='"+student+"') OR notice_ls.subject_id='ALL') ORDER BY timestamp";
+		
+			connection.query(sql,
 			function(err, rows, fields){
 			if(err) throw err;
 			
