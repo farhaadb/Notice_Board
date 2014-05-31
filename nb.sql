@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: May 28, 2014 at 10:06 PM
+-- Generation Time: May 31, 2014 at 01:17 PM
 -- Server version: 5.5.24-log
 -- PHP Version: 5.4.3
 
@@ -67,7 +67,8 @@ INSERT INTO `course_subject` (`course_id`, `subject_id`) VALUES
 ('NDCSY2', 'DSYS102'),
 ('NDELC2', 'DSYS102'),
 ('NDCSY2', 'ELEN103'),
-('NDELC2', 'ELEN103');
+('NDELC2', 'ELEN103'),
+('NDCSY2', 'MCSYS401');
 
 -- --------------------------------------------------------
 
@@ -145,14 +146,15 @@ CREATE TABLE IF NOT EXISTS `lecturer` (
   `password` varchar(20) NOT NULL,
   `picture` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 --
 -- Dumping data for table `lecturer`
 --
 
 INSERT INTO `lecturer` (`id`, `title`, `fname`, `lname`, `email`, `password`, `picture`) VALUES
-(1, 'Mr', 'Logan', 'Govender', 'logan@dut.ac.za', 'logan', NULL);
+(1, 'Mr', 'Logan', 'Govender', 'logan@dut.ac.za', 'logan', NULL),
+(2, 'Mr', 'Kevin', 'Moorgas', 'kevinm@dut.ac.za', 'kevin', NULL);
 
 -- --------------------------------------------------------
 
@@ -175,7 +177,8 @@ CREATE TABLE IF NOT EXISTS `lecturer_cs` (
 
 INSERT INTO `lecturer_cs` (`course_id`, `subject_id`, `lecturer_id`) VALUES
 ('NDCSY2', 'DSYS102', 1),
-('NDCSY2', 'ELEN103', 1);
+('NDCSY2', 'ELEN103', 1),
+('NDCSY2', 'MCSYS401', 2);
 
 -- --------------------------------------------------------
 
@@ -187,16 +190,24 @@ CREATE TABLE IF NOT EXISTS `notice` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(80) NOT NULL,
   `body` varchar(300) NOT NULL,
+  `type` varchar(10) NOT NULL,
   `timestamp` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
 
 --
 -- Dumping data for table `notice`
 --
 
-INSERT INTO `notice` (`id`, `title`, `body`, `timestamp`) VALUES
-(1, 'Test postponed.', 'Test postponed due to strike. New test date to be given in the coming days.', '2014-05-04 00:00:00');
+INSERT INTO `notice` (`id`, `title`, `body`, `type`, `timestamp`) VALUES
+(1, 'Test postponed.', 'Test postponed due to strike. New test date to be given in the coming days.', 'general', '2014-05-04 00:00:00'),
+(2, 'Files uploaded', 'New files have been uploaded to 1/subjects/DSYS102', 'upload', '2014-05-29 22:37:14'),
+(3, 'Files uploaded', 'New files have been uploaded to 1/subjects/DSYS102/test/another', 'upload', '2014-05-29 23:41:33'),
+(5, 'Posting to all', 'Posting to ALL', 'general', '2014-05-30 20:19:27'),
+(6, 'hello', 'testing', 'general', '2014-05-30 20:20:29'),
+(7, 'another test', 'testing testing', 'general', '2014-05-31 13:34:42'),
+(8, 'hello', 'hello echo', 'general', '2014-05-31 13:50:51'),
+(9, 'Files uploaded', 'New files have been uploaded to 1/subjects/DSYS102', 'upload', '2014-05-31 13:51:19');
 
 -- --------------------------------------------------------
 
@@ -218,7 +229,14 @@ CREATE TABLE IF NOT EXISTS `notice_ls` (
 --
 
 INSERT INTO `notice_ls` (`lecturer_id`, `subject_id`, `notice_id`) VALUES
-(1, 'DSYS102', 1);
+(1, 'DSYS102', 1),
+(1, 'DSYS102', 2),
+(1, 'DSYS102', 3),
+(1, 'ALL', 5),
+(2, 'MCSYS401', 6),
+(1, 'DSYS102', 7),
+(1, 'ALL', 8),
+(1, 'DSYS102', 9);
 
 -- --------------------------------------------------------
 
@@ -267,7 +285,8 @@ CREATE TABLE IF NOT EXISTS `student_ls` (
 INSERT INTO `student_ls` (`student_id`, `lecturer_id`, `subject_id`) VALUES
 (111111, 1, 'DSYS102'),
 (2123165, 1, 'DSYS102'),
-(21024909, 1, 'DSYS102');
+(21024909, 1, 'DSYS102'),
+(21024909, 2, 'MCSYS401');
 
 -- --------------------------------------------------------
 
@@ -290,7 +309,8 @@ INSERT INTO `subject` (`id`, `name`) VALUES
 ('CSEL101', 'Computer Skills I'),
 ('CSKI103', 'Communication Skills I'),
 ('DSYS102', 'Digital Systems I'),
-('ELEN103', 'Electronic Engineering I');
+('ELEN103', 'Electronic Engineering I'),
+('MCSYS401', 'Microcontroller Systems 4');
 
 --
 -- Constraints for dumped tables
