@@ -57,6 +57,12 @@
 }
   </style>
     <script>
+	
+	function getIp()
+	{
+		return "http://localhost:3000";
+	}
+	
 	function checkLogin()
 	{
 	
@@ -83,7 +89,7 @@
 				{
 					alert(res.id);
 					localStorage.setItem("student_id",res.id);
-					window.location="http://localhost:3000/studentindex";
+					window.location=getIp()+"/studentindex";
 				}
 				
 				else if(res.status=="false")
@@ -92,7 +98,7 @@
 				}
 			}
 		}
-		xmlhttp.open("POST","http://localhost:3000/studentloginreq",true);
+		xmlhttp.open("POST",getIp()+"/studentloginreq",true);
 		xmlhttp.setRequestHeader("Content-type","application/json");
 		//xmlhttp.send("fname=Henry&lname=Ford");
 		xmlhttp.send(JSON.stringify({'user':id, 'pass':password}));
@@ -105,7 +111,7 @@
 	 <div class="content">
 	<center>
 		<div id="loginlogo">
-			<img style="height: 160px;" src="http://localhost:3000/student_modules/resources/img/login-blue.jpg" ></img>
+			<img id="image_id" style="height: 160px;"></img>
 		</div>
 	</center>
 		
@@ -122,5 +128,9 @@
 	</div>
 		
 	</div>
+	
+	<script>
+	document.getElementById("image_id").src=getIp()+"/student_modules/resources/img/login-blue.jpg";
+	</script>
 </body>
 </html>
