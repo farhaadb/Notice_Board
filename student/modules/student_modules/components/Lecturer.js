@@ -3,7 +3,7 @@
 function LecturerController($scope,$http,myNotices,$location) {
 
 		$scope.student_id=localStorage.getItem("student_id");
-		$scope.ip = "http://localhost:3000";
+		$scope.ip = myNotices.ip;
 		$scope.email;
 		$scope.full_name;
 		$scope.picture;

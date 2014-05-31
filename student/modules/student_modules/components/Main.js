@@ -6,7 +6,7 @@ function MainController($scope,$http ,myNotices,$window) {
 	$window.location.reload();
 	}
 	$scope.student_id=localStorage.getItem("student_id");
-	$scope.ip = "http://localhost:3000";
+	$scope.ip = myNotices.ip;
 	var url = $scope.ip+'/getnotices';
 	
 	init();
