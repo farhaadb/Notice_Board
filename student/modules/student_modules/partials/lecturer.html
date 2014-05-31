@@ -5,7 +5,7 @@
          
 		 <li class="topcoat-list__item2"  style="height:88px">
 		    <a href="#/profile">
-			<img style="float:left; width:84px; height:91px; margin-right:10px;border-radius: 40px 40px 40px 40px;" src="resources/img/0003.png" />
+			<img style="float:left; width:84px; height:91px; margin-right:10px;border-radius: 40px 40px 40px 40px;" src="student_modules/resources/img/0003.png" />
 			Hayden Sookchand<br>Electronic Eng
 			</a>
 		 </li>   
@@ -26,13 +26,13 @@
 		</li>
 		
 		<li class="topcoat-list__item2" ng-click="reload()">
-		   <img src="resources/img/refresh.png" />
+		   <img src="student_modules/resources/img/refresh.png" />
 			Refresh
 		</li>	
 		
 		 <li class="topcoat-list__item2" style="height:15px">
 		   <img src="student_modules/resources/img/logout.png" />
-		   <a href="http://localhost:3000/studentlogout">Logout</a>
+		   <ng-href="{{ip}}/studentlogout">Logout</a>
 		 </li>
 		 
         </ul>
@@ -62,18 +62,20 @@
 		 <li class="topcoat-list__item2" id="personal-window">
 			<div id="personal-lecturer">
 			<center>
-			<img id= "lecturer-image" src="student_modules/resources/img/{{id}}.png" />
+			<img id= "lecturer-image" ng-src="{{picture}}" />
 		    </center>
-			<p><center>{{title}}</center></p>
-			<p><center>[TODO: PULL EMAIL ADDRESS HERE}</center></p>
+			<p><center>{{full_name}}</center></p>
+			<p><center><a ng-href="mailto:{{email}}">{{email}}</a></center></p>
 			</div>
 		 </li>  
 		 
-		<li class="topcoat-list__item2" class="home" ng-repeat="item in msg | filter:{empid: id }" >
+		<li class="topcoat-list__item2" class="home" ng-repeat="item in data" >
 		
-		<div id="notice-history"><strong>{{ item.notice}}</strong></div>
-		
-		<div id="notice-date">[TODO - PULL DATE HERE]</div> 
+		<div id="notice-history"><strong>{{item.title}}</strong></div>
+		<div id="notice-history"><strong ng-bind-html="item.body"></strong></div>
+		<div id="notice-history"><strong>{{item.subject_name}}</strong></div>
+				
+		<div id="notice-date">{{item.timestamp}}</div> 
 		</li>
 		
 		</ul>
