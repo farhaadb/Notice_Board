@@ -32,7 +32,7 @@
 		
 		 <li class="topcoat-list__item2" style="height:15px">
 		   <img src="student_modules/resources/img/logout.png" />
-		   <a href="http://localhost:3000/studentlogout">Logout</a>
+		   <ng-href="{{ip}}/studentlogout">Logout</a>
 		 </li>
 		 
         </ul>
@@ -70,16 +70,18 @@
         {{ statusmessage}}
           </li>
 		  
-				<li  ng-show="ready" ng-repeat="item in msg | filter:name" class="topcoat-list__item" style="background-color: #FFFFFF;">
-					<a href="#lecturer?{{ item.empid}}"><div>
-					<img style="float:left; width:42px; height:45px; margin-right:10px;border-radius: 20px 20px 20px 20px;"class="movieimg" src="student_modules/resources/img/{{item.empid}}.png" />
-					<strong style="font-size:17px;margin-left: 13px;">{{item.name}}</strong>
+				<li  ng-show="ready" ng-repeat="item in msg" class="topcoat-list__item" style="background-color: #FFFFFF;">
+					<a href="#lecturer?{{item.lecturer_id}}"><div>
+					<img style="float:left; width:42px; height:45px; margin-right:10px;border-radius: 20px 20px 20px 20px;"class="movieimg" src="{{item.picture}}" /></a>
+					<strong style="font-size:17px;margin-left: 13px;">{{item.fname}} {{item.lname}}</strong>
 					<div class="arrow-right">
 					</div>
-					<p id ="notice" style="font-size:11px;margin-top: -11px;margin-left: 82px;">{{item.notice}}</p>
+					<p id ="notice" style="font-size:11px;margin-top: -11px;margin-left: 82px;">{{item.title}}</p>
+					<p id ="notice" style="font-size:11px;margin-top: -11px;margin-left: 82px;" ng-bind-html="item.body"></p>
+					<p id ="notice" style="font-size:11px;margin-top: -11px;margin-left: 82px;">{{item.subject_name}}</p>
+					<p id ="notice" style="font-size:11px;margin-top: -11px;margin-left: 82px;">{{item.timestamp}}</p>
 					</div>
 					<div style="clear:both;"></div>   
-					</a>
 				</li>
 			</ul>
 			<h1>
