@@ -1,0 +1,14 @@
+#hamburger-menu{
+  float:center;
+  width:29px;
+  height:29px;
+  margin-top:-1px;
+}
+
+#topbar-logo{
+  float:center; 
+  width:115px; 
+  height:25px;
+  margin-right:10px;
+  margin-top: 4px;
+}

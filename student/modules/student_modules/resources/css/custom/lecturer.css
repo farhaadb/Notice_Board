@@ -1,0 +1,45 @@
+#personal_window{
+	height:198px;
+	background: #6DCAEC; 
+	opacity: 0.8;
+	font-family: Arial;
+   font-style: italic;
+}
+
+#personal_outer{
+	color:#white;
+}
+
+#personal-image-profile{
+ width:84px;
+ height:91px;
+ border-radius: 60px;
+ border: 6px solid #5EBBDD;
+}
+
+#notice-history{
+	margin-top: 0px;
+}
+
+#notice-date{
+  margin-top: -19px;
+  font-size:8px;
+  text-align: right;
+}
+
+#mark-history{
+	margin-top: -15px;
+	font-size:12px;
+}
+
+#mark-date{
+  margin-top: -19px;
+  font-size:8px;
+  text-align: right;
+}
+
+#temp{
+  margin-top: -3px;
+  font-size:12px;
+  text-align: right;
+}

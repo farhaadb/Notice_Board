@@ -1,0 +1,45 @@
+
+#login{
+  width:300px;
+  margin:0 auto;
+  margin-top: 142px;
+}
+
+#studentno, #password{
+  width:90%;
+  background:#fff;
+  border:1px solid #ccc;
+  padding:4%;
+  font-family:'Open Sans',sans-serif;
+  font-size:95%;
+  color:#555;
+  text-align:center;
+}
+
+#submitlogin{
+  width:90%;
+  background:#3399cc;
+  border:0;
+  padding:4%;
+  font-family:'Open Sans',sans-serif;
+  font-size:100%;
+  color:#fff;
+  text-align:center;
+}
+
+#loginlogo{
+  float:center; 
+  height:42px;
+  margin-right:10px;
+  margin-top: 32px;
+}
+
+#Help{
+  bottom: 10px;
+  position: absolute;
+  text-align:center;
+  width:100%;
+  color:white;
+  font-family:'Open Sans',sans-serif;
+  font-size:12;
+}

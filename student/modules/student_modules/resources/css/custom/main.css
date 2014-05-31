@@ -1,0 +1,43 @@
+#main_lecturer-image{
+  float:left;
+  width:42px; 
+  height:45px;
+  margin-right:10px;
+  border-radius: 20px 20px 20px 20px;
+}
+
+#main_lecturer-name{
+  font-size:17px;
+  margin-left: 13px;
+}
+
+#main_notice{
+  font-size:11px;
+  margin-top: -11px;
+  margin-left: 82px;
+}
+
+#main_list_background{
+  background-color: #FFFFFF;
+}
+
+.main_outer{
+  padding:10px;
+  background-color:#F0F0F0;
+}
+
+.arrow-right {
+	margin-left:70px;
+	margin-top:8px;
+	width: 0; 
+	height: 0; 
+	border-top: 5px solid transparent;
+	border-bottom: 5px solid transparent; 
+	border-left:5px solid #0099CB; 
+}
+
+#no_cxn{
+  background-color: #3D3D3E;
+  padding: 4px;
+  color:white;
+}
