@@ -35,11 +35,11 @@ function StudentsController($scope,$http ,myNotices,$window, $fileUploader) {
 	};
 	
 	//this function is also called only when marks are uploaded
-	$scope.addNotice = function(subject, title, body){
+	$scope.addNotice = function(subject, title, body, type){
 
 		var url = ip+'/addlecturernotice';
 
-		myNotices.post(url,{'subject':subject, 'title':title, 'body':body, 'lecturer':$scope.lecturer_id}).then(function(status) {
+		myNotices.post(url,{'subject':subject, 'title':title, 'body':body, 'type':type, 'lecturer':$scope.lecturer_id}).then(function(status) {
 			console.log("successfully added notice");
 		},
 		function(data) { //failure
@@ -94,7 +94,7 @@ function StudentsController($scope,$http ,myNotices,$window, $fileUploader) {
 			var title="Marks uploaded";
 			var body="Marks have been uploaded for " + subject.text;
 			
-			$scope.addNotice(subject.value, title, body);
+			$scope.addNotice(subject.value, title, body, "marks");
 			post_notice=false;
 		}
     });

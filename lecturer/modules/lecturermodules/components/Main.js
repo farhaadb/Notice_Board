@@ -42,11 +42,11 @@ function MainController($scope,$http ,myNotices,$window, $fileUploader) {
 		};
 
 		//this function is also called when files are added so beware when changing this
-		$scope.addNotice = function(subject, title, body){
+		$scope.addNotice = function(subject, title, body, type){
 
 			var url = ip+'/addlecturernotice';
 
-			myNotices.post(url,{'subject':subject, 'title':title, 'body':body, 'lecturer':$scope.lecturer_id}).then(function(status) {
+			myNotices.post(url,{'subject':subject, 'title':title, 'body':body, 'type':type, 'lecturer':$scope.lecturer_id}).then(function(status) {
 
 					if(status.status=="success");
 					{
@@ -383,7 +383,7 @@ function MainController($scope,$http ,myNotices,$window, $fileUploader) {
 			var title="Files uploaded";
 			var body="New files have been uploaded to " + result;
 			
-			$scope.addNotice($scope.subject_directory,title,body);
+			$scope.addNotice($scope.subject_directory,title,body,"upload");
         });
 
 		//update path to upload to
