@@ -1,4 +1,4 @@
-var noticeboard = angular.module('App',['ngRoute', 'shoppinpal.mobile-menu', 'App.services'])
+var noticeboard = angular.module('App',['ngRoute', 'shoppinpal.mobile-menu', 'App.services', 'ngSanitize'])
     
 	noticeboard.config(['$routeProvider','$locationProvider',function($routeProvider,$locationProvider){
         $routeProvider
