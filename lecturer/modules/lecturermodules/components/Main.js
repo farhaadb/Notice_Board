@@ -2,7 +2,7 @@
    
 function MainController($scope,$http ,myNotices,$window, $fileUploader) {
 	$scope.statusmessage =  'Updating...';
-	var ip = "http://localhost:3000";
+	var ip = myNotices.ip;
 	$scope.lecturer_id=localStorage.getItem("lecturer_id");
 	$scope.notice_text_limit=140;
 	$scope.path_history=[];

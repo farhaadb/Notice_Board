@@ -3,7 +3,7 @@
 function SettingsController($scope,$http,myNotices, $fileUploader) {
 
 $scope.is_upload_complete=false;
-var ip="http://localhost:3000";
+var ip=myNotices.ip;
 $scope.default_pic=ip+"/default/download.jpg";
 $scope.delete_pic=ip+"/default/y.png";
 

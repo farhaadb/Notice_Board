@@ -2,7 +2,7 @@
  
 function StudentsController($scope,$http ,myNotices,$window, $fileUploader) {
 
-	var ip="http://localhost:3000";
+	var ip=myNotices.ip;
 	var m = document.getElementById("mark_subject");
 	var s = document.getElementById("student_subject");
 	var post_notice=false; //check if we need to post a notice or not

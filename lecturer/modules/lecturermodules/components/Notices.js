@@ -2,7 +2,7 @@
    
 function NoticesController($scope,$http ,myNotices,$window) {
 
-	var ip = "http://localhost:3000";
+	var ip = myNotices.ip;
 	$scope.lecturer_id=localStorage.getItem("lecturer_id");
 	
 	getNotices();
