@@ -27,8 +27,12 @@ module.exports = function(app, pool, auth, dbquery, excelParser, excel, fs, dir,
 	});
 	
 	
-	app.get("/gettable.html", function(req, res) {
+	app.post("/getnotices", function(req, res) {
 		dbquery.query(req, res, pool, "getNotices");
+	});
+	
+	app.post("/getnoticesbylecturerid", function(req, res) {
+		dbquery.query(req, res, pool, "getNoticesById");
 	});
 	
 	app.get('/studentindex', auth, function(req,res){
