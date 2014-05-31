@@ -32,7 +32,7 @@
 		
 		 <li class="topcoat-list__item2" style="height:15px">
 		   <img src="student_modules/resources/img/logout.png" />
-		   <ng-href="{{ip}}/studentlogout">Logout</a>
+		   <a ng-href="{{ip}}/studentlogout">Logout</a>
 		 </li>
 		 
         </ul>
@@ -42,51 +42,57 @@
 <!------------------------ Main Page Top Bar ------------------------>
     <div class="topcoat-navigation-bar">
         <div class="topcoat-navigation-bar__item left quarter">
-          
-             <h1 class="topcoat-navigation-bar__title"  ng-click="$spMenu.toggle()"><img style="float:center; width:29px; height:34px; margin-top:-1px;"  src="student_modules/resources/img/list.png" ></img></h1>
-            
-        </div>
-        <div class="topcoat-navigation-bar__item center half">
-              <a href="#main"><h1 class="topcoat-navigation-bar__title"><img style="float:center; width:120px; height:42px; margin-right:10px;margin-top: 4px;"  src="student_modules/resources/img/NB_logo.png" ></img></h1></a>
+           <h1 class="topcoat-navigation-bar__title" ng-click="$spMenu.toggle()">
+		   <img id="hamburger-menu" src="student_modules/resources/img/list.png" ></img>
+		   </h1>  
         </div>
 		
-		  <div class="topcoat-navigation-bar__item right quarter">
-             
+	
+		
+        <div class="topcoat-navigation-bar__item center half">
+            <a href="#main"><h1 class="topcoat-navigation-bar__title">
+			<img id="topbar-logo" src="student_modules/resources/img/NB_logo.png" ></img>
+			</h1></a>
+        </div>
+		
+		<div class="topcoat-navigation-bar__item right quarter">
         </div>
 		
     </div>
- <!------------------------ Main Content------------------------>   
+ <!------------------------------------- Main Content---------------------------------------------->   
 	<div class="content">	   
 		<div class="topcoat-list">
-		
-
-			<div id ="outer" style="padding:10px;background-color:#F0F0F0;">
-			<ul class="topcoat-list__container">
-			<li ng-show="!ready" >
-         {{ statusmessage }}
-          </li>
-
-           <li ng-show="!conn" style="background-color:red;color:white">
-        {{ statusmessage}}
-          </li>
-		  
-				<li  ng-show="ready" ng-repeat="item in msg" class="topcoat-list__item" style="background-color: #FFFFFF;">
-					<a href="#lecturer?{{item.lecturer_id}}"><div>
-					<img style="float:left; width:42px; height:45px; margin-right:10px;border-radius: 20px 20px 20px 20px;"class="movieimg" src="{{item.picture}}" /></a>
-					<strong style="font-size:17px;margin-left: 13px;">{{item.fname}} {{item.lname}}</strong>
-					<div class="arrow-right">
-					</div>
-					<p id ="notice" style="font-size:11px;margin-top: -11px;margin-left: 82px;">{{item.title}}</p>
+		    <div id ="outer" class="main_outer">
+				<ul class="topcoat-list__container">
+			<!-------------------Shows Message while Retrieving Feeds-------------------------------->
+				  <li ng-show="!ready">
+				
+					<center>
+						<img width="100px" height="100px" src="resources/img/load.gif"><br>
+							{{ statusmessage }}
+					</center>
+				 </li>
+			<!----------------------Shows Message if connection failure----------------------------->
+				  <li ng-show="!conn" id="no_cxn">
+					{{ statusmessage}}
+				  </li>
+			<!---------------------Actual List Contents --------------------------------------------->
+				  <li ng-show="ready" ng-repeat="item in msg | filter:name" class="topcoat-list__item" id="main_list_background">
+					<a href="#lecturer?{{item.lecturer_id}}">
+					<div>
+					  <img id="main_lecturer-image" class="movieimg" src="{{item.picture}}" /></a>
+					  <strong id="main_lecturer-name">{{item.fname}} {{item.lname}}</strong>
+					  <div class="arrow-right"></div>
+					<p id ="main_notice" style="font-size:11px;margin-top: -11px;margin-left: 82px;">{{item.title}}</p>
 					<p id ="notice" style="font-size:11px;margin-top: -11px;margin-left: 82px;" ng-bind-html="item.body"></p>
 					<p id ="notice" style="font-size:11px;margin-top: -11px;margin-left: 82px;">{{item.subject_name}}</p>
 					<p id ="notice" style="font-size:11px;margin-top: -11px;margin-left: 82px;">{{item.timestamp}}</p>
 					</div>
 					<div style="clear:both;"></div>   
-				</li>
-			</ul>
-			<h1>
-			
-			</h1>
-		</div>
+				  </li>
+			<!------------------------------------------------------- ------------------------------->
+				  
+			    </ul>	
+		    </div>
 		</div>
 	</div>

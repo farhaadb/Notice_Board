@@ -5,8 +5,8 @@
          
 		 <li class="topcoat-list__item2"  style="height:88px">
 		    <a href="#/profile">
-			<img style="float:left; width:84px; height:91px; margin-right:10px;border-radius: 40px 40px 40px 40px;" src="student_modules/resources/img/0003.png" />
-			Hayden Sookchand<br>Electronic Eng
+			<img  id="personal-image" src="student_modules/resources/img/0003.png" />
+				<div id="personal">Hayden Sookchand<br>Electronic Eng</div>
 			</a>
 		 </li>   
 		
@@ -42,12 +42,14 @@
 <!------------------------ Main Page Top Bar ------------------------>
     <div class="topcoat-navigation-bar">
         <div class="topcoat-navigation-bar__item left quarter">
-          
-             <h1 class="topcoat-navigation-bar__title"  ng-click="$spMenu.toggle()"><img style="float:center; width:29px; height:34px; margin-top:-1px;"  src="student_modules/resources/img/list.png" ></img></h1>
-            
+           <h1 class="topcoat-navigation-bar__title" ng-click="$spMenu.toggle()">
+		   <img id="hamburger-menu" src="student_modules/resources/img/list.png" ></img>
+		   </h1>  
         </div>
         <div class="topcoat-navigation-bar__item center half">
-              <a href="#main"><h1 class="topcoat-navigation-bar__title"><img style="float:center; width:128px; height:52px; margin-right:10px;"  src="student_modules/resources/img/NB_logo.png" ></img></h1></a>
+            <a href="#main"><h1 class="topcoat-navigation-bar__title">
+			<img id="topbar-logo" src="student_modules/resources/img/NB_logo.png" ></img>
+			</h1></a>
         </div>
 		
 		  <div class="topcoat-navigation-bar__item right quarter">
@@ -59,14 +61,14 @@
   
    <div class="content">
 		<ul class="topcoat-list">
-		   
-		 <li class="topcoat-list__item2" id="personal-window">
-			<div id="personal-lecturer">
+		 
+		 	 <li class="topcoat-list__item2" id="personal_window">
+			<div id="personal_outer">
 			<center>
-			<img id= "lecturer-image" src="student_modules/resources/img/0003.png" />
+			<img id= "personal-image-profile" src="student_modules/resources/img/0003.png" />
 		    </center>
-			<p><center>[TODO- STUDENT NAME HERE]</center></p>
-			<p><center>[TODO: STUDENT COURSE HERE}</center></p>
+			<p><center>{{title}}</center></p>
+			<p><center>[TODO: PULL EMAIL ADDRESS HERE}</center></p>
 			</div>
 		 </li>  
 		 

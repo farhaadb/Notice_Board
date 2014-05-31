@@ -5,8 +5,8 @@
          
 		 <li class="topcoat-list__item2"  style="height:88px">
 		    <a href="#/profile">
-			<img style="float:left; width:84px; height:91px; margin-right:10px;border-radius: 40px 40px 40px 40px;" src="student_modules/resources/img/0003.png" />
-			Hayden Sookchand<br>Electronic Eng
+			<img  id="personal-image" src="student_modules/resources/img/0003.png" />
+				<div id="personal">Hayden Sookchand<br>Electronic Eng</div>
 			</a>
 		 </li>   
 		
@@ -32,7 +32,7 @@
 		
 		 <li class="topcoat-list__item2" style="height:15px">
 		   <img src="student_modules/resources/img/logout.png" />
-		   <ng-href="{{ip}}/studentlogout">Logout</a>
+		   <a ng-href="{{ip}}/studentlogout">Logout</a>
 		 </li>
 		 
         </ul>
@@ -42,12 +42,14 @@
 <!------------------------ Main Page Top Bar ------------------------>
     <div class="topcoat-navigation-bar">
         <div class="topcoat-navigation-bar__item left quarter">
-          
-             <h1 class="topcoat-navigation-bar__title"  ng-click="$spMenu.toggle()"><img style="float:center; width:29px; height:34px; margin-top:-1px;"  src="student_modules/resources/img/list.png" ></img></h1>
-            
+           <h1 class="topcoat-navigation-bar__title" ng-click="$spMenu.toggle()">
+		   <img id="hamburger-menu" src="student_modules/resources/img/list.png" ></img>
+		   </h1>  
         </div>
         <div class="topcoat-navigation-bar__item center half">
-              <a href="#main"><h1 class="topcoat-navigation-bar__title"><img style="float:center; width:128px; height:52px; margin-right:10px;"  src="student_modules/resources/img/NB_logo.png" ></img></h1></a>
+            <a href="#main"><h1 class="topcoat-navigation-bar__title">
+			<img id="topbar-logo" src="student_modules/resources/img/NB_logo.png" ></img>
+			</h1></a>
         </div>
 		
 		  <div class="topcoat-navigation-bar__item right quarter">
@@ -59,17 +61,17 @@
     <div class="content">
 		<ul class="topcoat-list">
 		   
-		 <li class="topcoat-list__item2" id="personal-window">
-			<div id="personal-lecturer">
+		 <li class="topcoat-list__item2" id="personal_window">
+			<div id="personal_outer">
 			<center>
-			<img id= "lecturer-image" ng-src="{{picture}}" />
+			<img id= "personal-image-profile" ng-src="{{picture}}" />
 		    </center>
 			<p><center>{{full_name}}</center></p>
 			<p><center><a ng-href="mailto:{{email}}">{{email}}</a></center></p>
 			</div>
 		 </li>  
 		 
-		<li class="topcoat-list__item2" class="home" ng-repeat="item in data" >
+		<li class="topcoat-list__item2" ng-repeat="item in data" >
 		
 		<div id="notice-history"><strong>{{item.title}}</strong></div>
 		<div id="notice-history"><strong ng-bind-html="item.body"></strong></div>
