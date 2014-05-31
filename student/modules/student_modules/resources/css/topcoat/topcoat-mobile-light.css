@@ -1586,7 +1586,7 @@ input[type="checkbox"]:disabled:active + .topcoat-checkbox__checkmark:before {
 }
 
 .topcoat-list__item {
-  padding: 0.6rem;
+  padding: 0.9rem;
   border-top: 1px solid #fff;
   border-bottom: 1px solid #9daca9;
   height: 42px
