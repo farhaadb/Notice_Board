@@ -19,7 +19,7 @@
 		A list will then be populated,  with the name of all the subjects that the lecturer teaches and he will be able to access these files triggering a new request each time. It will be good to make only this part of the screen update. / Ajax can do that /	
 		<br>
 		<b>This is what dropbox does. So it needs to look as close too or better than</b><br>
-		
+
 		<ul id="initial" ng-model="html" ng-show="show_initial">
 		<li  ng-repeat="item in subject" class="topcoat-list__item" style="background-color: #FFFFFF;">
 		<div ng-click='updateView(item.id)'>
@@ -30,7 +30,7 @@
 
 		</li>
 		</ul>
-		
+
 		<ul id="directory_options" ng-show="show_directory_options">
 		<li>
 		<div>
@@ -41,7 +41,7 @@
 		</div>
 		</ul>
 		</li>
-		
+
 		<ul id="folder" ng-show="show_folder">
 		<li  ng-repeat="item in dir | filter:{folder:'true'}" class="topcoat-list__item" style="background-color: #FFFFFF;">
 		<div>
@@ -52,7 +52,7 @@
 
 		</li>
 		</ul>
-		
+
 		<ul id="file" ng-show="show_file">
 		<li  ng-repeat="item in dir | filter:{folder:'false'}" class="topcoat-list__item" style="background-color: #FFFFFF;">
 		<div>
@@ -65,7 +65,7 @@
 		</ul>
 
 	</div>
-	
+
 		<div id="file-upload" class="row" ng-show="show_file_upload" ng-file-drop>
 
                 <div>
@@ -149,28 +149,28 @@
                 </div>
 
             </div>
-	
-		 		 
-	
-	
-	 
-	
+
+
+
+
+
+
 
 	<!-----Nav------------------------------------>
 	  <nav class="bar-tab">
-	  
+
     <ul>
-	
+
 	 <li>
 		Who gets to see this?<select name="module" ng-model="notice_subject" ng-change="checkNoticeButton()">
-		
+
 		<option value="ALL">All</option>
 		<option ng-repeat="item in subject" value={{item.id}}>{{item.name}}</option>
 		</select>
-		
+
 		<input type="text" name="title" placeholder="Enter title" ng-model="notice_title" ng-change="checkNoticeButton()"></input></br>
          Notice<textarea name="notice" maxlength="140" ng-model="notice_body" ng-change="checkLimit()"></textarea>{{notice_text_limit}}
-		<input type="button" value="Add" ng-disabled="is_notice_button_disabled" ng-click="addNotice(notice_subject, notice_title, notice_body)"></input>
+		<input type="button" value="Add" ng-disabled="is_notice_button_disabled" ng-click="addNotice(notice_subject, notice_title, notice_body,'general')"></input>
 		</li>
       <li class="tab-item active">
         <a href="#/">
@@ -204,7 +204,7 @@
 	    <li class="tab-item">
       <br><a href="http://localhost:3000/lecturerlogout">Log Out</a>
       </li>
-	
+
     </ul>
   </nav>
   
