@@ -27,5 +27,7 @@ noticeboard.factory('myNotices', function($http, $q, $timeout) {
 				});
 			return deferred.promise;
 		},
+		
+		ip: "http://localhost:3000",
    }
 });
