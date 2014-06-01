@@ -30,6 +30,15 @@ var noticeboard = angular.module('App',['ngRoute', 'shoppinpal.mobile-menu', 'Ap
                 templateUrl: "student_modules/partials/settings.html",
             })
 			
+			.when("/lecturerlist", {
+                templateUrl: "student_modules/partials/lecturerlist.html",
+				  controller: 'MainController',
+            })
+			
+			 .when("/about", {
+                templateUrl: "student_modules/partials/about.html",
+            })
+			
             .otherwise({
                 redirectTo: "/main"
             });
