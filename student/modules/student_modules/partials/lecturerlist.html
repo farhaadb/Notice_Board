@@ -1,0 +1,115 @@
+<!------------------------ Menu Slider ------------------------>
+<div id="sp-nav">
+    <div class="topcoat-list-container">
+        <ul class="topcoat-list">
+         
+		 <li class="topcoat-list__item2"  style="height:88px">
+		    <a href="#/profile">
+			<img  id="personal-image" src="student_modules/resources/img/0003.png" />
+				<div id="personal">Hayden Sookchand<br>Electronic Eng</div>
+			</a>
+		 </li>   
+		
+		<li class="topcoat-list__item2">
+		    <img src="student_modules/resources/img/home.png" />
+			<a href="#/main">Home</a>
+		</li>		
+		
+		<li class="topcoat-list__item2" >
+		    <img  src="student_modules/resources/img/gmap.png" />
+			<a href="#/reports">Reports</a>
+		</li>
+        
+		<li class="topcoat-list__item2" >
+		    <img src="student_modules/resources/img/settings.png" />
+			<a href="#/settings">Settings</a>
+		</li>
+		
+		<li class="topcoat-list__item2" >
+		    <img src="student_modules/resources/img/settings.png" />
+			<a href="#/files">Files</a>
+		</li>	
+
+		<li class="topcoat-list__item2" >
+	
+	    <img src="student_modules/resources/img/settings.png" />
+			<a href="#/lecturerlist">Lecturers</a>
+		</li>
+		
+		<li class="topcoat-list__item2" ng-click="reload()">
+		   <img src="student_modules/resources/img/refresh.png" />
+			Refresh
+		</li>
+
+		<li class="topcoat-list__item2">
+		   <img src="student_modules/resources/img/refresh.png" />
+			<a href="#/about">About</a>
+		</li>		
+		
+		 <li class="topcoat-list__item2" style="height:15px">
+		   <img src="student_modules/resources/img/logout.png" />
+		   <a ng-href="{{ip}}/studentlogout">Logout</a>
+		 </li>
+		 
+        </ul>
+    </div>
+</div>
+<div id="sp-page">
+<!------------------------ Main Page Top Bar ------------------------>
+    <div class="topcoat-navigation-bar">
+        <div class="topcoat-navigation-bar__item left quarter">
+           <h1 class="topcoat-navigation-bar__title" ng-click="$spMenu.toggle()">
+		   <img id="hamburger-menu" src="student_modules/resources/img/list.png" ></img>
+		   </h1>  
+        </div>
+		
+	
+		
+        <div class="topcoat-navigation-bar__item center half">
+            <a href="#main"><h1 class="topcoat-navigation-bar__title">
+			<img id="topbar-logo" src="student_modules/resources/img/nb_logo.png" ></img>
+			</h1></a>
+        </div>
+		
+		<div class="topcoat-navigation-bar__item right quarter">
+        </div>
+		
+    </div>
+ <!------------------------------------- Main Content---------------------------------------------->   
+	<div class="content">	   
+		<div class="topcoat-list">
+		    <div id ="outer" class="main_outer">
+				<ul class="topcoat-list__container">
+			<!-------------------Shows Message while Retrieving Feeds-------------------------------->
+				  <li ng-show="!ready">
+				
+					<center>
+						<img width="100px" height="100px" src="student_modules/resources/img/load.gif"><br>
+							{{ statusmessage }}
+					</center>
+				 </li>
+			<!----------------------Shows Message if connection failure----------------------------->
+				  <li ng-show="!conn" id="no_cxn">
+					{{ statusmessage}}
+				  </li>
+			<!---------------------Actual List Contents --------------------------------------------->
+				  <li ng-show="ready" ng-repeat="item in msg | filter:name" class="topcoat-list__item" id="main_list_background" style="height:40px">
+					<a href="#lecturer?{{item.lecturer_id}}">
+					<div style="margin-top:-12px">
+					  <img id="main_lecturer-image" class="movieimg" src="{{item.picture}}" />
+					  <strong id="main_lecturer-name">Lecturer Name</strong>
+					  
+					<p id ="notice" style="font-size:11px;margin-top:10px;margin-left:76px;"><b>{{item.subject_name}} </b></p>
+	
+					
+					
+					</div>
+					</a>
+					<div style="clear:both;"></div>   
+				  </li>
+			<!------------------------------------------------------- ------------------------------->
+				  
+			    </ul>	
+		    </div>
+		</div>
+	</div>
