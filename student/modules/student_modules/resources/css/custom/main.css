@@ -1,24 +1,27 @@
 #main_lecturer-image{
   float:left;
-  width:42px; 
-  height:45px;
+  width:60px; 
+  height:60px;
   margin-right:10px;
-  border-radius: 20px 20px 20px 20px;
+  border-radius: 50px;
+  margin-top: 4px;
 }
 
 #main_lecturer-name{
-  font-size:17px;
-  margin-left: 13px;
+  font-size:13px;
+  margin-left: 4px;
+  margin-top: -10px;
 }
 
 #main_notice{
   font-size:11px;
   margin-top: -11px;
-  margin-left: 82px;
+  margin-left: 78px;
 }
 
 #main_list_background{
   background-color: #FFFFFF;
+  height: 54px;
 }
 
 .main_outer{
@@ -27,8 +30,8 @@
 }
 
 .arrow-right {
-	margin-left:70px;
-	margin-top:8px;
+	margin-left:74px;
+	margin-top:10px;
 	width: 0; 
 	height: 0; 
 	border-top: 5px solid transparent;
