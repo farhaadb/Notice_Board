@@ -11,7 +11,8 @@
 	"connect-busboy": "*",
 	"excel-parser": "*",
 	"subdomain": "*",
-	"rimraf": "*"
+	"rimraf": "*",
+	"node-gcm": "*"
   },
   "scripts": {
     "start": "node server.js"
