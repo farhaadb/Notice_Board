@@ -90,6 +90,40 @@ function query(req, res, pool, q){
 			});
 		}
 		
+		else if(q=="registerDevice"){
+		
+			var student=req.body.student;
+			var device=req.body.device;
+		
+			//first check if device exists
+			connection.query("select count(*) as count from device where student_id='"+student+"'",
+			function(err, rows, fields){
+				if(err) throw err;
+			
+				var sql="";
+			
+				if(rows[0].count==0){
+					sql="INSERT INTO device VALUES('"+student+"','"+device+"','1')";
+				}
+			
+				else{
+					sql="UPDATE device SET device_id='"+device+"' WHERE student_id='"+student+"'";
+				}
+				
+				connection.query(sql,
+				function(err1, rows1, fields1){
+					if(err1){
+						res.send({'status':'false'});
+					}
+					
+					else{
+						res.send({'status':'true'});
+					}
+				});
+			
+			});
+		}
+		
 		else if(q=="returnLecturerId"){
 		
 			connection.query("select id from login where username='"+req.session.user_id+"'",
@@ -155,6 +189,37 @@ function query(req, res, pool, q){
 								function(err3, rows3, fields3){
 									if(err3) throw err3;
 									res.send({'status':'success'});
+									
+									//get ids of devices for push
+									var select;
+									
+									if(subject=="ALL")
+									{
+										select = "SELECT device_id FROM device WHERE student_id in (SELECT student_id FROM student_ls WHERE lecturer_id='"+lecturer+"') AND enabled='1'";
+									}
+
+									else
+									{
+										select = "SELECT device_id FROM device WHERE student_id in (SELECT student_id FROM student_ls WHERE lecturer_id='"+lecturer+"' AND subject_id='"+subject+"') AND enabled='1'";
+									}
+									
+									connection.query(select,
+									function(err4, rows4, fields4){
+										if(err4) throw err;
+										if(rows4.length==0)
+										{
+											console.log("empty");
+										}
+										
+										//send the notification
+										else
+										{
+											var android = require("./androidpush");
+											android.send(rows4, type, title, body);
+											
+										}
+										
+									});
 								});
 			
 							}); 
