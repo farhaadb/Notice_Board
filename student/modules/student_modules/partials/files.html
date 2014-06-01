@@ -25,10 +25,26 @@
 			<a href="#/settings">Settings</a>
 		</li>
 		
+		<li class="topcoat-list__item2" >
+		    <img src="student_modules/resources/img/settings.png" />
+			<a href="#/files">Files</a>
+		</li>	
+
+		<li class="topcoat-list__item2" >
+	
+	    <img src="student_modules/resources/img/settings.png" />
+			<a href="#/lecturerlist">Lecturers</a>
+		</li>
+		
 		<li class="topcoat-list__item2" ng-click="reload()">
 		   <img src="student_modules/resources/img/refresh.png" />
 			Refresh
 		</li>	
+		
+		<li class="topcoat-list__item2">
+		   <img src="student_modules/resources/img/refresh.png" />
+			<a href="#/about">About</a>
+		</li>
 		
 		 <li class="topcoat-list__item2" style="height:15px">
 		   <img src="student_modules/resources/img/logout.png" />
@@ -53,7 +69,7 @@
         </div>
 		
 		  <div class="topcoat-navigation-bar__item right quarter">
-             
+             <img style="width:20px;height=20px;" src="student_modules/resources/img/arrow.png" ng-show="show_directory_options" ng-click="goBack()">
         </div>
 		
     </div>
@@ -63,10 +79,11 @@
 		
 
 		<div id ="outer" style="padding:10px;background-color:#F0F0F0;">
-		<ul id="initial" ng-model="html" ng-show="show_initial">
+		
+		<ul id="initial" ng-model="html" ng-show="show_initial" class="topcoat-list__container">
 		<li  ng-repeat="item in subject" class="topcoat-list__item" style="background-color: #FFFFFF;color:black">
 		<div ng-click='updateView(item.id, item.lecturer_id)'>
-		<img style="float:left; width:42px; height:45px; margin-right:10px;"class="movieimg" src="lecturermodules/resources/img/{{item.empid}}.png" />
+		<img style="float:left; width:80px; height:60px; margin-right:10px;"class="movieimg" src="student_modules/resources/img/folder.png" />
 		<strong style="font-size:17px;">{{item.name}}</strong><p style="font-size:12px;">{{item.id}}</p>
 		</div>
 		<div style="clear:both;"></div>   
@@ -74,38 +91,40 @@
 		</li>
 		</ul>
 		
+		<!-- Why do we need this ???/
 		<ul id="directory_options" ng-show="show_directory_options">
 		<li>
-		<div>
 		<input type="button" id="back" value="Up" ng-click="goBack()">
-		</div>
-		</ul>
 		</li>
+		</ul>
+		-->
 		
-		<ul id="folder" ng-show="show_folder">
+		
+		<ul id="folder" ng-show="show_folder"  class="topcoat-list__container">
+		Folders
 		<li  ng-repeat="item in dir | filter:{folder:'true'}" class="topcoat-list__item" style="background-color: #FFFFFF;color:black">
-		<div>
-		<img style="float:left; width:42px; height:45px; margin-right:10px;"class="movieimg" src="lecturermodules/resources/img/{{items.id}}.png" />
+
+		<img style="float:left; width:40px; height:30px; margin-right:10px;" src="student_modules/resources/img/folder.png" />
 		<strong style="font-size:17px;" ng-click='updateView(item.path)'>{{item.name}}</strong>
-		</div>
+
 		<div style="clear:both;"></div>   
 
 		</li>
 		</ul>
 		
-		<ul id="file" ng-show="show_file">
+		
+		<ul id="file" ng-show="show_file" class="topcoat-list__container">
+		Files
 		<li  ng-repeat="item in dir | filter:{folder:'false'}" class="topcoat-list__item" style="background-color: #FFFFFF;color:black">
 		<div>
-		<img style="float:left; width:42px; height:45px; margin-right:10px;"class="movieimg" src="lecturermodules/resources/img/{{items.id}}.png" />
+		<img style="float:left; width:42px; height:45px; margin-right:10px;"class="movieimg" src="student_modules/resources/img/file.png" />
 		<strong style="font-size:17px;"><a ng-href="{{ip}}/lecturer/{{item.path}}" download>{{item.name}}</a></strong>
 		</div>
 		<div style="clear:both;"></div>   
 
 		</li>
 		</ul>
-			<h1>
 			
-			</h1>
 		</div>
 		</div>
 	</div>

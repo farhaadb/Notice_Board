@@ -24,11 +24,27 @@
 		    <img src="student_modules/resources/img/settings.png" />
 			<a href="#/settings">Settings</a>
 		</li>
+
+		<li class="topcoat-list__item2" >
+		    <img src="student_modules/resources/img/settings.png" />
+			<a href="#/files">Files</a>
+		</li>	
+
+		<li class="topcoat-list__item2" >
+	
+	    <img src="student_modules/resources/img/settings.png" />
+			<a href="#/lecturerlist">Lecturers</a>
+		</li>
 		
 		<li class="topcoat-list__item2" ng-click="reload()">
 		   <img src="student_modules/resources/img/refresh.png" />
 			Refresh
 		</li>	
+
+		<li class="topcoat-list__item2">
+		   <img src="student_modules/resources/img/refresh.png" />
+			<a href="#/about">About</a>
+		</li>
 		
 		 <li class="topcoat-list__item2" style="height:15px">
 		   <img src="student_modules/resources/img/logout.png" />
@@ -59,25 +75,26 @@
     </div>
  <!------------------------ Main Content------------------------>   	
     <div class="content">
-		<ul class="topcoat-list">
+		<ul class="topcoat-list" >
 		   
 		 <li class="topcoat-list__item2" id="personal_window">
 			<div id="personal_outer">
 			<center>
 			<img id= "personal-image-profile" ng-src="{{picture}}" />
 		    </center>
-			<p><center>{{full_name}}</center></p>
+			<p style="margin-top:-17px"><center>{{full_name}}</center></p>
 			<p><center><a ng-href="mailto:{{email}}">{{email}}</a></center></p>
 			</div>
 		 </li>  
 		 
-		<li class="topcoat-list__item2" ng-repeat="item in data" >
+		<li class="topcoat-list__item2" ng-repeat="item in data" style="height: 50px;">
 		
-		<div id="notice-history"><strong>{{item.title}}</strong></div>
-		<div id="notice-history"><strong ng-bind-html="item.body"></strong></div>
-		<div id="notice-history"><strong>{{item.subject_name}}</strong></div>
+		<div id="notice-history" style="font-size: 13px;margin-top:-10px;"><strong>{{item.subject_name}} - {{item.title}} </strong></div>
+		<div id="notice-history" style="font-size: 6px;margin-top: -15px;margin-left: 221px;"> {{item.timestamp}}</div>
+		<div id="notice-history" style="margin-top: 15px;font-size: 12px;"><p ng-bind-html="item.body"></p></div>
+	
 				
-		<div id="notice-date">{{item.timestamp}}</div> 
+	
 		</li>
 		
 		</ul>

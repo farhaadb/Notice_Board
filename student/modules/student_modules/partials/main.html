@@ -25,10 +25,26 @@
 			<a href="#/settings">Settings</a>
 		</li>
 		
+		<li class="topcoat-list__item2" >
+		    <img src="student_modules/resources/img/settings.png" />
+			<a href="#/files">Files</a>
+		</li>	
+
+		<li class="topcoat-list__item2" >
+	
+	    <img src="student_modules/resources/img/settings.png" />
+			<a href="#/lecturerlist">Lecturers</a>
+		</li>
+		
 		<li class="topcoat-list__item2" ng-click="reload()">
 		   <img src="student_modules/resources/img/refresh.png" />
 			Refresh
 		</li>	
+
+		<li class="topcoat-list__item2">
+		   <img src="student_modules/resources/img/refresh.png" />
+			<a href="#/about">About</a>
+		</li>
 		
 		 <li class="topcoat-list__item2" style="height:15px">
 		   <img src="student_modules/resources/img/logout.png" />
@@ -79,14 +95,16 @@
 			<!---------------------Actual List Contents --------------------------------------------->
 				  <li ng-show="ready" ng-repeat="item in msg | filter:name" class="topcoat-list__item" id="main_list_background">
 					<a href="#lecturer?{{item.lecturer_id}}">
-					<div>
+					<div style="margin-top:-12px">
 					  <img id="main_lecturer-image" class="movieimg" src="{{item.picture}}" /></a>
 					  <strong id="main_lecturer-name">{{item.fname}} {{item.lname}}</strong>
+					  <p id ="notice" style="font-size:8px;margin-top: -16px;margin-left: 186px;">{{item.timestamp}}</p>
 					  <div class="arrow-right"></div>
-					<p id ="main_notice" style="font-size:11px;margin-top: -11px;margin-left: 82px;">{{item.title}}</p>
-					<p id ="notice" style="font-size:11px;margin-top: -11px;margin-left: 82px;" ng-bind-html="item.body"></p>
-					<p id ="notice" style="font-size:11px;margin-top: -11px;margin-left: 82px;">{{item.subject_name}}</p>
-					<p id ="notice" style="font-size:11px;margin-top: -11px;margin-left: 82px;">{{item.timestamp}}</p>
+					
+					<p id ="notice" style="font-size:11px;margin-top: -12px;margin-left:83px;"><b>{{item.subject_name}} - {{item.title}} </b></p>
+					<p id ="notice" style="font-size:10px;margin-top: -11px;margin-left: 72px;" ng-bind-html="item.body"></p>
+					
+					
 					</div>
 					<div style="clear:both;"></div>   
 				  </li>
