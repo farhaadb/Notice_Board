@@ -59,6 +59,10 @@ module.exports = function(app, pool, auth, dbquery, excelParser, excel, fs, dir,
 		dbquery.query(req, res, pool, "registerDevice");
 	});
 	
+	app.post("/getstudentlecturers", function(req, res){
+		dbquery.query(req, res, pool, "getStudentLecturers");
+	});
+	
 	app.get('/excel', function(req,res){
 		excelParser.parse({
 		inFile: 'Marks.xlsx',
