@@ -4,7 +4,7 @@ function SettingsController($scope,$http,myNotices, $fileUploader) {
 
 $scope.is_upload_complete=false;
 var ip=myNotices.ip;
-$scope.default_pic=ip+"/default/download.jpg";
+$scope.default_pic=ip+"/lecturermodules/resources/img/1.png";
 $scope.delete_pic=ip+"/default/y.png";
 
 $scope.show_default_image=false;
