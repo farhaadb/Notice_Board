@@ -94,7 +94,7 @@
 				  </li>
 			<!---------------------Actual List Contents --------------------------------------------->
 				  <li ng-show="ready" ng-repeat="item in lecturer | filter:name" class="topcoat-list__item" id="main_list_background" style="height:40px">
-					<a href="#lecturer?{{item.lecturer_id}}">
+					<a href="#lecturer?{{item.id}}">
 					<div style="margin-top:-12px">
 					  <img id="main_lecturer-image" class="movieimg" src="{{item.picture}}" />
 					  <strong id="main_lecturer-name">Lecturer Name</strong>
