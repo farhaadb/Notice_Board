@@ -23,7 +23,7 @@ function LecturerController($scope,$http,myNotices,$location) {
 					//check if picture is valid and set path to picture
 					if(data[i].picture==null)
 					{
-						$scope.picture=$scope.ip+"/default/download.jpg";
+						$scope.picture=$scope.ip+"/student_modules/resources/img/1.png";
 					}
 						
 					else

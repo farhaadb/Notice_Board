@@ -24,7 +24,7 @@ function MainController($scope,$http ,myNotices,$window) {
 						//check if picture is valid and set path to picture
 						if(data[i].picture==null)
 						{
-							data[i].picture=$scope.ip+"/default/download.jpg";
+							data[i].picture=$scope.ip+"/student_modules/resources/img/1.png";
 						}
 						
 						else
