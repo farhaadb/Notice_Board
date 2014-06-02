@@ -124,6 +124,17 @@ function query(req, res, pool, q){
 			});
 		}
 		
+		else if(q=="getStudentLecturers"){
+		
+			connection.query("select lecturer.title, lecturer.fname, lecturer.lname, lecturer.picture from lecturer join student_ls on lecturer.id=student_ls.lecturer_id where student_ls.student_id='"+req.body.student_id+"'",
+			function(err, rows, fields){
+				if(err) throw err;
+				console.log(rows);
+			
+				res.send(JSON.stringify(rows));
+			});
+		}
+		
 		else if(q=="returnLecturerId"){
 		
 			connection.query("select id from login where username='"+req.session.user_id+"'",
