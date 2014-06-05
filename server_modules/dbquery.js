@@ -289,93 +289,202 @@ function query(req, res, pool, q){
 		}
 		
 		else if(q=="addStudent"){
+			//this checks for students to be added and adds them to the student table if they do not already exist
 			
 			var students=req.body.students;
 			var subject=req.body.subject;
 			var lecturer=req.body.lecturer;
 			
-			//student needs to exist first - get valid student id's
-			var first_sql = "SELECT id from student WHERE ";
+			//first check if the student exists in student table
+			var all_students="";
+
+			//get all student numbers and put it in a format suitable for query
 			for(var i=0; i<students.length; ++i)
-			{
-				if(i>0)
+			{				
+				if(i==0)
 				{
-					first_sql+=" OR id='"+students[i]+"'";
+					all_students+="'"+students[i].student_number+"'";
 				}
 				
-				else //i==0
+				else
 				{
-					first_sql+="id='"+students[i]+"'";
+					all_students+=",'"+students[i].student_number+"'";
 				}
 			}
 			
-			connection.query(first_sql,
+			var sql="SELECT id FROM student WHERE id IN ("+all_students+")";
+			req.body.all_students=all_students; //for use when adding to student_ls and when deleting from student_ls
+	
+			connection.query(sql,
 			function(err, rows, fields){
 				if(err) throw err;
 				
-				var students2=[];
-				var second_sql="select student.id from student join student_ls on student.id=student_ls.student_id where student.id in (";
-				
-				for(var j=0; j<rows.length; ++j)
+				//go through students object and only add the ones that need to be inserted into student table
+				var students_to_be_added=[];
+				for(var i=0; i<students.length; ++i)
 				{
-					students2.push(rows[j].id);
+					students_to_be_added.push(students[i]);
 					
-					if(j>0)
+					for(var j=0; j<rows.length; ++j)
 					{
-						second_sql+=", '"+rows[j].id+"'";
-					}
-					
-					else
-					{
-						second_sql+="'"+rows[j].id+"'";
+						if(rows[j].id==students[i].student_number)
+						{
+							students_to_be_added.pop();
+						}
 					}
 				}
 				
-				second_sql+=") and student_ls.subject_id='"+subject+"'";
-				
-				//then we need to check if the student is already assigned to that subject - get list of students already assigned
-				connection.query(second_sql,
-					function(err, rows, fields){
-					if(err) throw err;
+				if(students_to_be_added.length!=0) //add students in
+				{
+					var insert_student_sql="INSERT INTO student (id, fname, lname, email, password) VALUES ";
 					
-					//prune array - remove those that are common
-					var remove;
-					
-					for(var k=0; k<rows.length; ++k)
+					for(var i=0; i<students_to_be_added.length; ++i)
 					{
-						remove=rows[k].id;
-						console.log(students2);
-						for(var m = students2.length -1; m >= 0 ; m--){
-							if(students2[m] == remove){
-								students2.splice(m, 1);
-							}
+						var id=students_to_be_added[i].student_number;
+						var fname=students_to_be_added[i].first;
+						var lname=students_to_be_added[i].last;
+						var email=id+"@dut4life.ac.za";
+						var password=id; //make this the default password
+												
+						if(i==0)
+						{
+							insert_student_sql+="('"+id+"','"+fname+"','"+lname+"','"+email+"','"+password+"')";
+						}
+						
+						else
+						{
+							insert_student_sql+=",('"+id+"','"+fname+"','"+lname+"','"+email+"','"+password+"')";
 						}
 					}
-					
-					console.log(students2);
-					//then we do an insert
-					for(var n=0; n<students2.length; ++n)
-					{
-						var third_sql="INSERT into student_ls VALUES('"+students2[n]+"','"+lecturer+"','"+subject+"')";
-						
-						connection.query(third_sql,
-						function(err, rows, fields){
-							if(err) throw err;
-						});
-					}
-					
-				});
+					connection.query(insert_student_sql,
+					function(err, rows, fields){
+						if(err) throw err;
+			
+						//once the student is added, call addStudentToSubject
+						query(req, res, pool, "addStudentToSubject");
+					});
+				}
+				
+				else
+				{
+					//just call addStudentToSubject
+					console.log("no one to add to student");
+					query(req, res, pool, "addStudentToSubject");
+				}
 				
 			});
 			
-		/*
-			var sql=req.body.sql;
+		}
+		
+		else if(q=="addStudentToSubject"){
+						
+			var students=req.body.students;
+			var subject=req.body.subject;
+			var lecturer=req.body.lecturer;
+			var all_students=req.body.all_students;
+			
+			var sql="SELECT student_id FROM student_ls WHERE student_id IN ("+all_students+")";
 			
 			connection.query(sql,
 			function(err, rows, fields){
 				if(err) throw err;
-				res.send({status:"success"});
-			});*/
+				
+				//go through students object and only add the ones that need to be inserted into student_ls table
+				var students_to_be_added=[];
+				for(var i=0; i<students.length; ++i)
+				{
+					students_to_be_added.push(students[i]);
+					
+					for(var j=0; j<rows.length; ++j)
+					{
+						if(rows[j].student_id==students[i].student_number)
+						{
+							students_to_be_added.pop();
+						}
+					}
+				}
+				
+				if(students_to_be_added.length!=0) //add students in
+				{
+					var insert_student_sql="INSERT INTO student_ls (student_id, lecturer_id, subject_id) VALUES ";
+					
+					for(var i=0; i<students_to_be_added.length; ++i)
+					{
+						var student_id=students_to_be_added[i].student_number;
+																		
+						if(i==0)
+						{
+							insert_student_sql+="('"+student_id+"','"+lecturer+"','"+subject+"')";
+						}
+						
+						else
+						{
+							insert_student_sql+=",('"+student_id+"','"+lecturer+"','"+subject+"')";
+						}
+					}
+					connection.query(insert_student_sql,
+					function(err, rows, fields){
+						if(err) throw err;
+					});
+				}
+				
+				else
+				{
+					console.log("no one to add to student_ls");
+				}
+				//now call DeleteStudentFromSubject
+				query(req, res, pool, "DeleteStudentFromSubject");
+				
+			});
+		}
+		
+		else if(q=="DeleteStudentFromSubject"){
+		
+			var students=req.body.students;
+			var subject=req.body.subject;
+			var lecturer=req.body.lecturer;
+			var all_students=req.body.all_students;
+			
+			var sql="SELECT student_id FROM student_ls WHERE student_id NOT IN ("+all_students+")";
+			
+			connection.query(sql,
+			function(err, rows, fields){
+				if(err) throw err;
+				
+				if(rows.length!=0) //add students in
+				{
+					var delete_student_sql="DELETE FROM student_ls WHERE student_id IN ";
+					
+					for(var i=0; i<rows.length; ++i)
+					{
+						var student_id=rows[i].student_id;
+																		
+						if(i==0)
+						{
+							delete_student_sql+="('"+student_id+"'";
+						}
+						
+						else
+						{
+							delete_student_sql+=",'"+student_id+"'";
+						}
+					}
+					
+					delete_student_sql+=") AND lecturer_id IN ('"+lecturer+"') AND subject_id IN ('"+subject+"')";
+					//console.log(delete_student_sql);
+					
+					connection.query(delete_student_sql,
+					function(err, rows, fields){
+						if(err) throw err;
+					});
+				}
+				
+				else
+				{
+					console.log("no one to delete from student_ls");
+				}
+			
+			});
 		}
 		
 		else if(q=="returnStudentSubjects"){
