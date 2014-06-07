@@ -75,18 +75,31 @@
     </div>
 	<!------------ Main Content------------------------>  	
  <div class="content" style="top:75px;">
-	<div id="first"><div id="title">BEST MARK - [Subject]</div><div id ="mark">88%</div></div>
-	<div id="second"><div id="title">WORST MARK - [Subject]</div><div id ="mark"> 28%</div></div> 
-	<div id="third"><div id="title">AVERAGE</div><div id ="mark">58%</div></div>
-	<div id="fourth">
-		<ul class="list" style="background-color: #7E64A1;">
-			<li class="list-divider">All Marks</li>
-			<li><strong> [Test 1] </strong> [Mark]  </li>
-			<li><strong> [Test 2] </strong> [Mark]  </li>	
-			<li><strong> [Test 3] </strong> [Mark]  </li>	 
-			<li><strong> [Test 4] </strong> [Mark]  </li>	 
-			<li><strong> [Test 5] </strong> [Mark]  </li>	  
-		</ul>
+	<div ng-repeat="(key, val) in data">Visualize data - {{val}}
+<!--	<table border="1">
+		<tr ng-repeat="item in val track by $index">{{item.subject}}
+			<td ng-repeat="(key1, val1) in item">{{val1}}</td>
+		</tr>
+	</table>-->
+		<h4>{{val[0].subject}}<h4>
+		<table border=1>
+			<tr>
+				<th></th>
+				<th ng-repeat="(anotherkey, anothervalue) in val[1]">{{anotherkey}}</th>
+			</tr>
+			<tr>
+				<td>Marks</td>
+				<td ng-repeat="(anotherkey, anothervalue) in val[1]">{{anothervalue}}</td>
+			</tr>
+			<tr>
+				<td>Class Averages</td>
+				<td ng-repeat="(anotherkey, anothervalue) in val[2]">{{anothervalue}}</td>
+			</tr>
+			<tr>
+				<td>Position</td>
+				<td ng-repeat="(anotherkey, anothervalue) in val[3]">{{anothervalue}}</td>
+			</tr>
+		</table>
 	</div>
  </div>
 
