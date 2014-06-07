@@ -12,7 +12,8 @@
 	"excel-parser": "*",
 	"subdomain": "*",
 	"rimraf": "*",
-	"node-gcm": "*"
+	"node-gcm": "*",
+	"underscore": "*"
   },
   "scripts": {
     "start": "node server.js"
