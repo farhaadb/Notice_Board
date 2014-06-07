@@ -232,4 +232,17 @@ module.exports = function(app, pool, auth, dbquery, excelParser, excel, fs, dir,
 		dbquery.query(req, res, pool, "returnStudentSubjects");
 	});
 	
+	app.post('/returnstudentmarks', function(req, res) {
+		req.body.type="get_marks";
+		var paths=[];
+		for(var i=0; i<req.body.subject_path.length; ++i)
+		{
+			paths.push(path.resolve(__dirname,"../uploads",req.body.subject_path[i]));
+		}
+		
+		req.body.path=paths;
+		console.log(req.body.path);
+		excel.parse(req, res, dbquery, pool, excelParser);
+	});
+	
 };
