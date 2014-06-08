@@ -32,7 +32,11 @@ function parse(req, res, dbquery, pool, parser, path){
 			worksheet: 1,
 			skipEmpty: false,
 			},function(err, records){
-				if(err) console.error(err);
+				if(err)
+				{
+					console.error(err);
+					bufferAndSend(false);
+				}
 			
 				else{
 					getStudentMarks(records, counter);
@@ -43,8 +47,13 @@ function parse(req, res, dbquery, pool, parser, path){
 	
 	function bufferAndSend(data){
 	
+		if(data!=false)
+		{
+			to_send.push(data);
+		}
+		
 		console.log(data);
-		to_send.push(data);
+		
 		counter++;
 		
 		if(counter==path.length){
