@@ -6,53 +6,125 @@
 	<meta charset="utf-8" />
 	<meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width" />
     <meta name="format-detection" content="telephone=no" />
-    <link rel="stylesheet" href="lecturermodules/resources/css/custom/report.css">
-    <link rel="stylesheet" href="lecturermodules/resources/css/topcoat/ng-mobile-menu.min.css"/>
-	<link rel="stylesheet" href="lecturermodules/resources/css/topcoat/topcoat-mobile-light.css"/>
 	<link rel="stylesheet" href="lecturermodules/resources/css/custom/index.css"/> 
+    <link rel="stylesheet" href="lecturermodules/resources/css/custom/navbar.css"/>
+	<link rel="stylesheet" href="lecturermodules/resources/css/custom/sidebar.css"/>
+	<link rel="stylesheet" href="lecturermodules/resources/css/custom/main.css"/>
+	<link rel="stylesheet" href="lecturermodules/resources/css/custom/notice_history.css"/>
 	
-	
-     
 	 <!---------------------------- Scripts ---------------------------------------------->  
 	<script type="text/javascript" src="lecturermodules/system/index.js"></script>
-
-			
-			<!-------------- Core -------------> 
+	
+     <!-------------- Core -------------> 
 	<script type="text/javascript" src="lecturermodules/system/core/jquery-1.11.1.min.js"></script>
-	
 	<script src="//cdnjs.cloudflare.com/ajax/libs/es5-shim/2.3.0/es5-sham.js"></script>	
-	
 	<script type="text/javascript" src="lecturermodules/system/core/angular.js"></script>
 	<script type="text/javascript" src="lecturermodules/system/core/angular-mobile.js"></script>
     <script type="text/javascript" src="lecturermodules/system/core/angular-route.js"></script>
-	
     <script type="text/javascript" src="lecturermodules/system/core/ng-mobile-menu.min.js"></script>
-	
 	<script type="text/javascript" src="lecturermodules/system/angular-file-upload.js"></script>
-
 	<script type="text/javascript" src="lecturermodules/system/app.js"></script>
 	<script type="text/javascript" src="lecturermodules/system/services.js"></script>
 	<script type="text/javascript" src="lecturermodules/system/factory.js"></script>
-	
-	
 
-				<!------------- Components ----------> 
+    <!------------- Components ----------> 
+	<script type="text/javascript" src="lecturermodules/components/Overlay.js"></script>
 	<script type="text/javascript" src="lecturermodules/components/Main.js"></script>
 	<script type="text/javascript" src="lecturermodules/components/Students.js"></script>
 	<script type="text/javascript" src="lecturermodules/components/Notices.js"></script>
 	<script type="text/javascript" src="lecturermodules/components/Settings.js"></script>
-	
-	
-
-	
 	<script type="text/javascript">
-
             app.initialize();
+			//modalHide();
     </script>
 </head>
+
+<!------------------------ Main Page Top Bar ------------------------>
+    <div class="topcoat-navigation-bar">
+        <div class="topcoat-navigation-bar__item center half">
+              <a href="#main">
+			   <img id="topbar-logo" src="lecturermodules/resources/img/logo.png" ></img>
+			</a>
+        </div>
+    </div>
+<!------------------------ Main Page Top Bar ------------------------>	
+
+	<nav class="bar-tab">
+    <ul  class="topcoat-list" style="color: white;">
+
+	  <li class="tab-item active">
+        <a href="#/">
+          <img class="tab-icon" src="lecturermodules/resources/img/icon-home1.png">
+          <div class="tab-label">Dashboard</div>
+        </a>
+      </li>
+	  
+      <li class="tab-item">
+        <a href="javascript:modalShow()">
+          <img class="tab-icon2" src="lecturermodules/resources/img/compose_icon.png">
+          <div class="tab-label">Compose Notice</div>
+        </a>
+      </li>
+      <li class="tab-item">
+        <a href="#/mynotices">
+          <img class="tab-icon3" src="lecturermodules/resources/img/notice_history_icon.png">
+          <div class="tab-label">Notice History</div>
+        </a>
+      </li>
+	 
+	 <li class="tab-item">
+        <a href="#/settings">
+          <img class="tab-icon4" src="lecturermodules/resources/img/settings_icon.png">
+          <div class="tab-label">Settings</div>
+        </a>
+      </li>
+	  
+	  <li class="tab-item">
+        <a href="#/students">
+          <img class="tab-icon5" src="lecturermodules/resources/img/student_icon.png">
+          <div class="tab-label">Student</div>
+        </a>
+      </li>
+
+	  
+	   <li class="tab-item">
+       <a href="http://10.0.0.3:3000/lecturerlogout">
+	    <img class="tab-icon6" src="lecturermodules/resources/img/logout_icon.png">
+	     <div class="tab-label">Log Out</div>
+	   </a>
+      </li>
+
+    </ul>
+  </nav>
+<!------------------------ Overlay ------------------------>	
+  
+	<div id="overlay"  ng-controller="MainController">
+		<center><div>Compose New Notice</div></center>
+		<div>
+		<select placeholder="Enter title" name="module" ng-model="notice_subject" ng-change="checkNoticeButton()">
+
+		<option value="ALL">All</option>
+		<option ng-repeat="item in subject" value={{item.id}}>{{item.name}}</option>
+		</select>
+
+		<input type="text" name="title" placeholder="Enter title" ng-model="notice_title" ng-change="checkNoticeButton()"></input></br>
+        <textarea style="width: 98%;margin-top: 6%;" placeholder="Enter Notice" name="notice" maxlength="140" ng-model="notice_body" ng-change="checkLimit()"></textarea>{{notice_text_limit}}
+		
+		<center>
+		<input type="button" value="Post" ng-disabled="is_notice_button_disabled" ng-click="addNotice(notice_subject, notice_title, notice_body,'general')"></input>
+		</center>
+		</div>
+	</div>
+
+<div id="fade" onclick="javascript:modalHide()"></div>
+
+<!------------------------ Overlay ------------------------>	 
+
+
  <!---------------------------- Body---------------------------------------------->  
-<body ng-app="App"> 
+<body ng-app="App" style="background-image:url('lecturermodules/resources/img/page_bg.jpg')"> 
  <!---------------------------- Views---------------------------------------------->  	
+	  <div onclick='javascript:modalShow()'>Test</div>
 	<div ng-view></div>
 
 </body>
