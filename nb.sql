@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: May 31, 2014 at 01:17 PM
+-- Generation Time: Jun 08, 2014 at 08:39 PM
 -- Server version: 5.5.24-log
 -- PHP Version: 5.4.3
 
@@ -23,113 +23,23 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `course`
+-- Table structure for table `device`
 --
 
-CREATE TABLE IF NOT EXISTS `course` (
-  `id` varchar(10) NOT NULL,
-  `name` varchar(60) NOT NULL,
-  `dept_id` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `dept_id` (`dept_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `course`
---
-
-INSERT INTO `course` (`id`, `name`, `dept_id`) VALUES
-('NDCSY2', 'ND - Computer Systems', 1),
-('NDELC2', 'ND - Light Current', 1);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `course_subject`
---
-
-CREATE TABLE IF NOT EXISTS `course_subject` (
-  `course_id` varchar(10) NOT NULL,
-  `subject_id` varchar(10) NOT NULL,
-  PRIMARY KEY (`course_id`,`subject_id`),
-  KEY `subject_id` (`subject_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `course_subject`
---
-
-INSERT INTO `course_subject` (`course_id`, `subject_id`) VALUES
-('NDCSY2', 'CSEL101'),
-('NDELC2', 'CSEL101'),
-('NDCSY2', 'CSKI103'),
-('NDELC2', 'CSKI103'),
-('NDCSY2', 'DSYS102'),
-('NDELC2', 'DSYS102'),
-('NDCSY2', 'ELEN103'),
-('NDELC2', 'ELEN103'),
-('NDCSY2', 'MCSYS401');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `department`
---
-
-CREATE TABLE IF NOT EXISTS `department` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(60) NOT NULL,
-  `faculty_id` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `id` (`id`),
-  KEY `Index` (`faculty_id`),
-  KEY `faculty_id` (`faculty_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
-
---
--- Dumping data for table `department`
---
-
-INSERT INTO `department` (`id`, `name`, `faculty_id`) VALUES
-(1, 'Electronic Engineering', 1),
-(2, 'Mechanical Engineering', 1),
-(3, 'Information Technology', 2),
-(4, 'Management Accounting', 2);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `devices`
---
-
-CREATE TABLE IF NOT EXISTS `devices` (
+CREATE TABLE IF NOT EXISTS `device` (
   `student_id` int(11) NOT NULL,
-  `device_id` varchar(60) NOT NULL,
+  `device_id` varchar(200) NOT NULL,
   `enabled` tinyint(1) NOT NULL,
   PRIMARY KEY (`student_id`),
   UNIQUE KEY `device_id` (`device_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- --------------------------------------------------------
-
 --
--- Table structure for table `faculty`
+-- Dumping data for table `device`
 --
 
-CREATE TABLE IF NOT EXISTS `faculty` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(60) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
-
---
--- Dumping data for table `faculty`
---
-
-INSERT INTO `faculty` (`id`, `name`) VALUES
-(1, 'Engineering and the Built Environment'),
-(2, 'Accounting and Informatics');
+INSERT INTO `device` (`student_id`, `device_id`, `enabled`) VALUES
+(21024909, 'APA91bGiwQILCsIg55nPPS4IVzS0Ix0yNEHYbkWl5sYFMCFjlqyraAUY32E3k9idKjOn2Lvgfnzl-D_jbzsxoCVX1ozNOnZh0Z8vwmTf1Hbs1Pi2T2T47Me97L1kc24AXksGy6XBI7yP6n3b9OM0080WJIE8ZLAaKg', 1);
 
 -- --------------------------------------------------------
 
@@ -163,10 +73,9 @@ INSERT INTO `lecturer` (`id`, `title`, `fname`, `lname`, `email`, `password`, `p
 --
 
 CREATE TABLE IF NOT EXISTS `lecturer_cs` (
-  `course_id` varchar(10) NOT NULL,
   `subject_id` varchar(10) NOT NULL,
   `lecturer_id` int(11) NOT NULL,
-  PRIMARY KEY (`course_id`,`subject_id`,`lecturer_id`),
+  PRIMARY KEY (`subject_id`,`lecturer_id`),
   KEY `subject_id` (`subject_id`),
   KEY `lecturer_id` (`lecturer_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -175,10 +84,10 @@ CREATE TABLE IF NOT EXISTS `lecturer_cs` (
 -- Dumping data for table `lecturer_cs`
 --
 
-INSERT INTO `lecturer_cs` (`course_id`, `subject_id`, `lecturer_id`) VALUES
-('NDCSY2', 'DSYS102', 1),
-('NDCSY2', 'ELEN103', 1),
-('NDCSY2', 'MCSYS401', 2);
+INSERT INTO `lecturer_cs` (`subject_id`, `lecturer_id`) VALUES
+('DSYS102', 1),
+('ELEN103', 1),
+('MCSYS401', 2);
 
 -- --------------------------------------------------------
 
@@ -193,21 +102,28 @@ CREATE TABLE IF NOT EXISTS `notice` (
   `type` varchar(10) NOT NULL,
   `timestamp` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=23 ;
 
 --
 -- Dumping data for table `notice`
 --
 
 INSERT INTO `notice` (`id`, `title`, `body`, `type`, `timestamp`) VALUES
-(1, 'Test postponed.', 'Test postponed due to strike. New test date to be given in the coming days.', 'general', '2014-05-04 00:00:00'),
-(2, 'Files uploaded', 'New files have been uploaded to 1/subjects/DSYS102', 'upload', '2014-05-29 22:37:14'),
-(3, 'Files uploaded', 'New files have been uploaded to 1/subjects/DSYS102/test/another', 'upload', '2014-05-29 23:41:33'),
 (5, 'Posting to all', 'Posting to ALL', 'general', '2014-05-30 20:19:27'),
 (6, 'hello', 'testing', 'general', '2014-05-30 20:20:29'),
-(7, 'another test', 'testing testing', 'general', '2014-05-31 13:34:42'),
 (8, 'hello', 'hello echo', 'general', '2014-05-31 13:50:51'),
-(9, 'Files uploaded', 'New files have been uploaded to 1/subjects/DSYS102', 'upload', '2014-05-31 13:51:19');
+(10, 'testing', 'test', 'general', '2014-05-31 22:56:38'),
+(11, 'asd', 'asd', 'general', '2014-05-31 23:00:59'),
+(12, 'sad', 'asd', 'general', '2014-05-31 23:03:05'),
+(13, 'sd', 'kj', 'general', '2014-05-31 23:05:22'),
+(14, 'as', 'ds', 'general', '2014-06-01 19:08:16'),
+(15, 'Files uploaded', 'New files have been uploaded to 1/subjects/DSYS102/test', 'upload', '2014-06-01 20:19:07'),
+(16, 'Files uploaded', 'New files have been uploaded to 1/subjects/DSYS102', 'upload', '2014-06-03 21:52:50'),
+(17, 'Files uploaded', 'New files have been uploaded to 1/subjects/DSYS102', 'upload', '2014-06-03 21:54:38'),
+(18, 'Files uploaded', 'New files have been uploaded to 1/subjects/DSYS102', 'upload', '2014-06-03 21:56:16'),
+(19, 'Marks uploaded', 'Marks have been uploaded for Digital Systems I', 'marks', '2014-06-03 22:01:05'),
+(20, 'Marks uploaded', 'Marks have been uploaded for Digital Systems I', 'marks', '2014-06-07 13:23:03'),
+(21, 'Marks uploaded', 'Marks have been uploaded for Digital Systems I', 'marks', '2014-06-07 16:50:07');
 
 -- --------------------------------------------------------
 
@@ -229,14 +145,21 @@ CREATE TABLE IF NOT EXISTS `notice_ls` (
 --
 
 INSERT INTO `notice_ls` (`lecturer_id`, `subject_id`, `notice_id`) VALUES
-(1, 'DSYS102', 1),
-(1, 'DSYS102', 2),
-(1, 'DSYS102', 3),
 (1, 'ALL', 5),
 (2, 'MCSYS401', 6),
-(1, 'DSYS102', 7),
 (1, 'ALL', 8),
-(1, 'DSYS102', 9);
+(1, 'ALL', 10),
+(1, 'ALL', 11),
+(1, 'ALL', 12),
+(1, 'ALL', 13),
+(1, 'ALL', 14),
+(1, 'DSYS102', 15),
+(1, 'DSYS102', 16),
+(1, 'DSYS102', 17),
+(1, 'DSYS102', 18),
+(1, 'DSYS102', 19),
+(1, 'DSYS102', 20),
+(1, 'DSYS102', 21);
 
 -- --------------------------------------------------------
 
@@ -250,7 +173,7 @@ CREATE TABLE IF NOT EXISTS `student` (
   `lname` varchar(50) NOT NULL,
   `email` varchar(50) NOT NULL,
   `password` varchar(20) NOT NULL,
-  `picture` varchar(200) NOT NULL,
+  `picture` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -259,9 +182,9 @@ CREATE TABLE IF NOT EXISTS `student` (
 --
 
 INSERT INTO `student` (`id`, `fname`, `lname`, `email`, `password`, `picture`) VALUES
-(111111, 'Hayden', 'Sookchand', 'hayden@yahoo.com', 'hayden', ''),
-(2123165, 'test', 'testt', 'test@test.com', 'test', ''),
-(21024909, 'Farhaad', 'Bux', '21024909@dut4life.ac.za', 'farhaad', '');
+(111111, 'test', 'test', '111111@dut4life.ac.za', '111111', NULL),
+(20823303, 'Hayden', 'Sookchand', '20823303@dut4life.ac.za', '20823303', NULL),
+(21024909, 'Farhaad', 'Bux', '21024909@dut4life.ac.za', 'farhaad', NULL);
 
 -- --------------------------------------------------------
 
@@ -283,8 +206,7 @@ CREATE TABLE IF NOT EXISTS `student_ls` (
 --
 
 INSERT INTO `student_ls` (`student_id`, `lecturer_id`, `subject_id`) VALUES
-(111111, 1, 'DSYS102'),
-(2123165, 1, 'DSYS102'),
+(20823303, 1, 'DSYS102'),
 (21024909, 1, 'DSYS102'),
 (21024909, 2, 'MCSYS401');
 
@@ -317,36 +239,16 @@ INSERT INTO `subject` (`id`, `name`) VALUES
 --
 
 --
--- Constraints for table `course`
+-- Constraints for table `device`
 --
-ALTER TABLE `course`
-  ADD CONSTRAINT `Course_ibfk_1` FOREIGN KEY (`dept_id`) REFERENCES `department` (`id`) ON UPDATE CASCADE;
-
---
--- Constraints for table `course_subject`
---
-ALTER TABLE `course_subject`
-  ADD CONSTRAINT `Course_Subject_ibfk_1` FOREIGN KEY (`course_id`) REFERENCES `course` (`id`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `Course_Subject_ibfk_2` FOREIGN KEY (`subject_id`) REFERENCES `subject` (`id`) ON UPDATE CASCADE;
-
---
--- Constraints for table `department`
---
-ALTER TABLE `department`
-  ADD CONSTRAINT `Department_ibfk_1` FOREIGN KEY (`faculty_id`) REFERENCES `faculty` (`id`) ON UPDATE CASCADE;
-
---
--- Constraints for table `devices`
---
-ALTER TABLE `devices`
-  ADD CONSTRAINT `devices_ibfk_1` FOREIGN KEY (`student_id`) REFERENCES `student` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `device`
+  ADD CONSTRAINT `device_ibfk_1` FOREIGN KEY (`student_id`) REFERENCES `student` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `lecturer_cs`
 --
 ALTER TABLE `lecturer_cs`
-  ADD CONSTRAINT `Lecturer_CS_ibfk_1` FOREIGN KEY (`course_id`) REFERENCES `course_subject` (`course_id`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `Lecturer_CS_ibfk_2` FOREIGN KEY (`subject_id`) REFERENCES `course_subject` (`subject_id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `lecturer_cs_ibfk_1` FOREIGN KEY (`subject_id`) REFERENCES `subject` (`id`) ON UPDATE CASCADE,
   ADD CONSTRAINT `Lecturer_CS_ibfk_3` FOREIGN KEY (`lecturer_id`) REFERENCES `lecturer` (`id`) ON UPDATE CASCADE;
 
 --
