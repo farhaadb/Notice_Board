@@ -1,0 +1,241 @@
+
+.list {
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  color: inherit;
+  background: transparent;
+  border: 1px;
+  cursor: default;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.list__header {
+  margin: 0;
+}
+
+.list__container {
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+}
+
+.list__item {
+  margin: 0;
+  padding: 0;
+}
+
+/**-----*/
+
+.list,
+.topcoat-list {
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  color: inherit;
+  background: transparent;
+  border: none;
+  cursor: default;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.list__header,
+.topcoat-list__header {
+  margin: 0;
+}
+
+.list__container,
+.topcoat-list__container {
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+}
+
+.list__item,
+.topcoat-list__item {
+  margin: 0;
+  padding: 0;
+}
+
+.topcoat-list {
+  border-top: 1px solid #9daca9;
+  border-bottom: 1px solid #fff;
+  background-color: #e5e9e8;
+  	border-bottom:#1E8A59;
+	border-top:#45CD8F;
+}
+
+.topcoat-list__header {
+  padding: 4px 20px;
+  font-size: 0.9em;
+  font-weight: 400;
+  background-color: #d2d6d6;
+  color: #454545;
+  text-shadow: 0 1px 0 rgba(255,255,255,0.5);
+  border-top: 1px solid rgba(255,255,255,0.5);
+  border-bottom: 1px solid rgba(255,255,255,0.23);
+}
+
+.topcoat-list__container {
+  border-top: 1px solid #9daca9;
+  color: #454545;
+}
+
+.topcoat-list__item {
+  padding: 1.25rem;
+  border-top: 1px solid #fff;
+  border-bottom: 1px solid #9daca9;
+  height: 42px
+}
+
+.topcoat-list__item:first-child {
+  border-top: 1px solid #d6dcdb;
+  height: 42px;
+}
+
+.topcoat-list__item2 {
+  padding: 1.25rem;
+  border-top: 1px solid #fff;
+  border-bottom: 1px solid #9daca9;
+  height: 15px
+}
+
+.topcoat-list__item2  > img {
+  float: left;
+  margin-right:10px;
+  width:30px;
+  height:30px;
+}
+
+/*--------------------------------------------------------------------------*/
+.navigation-bar {
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  background-clip: padding-box;
+  white-space: nowrap;
+  overflow: hidden;
+  word-spacing: 0;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  color: inherit;
+  background: transparent;
+  border: none;
+  cursor: default;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.navigation-bar__item {
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  background-clip: padding-box;
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  color: inherit;
+  background: transparent;
+  border: none;
+}
+
+.navigation-bar__title {
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  color: inherit;
+  background: transparent;
+  border: none;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.navigation-bar,
+.topcoat-navigation-bar {
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  background-clip: padding-box;
+  white-space: nowrap;
+  overflow: hidden;
+  word-spacing: 0;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  color: inherit;
+  background: transparent;
+  border: none;
+  cursor: default;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.navigation-bar__item,
+.topcoat-navigation-bar__item {
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  background-clip: padding-box;
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  color: inherit;
+  background: transparent;
+  border: none;
+}
+
+.navigation-bar__title,
+.topcoat-navigation-bar__title {
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  color: inherit;
+  background: transparent;
+  border: none;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.topcoat-navigation-bar {
+  height: 3.375rem;
+  background: white;
+  color: #454545;
+  margin-top: -9px;
+  width: 101%;
+  position: fixed;
+  margin-left: -8px;
+  border-top:5px solid #32B37A;
+  border-bottom: 2px solid #C4C4C4;
+  z-index: 1;
+}
+
+.topcoat-navigation-bar__item {
+  margin: 0;
+  line-height: 4.375rem;
+  vertical-align: top;
+}
+
+.topcoat-navigation-bar__title {
+  font-size: 1.3rem;
+  font-weight: 400;
+  color: #454545;
+}
