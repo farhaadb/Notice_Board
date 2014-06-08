@@ -1,7 +1,11 @@
 'use strict';
+  
    
 function MainController($scope,$http ,myNotices,$window, $fileUploader) {
 	$scope.statusmessage =  'Updating...';
+//hide the modal
+	document.getElementById('overlay').style.display='none';
+    document.getElementById('fade').style.display='none';
 	var ip = myNotices.ip;
 	$scope.lecturer_id=localStorage.getItem("lecturer_id");
 	$scope.notice_text_limit=140;
@@ -18,9 +22,12 @@ function MainController($scope,$http ,myNotices,$window, $fileUploader) {
 	$scope.dir;
 
 	$scope.reload =function(){
+	modalHide();
 	$window.location.reload();
 	}
 	getSubjects();
+
+
 
 		//--------------------Makes call to factory to get subjects-----------------------------//
 		function getSubjects(){
