@@ -245,4 +245,53 @@ module.exports = function(app, pool, auth, dbquery, excelParser, excel, fs, dir,
 		excel.parse(req, res, dbquery, pool, excelParser);
 	});
 	
+	app.post('/returnstudentdetails', function(req, res) {
+		dbquery.query(req, res, pool, "returnStudentDetails");
+	});
+	
+	app.post('/returnstudentpicture', function(req, res) {
+		var d = path.resolve(__dirname,"../uploads/student",req.body.path,"profile");
+		console.log(d);
+		dir.directory(fs, d, req, res, "list");
+	});
+	
+	app.post('/updatestudentpicture', function(req, res) {
+		dbquery.query(req, res, pool, "updateStudentPicture");
+	});
+	
+	app.post('/removestudentfile', function(req,res){
+	
+		var d = path.resolve(__dirname,"../uploads/student",req.body.path);
+		console.log(d);
+		dir.directory(fs, d, req, res, "removeFile");
+	});
+	
+	app.post('/updatestudentsettings', function(req, res) {
+		dbquery.query(req, res, pool, "updateStudentSettings");
+	});
+	
+	app.post('/student-picture-upload', function(req, res) {
+	
+		var destination; 
+		
+		req.busboy.on('field', function(fieldname, val, fieldnameTruncated, valTruncated) {
+			console.log('Field [' + fieldname + ']: value: ' + val);
+			destination=path.resolve(__dirname,"../uploads/student",val);
+		});
+	
+		req.busboy.on('file', function(fieldname, file, filename, encoding, mimetype) {
+			
+			var saveTo = path.resolve(destination, path.basename(filename));
+			console.log(saveTo);
+			file.pipe(fs.createWriteStream(saveTo));
+		});
+		
+		req.busboy.on('finish', function() {
+			res.send("success");
+		});
+		
+		req.pipe(req.busboy);
+	
+	});
+	
 };
