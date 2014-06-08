@@ -1,82 +1,21 @@
-<!------------------------ Menu Slider ------------------------>
-<div id="sp-page">
-<!------------------------ Main Page Top Bar ------------------------>
-    <div class="topcoat-navigation-bar">
-        <div class="topcoat-navigation-bar__item left quarter">
-           
-        </div>
-        <div class="topcoat-navigation-bar__item center half">
-              <a href="#main"><h1 class="topcoat-navigation-bar__title">NoticeBoard</h1></a>
-        </div>
-    </div>
- <!------------------------ Main Content------------------------>   
-	<div class="content">	 
-	
-		<b>Add Notices: What needs to be done here</b>
-		<br><br>
-			All that needs to be done here is a post to the database for a specific subject
-		<br>
-		<b>This is how twitter does it. So it needs to look as close too or better than</b><br>
-		
+<!------------------------ Main Content------------------------>   
+<div class="content">	 
+	<div class="main_title">Notice History</div>
 		<ul id="feeds" ng-model="html">
-			<li  ng-repeat="item in notices | orderBy:item.time" class="topcoat-list__item" style="background-color: #FFFFFF;">
-			<p style="font-size:12px;">{{item.notice}}</p>
-			<p style="font-size:12px;">{{item.id}}</p>
-			<p style="font-size:12px;">{{item.title}}</p>
-			<p style="font-size:12px;">{{item.module}}</p>
-			<p style="font-size:12px;">{{item.time}}</p>
-			<div>
-				<input type="button" value="delete" ng-click="deleteNotice(item.id)">
+			<li  ng-repeat="item in notices | orderBy:item.time" class="notice_history-list__item" style="background-color: #FFFFFF;">
+			<div class="notice_history-title"><b> {{item.module}} - {{item.title}}</b></div><br>
+			<div class="notice_history-notice"> {{item.notice}}</div>
+			<div class="notice_history-sent"> Sent on: {{item.time}}</div>
+			
+			<div class ="notice_history-delete" ng-click="deleteNotice(item.id)">
+			   <img class="notice_history-delete-icon" src="lecturermodules/resources/img/delete_icon.png">
+			   <div class="notice_history-delete-text"> Delete</div>
 			</div>
-			<div style="clear:both;"></div>   
 			</li>
 		</ul>
-		
-		 <!--
-		 	<br><b>Also note that this menu could be scrapped in favour of always having this box appear on every page all the time. We could then use this as a profile page</b><br>-->
-	</div>
+</div>
 	
 	
 	
 
-	<!-----Nav------------------------------------>
-	  <nav class="bar-tab">
-	   <center><img style="width:265px;" class="tab-icon" src="lecturermodules/resources/img/tweet.png"></center>
-    <ul>
-      <li class="tab-item active">
-        <a href="#/">
-          <img class="tab-icon" src="lecturermodules/resources/img/icon-home1.png">
-          <div class="tab-label">Drag And Drop</div>
-        </a>
-      </li>
-      <li class="tab-item">
-        <a href="#/reports">
-          <img class="tab-icon" src="lecturermodules/resources/img/icon-profile.png">
-          <div class="tab-label">Notices</div>
-        </a>
-      </li>
-      <li class="tab-item">
-        <a href="#settings">
-          <img class="tab-icon" src="lecturermodules/resources/img/icon-settings0.png">
-          <div class="tab-label">Settings</div>
-        </a>
-      </li>
-	  <li class="tab-item">
-        <a href="#/students">
-          <img class="tab-icon" src="lecturermodules/resources/img/icon-profile.png">
-          <div class="tab-label">Students</div>
-        </a>
-      </li>
-	   <li class="tab-item">
-	   <a href="#profile">
-      <br>Art
-	   </a>
-      </li>
-	    <li class="tab-item">
-      <br><a href="http://localhost:3000/lecturerlogout">Log Out</a>
-      </li>
 	
-    </ul>
-	
-	
-  </nav>
