@@ -1,0 +1,52 @@
+.settings-form{
+  margin-top: 111px;
+  margin-left: 15px;
+  width: 250px;
+}
+
+
+.settings-title{
+
+}
+
+.settings-input{
+  margin-top: -8px;
+  margin-left: 123px;
+}
+
+
+.settings-name{
+
+}
+
+.settings-lname{
+
+}
+
+.settings-list{
+  border-bottom: 0px solid #C5C5C5;
+}
+
+.settings-save{
+  margin-top: 10px;
+}
+
+.settings-upload{
+  margin-top: -237px;
+  margin-left: 135px;
+}
+
+.settings-default{
+  margin-top: -86px;
+  margin-left: 16px;
+}
+
+.settings-profile{
+  margin-top: -95px;
+  margin-left: 16px;
+}
+
+.zoom-icon{
+  margin-left: -80px;
+  opacity: 0.5;
+}
