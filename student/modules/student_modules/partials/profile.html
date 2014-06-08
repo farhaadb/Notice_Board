@@ -75,27 +75,49 @@
     </div>
  <!------------------------ Main Content------------------------>  	
   
-   <div class="content">
-		<ul class="topcoat-list">
-		 
-		 	 <li class="topcoat-list__item2" id="personal_window">
-			<div id="personal_outer">
-			<center>
-			<img id= "personal-image-profile" src="student_modules/resources/img/0003.png" />
-		    </center>
-			<p><center>{{title}}</center></p>
-			<p><center>[TODO: PULL EMAIL ADDRESS HERE}</center></p>
+<div class="content">
+	<div class="main_title">Settings</div>
+	  <form class="settings-form">
+	    <div class="settings-name"> Name</div>
+		<div class="settings-input"><input type="text" ng-model="user_name" /></div>
+	    <div class="settings-lname">Last Name:</div>
+		<div class="settings-input"><input type="text" ng-model="user_lname" /></div>
+		<div class="settings-email">E-mail</div>
+		<div class="settings-input"><input type="email" ng-model="user_email" /></div>
+		<div class="settings-save"><input type="button" ng-click="save()" value="Save"></div>
+	    <span ng-show="show_details_status">{{details_status}}</span>
+        </form>
+		<!----------------------------------File Upload---------------------------->
+		 <div id="file-upload" class="settings-upload" ng-file-drop>
+                <div>
+                    <input ng-file-select type="file"/><br/>
+                </div>
+                <div>
+					<span ng-show="uploader.isHTML5"></span>
+					<ul class="settings-list">
+						<li ng-repeat="item in uploader.queue">
+							<div ng-show="uploader.isHTML5">
+                                    <div class="progress" style="margin-bottom: 0;">
+                                        <div class="progress-bar" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
+                                    </div>
+							</div>
+						</li>
+					</ul>
+                  </div>
+<!----------------------------------Upload Successful---------------------------->
+			<div ng-show="is_upload_complete">
+				Profile Picture Updated
 			</div>
-		 </li>  
-		 
-		<li class="topcoat-list__item2" class="home">
-		
-		<div id="mark-history"><strong>[TEST SUBJECTS] - [TEST MARKS]</strong></div>
-		
-		<div id="mark-date">[TODO - PULL DATE HERE]</div> 
-			<div id ="temp"><br>[TODO- NEED TO ADD NG REPEAT AND CONFIGURE THE CONTROLLER]</div>
-		</li>
-		
-		</ul>
+		</div>
+<!----------------------------------Show default picture---------------------------->	
+	<div ng-show="show_default_image" class="settings-default">
+		<img ng-src="{{default_pic}}" />
 	</div>
+<!----------------------------------Show profile picture---------------------------->
+	<div ng-show="show_custom_image" class="settings-profile" ng-click="deleteProfilePic()">
+		<img src={{img}} height="80" width="80" alt="[Gallery Photo]" class="pic" />
+		<span class="zoom-icon"><img ng-src="{{delete_pic}}" width="80" height="80" alt="Zoom"></span>
+	</div>
+<!----------------------------------Show profile picture---------------------------->
+
 </div>
