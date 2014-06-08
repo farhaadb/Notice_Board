@@ -498,6 +498,44 @@ function query(req, res, pool, q){
 			res.send(JSON.stringify(rows));
 			});
 		}
+		
+		else if(q=="returnStudentDetails"){
+		
+			var id=req.body.id;
+			
+			connection.query("SELECT fname, lname, email from student where id="+id,
+			function(err, rows, fields){
+				if(err) throw err;
+				res.send(JSON.stringify(rows));
+			});
+		}
+		
+		else if(q=="updateStudentPicture"){
+		
+			if(req.body.picture=="empty"){
+				var sql="UPDATE student SET picture=NULL WHERE id='"+req.body.id+"'";
+			}
+			
+			else{
+				var sql="UPDATE student SET picture='"+req.body.picture+"' WHERE id='"+req.body.id+"'";
+			}
+			connection.query(sql,
+			function(err, rows, fields){
+				if(err) throw err;
+				res.send({status:"success"});
+			});
+		}
+		
+		else if(q=="updateStudentSettings"){
+		
+			var sql=req.body.sql;
+			
+			connection.query(sql,
+			function(err, rows, fields){
+				if(err) throw err;
+				res.send({status:"success"});
+			});
+		}
 				
 		else{
 			console.log("Unhandled query " + q);
