@@ -20,6 +20,20 @@ function parse(req, res, dbquery, pool, parser, path){
 		});
 	}
 	
+	else if(type=="upload_subjects")
+	{
+		parser.parse({
+		inFile: path,
+		worksheet: 1,
+		skipEmpty: true,
+		},function(err, records){
+			if(err) console.error(err);
+			var subjects=getSubjectDetails(records);
+			req.body.subjects=subjects;
+			console.log(subjects);
+			dbquery.query(req, res, pool, "addSubject");
+		});
+	}
 	else if(type=="get_marks")
 	{
 		parseIt(counter);
@@ -69,10 +83,10 @@ function parse(req, res, dbquery, pool, parser, path){
 	}
 
 	
-	function getStudentDetails(records, subject_counter){
+	function getStudentDetails(records){
 		//this function gets the student numbers, first name, and last name and stores it in json format
 		
-		var has_column_offsets=false; //used to find which column contains the student numbers
+		var has_column_offsets=false; //used to check if all columns exist
 		var student_number_column = -1; //used to know exactly what column to look in for student number
 		var first_name_column = -1;
 		var last_name_column = -1;
@@ -92,9 +106,9 @@ function parse(req, res, dbquery, pool, parser, path){
 					var student_number_result = (name.indexOf("studentnumber")!=-1 || name.indexOf("studentnumbers")!=-1 ||
 							name.indexOf("studentno")!=-1 || name.indexOf("studentnos")!=-1);
 					
-					var first_name_result = (name.indexOf("firstname")!=-1 || name.indexOf("firstnames")!=-1);
+					var first_name_result = (name.indexOf("firstname")!=-1 || name.indexOf("firstnames")!=-1 || name=="name");
 							
-					var last_name_result = (name.indexOf("lastname")!=-1 || name.indexOf("lastnames")!=-1);
+					var last_name_result = (name.indexOf("lastname")!=-1 || name.indexOf("lastnames")!=-1 || name=="surname");
 					
 					
 					if(student_number_result)
@@ -139,6 +153,71 @@ function parse(req, res, dbquery, pool, parser, path){
 		if(students.length>0)
 		{
 			return students;
+		}
+	
+	}
+	
+	function getSubjectDetails(records){
+		//this function gets the subject code and name and stores it in json format
+		
+		var has_column_offsets=false; //used to check if all columns exist
+		var subject_code_column = -1; //used to know exactly what column to look in for student number
+		var subject_name_column = -1;
+				
+		var subjects = [];
+		
+		for(var i=0; i<records.length; ++i)
+		{ 
+			if(!has_column_offsets)
+			{
+				for(var j=0; j<records[i].length; ++j)
+				{
+					var name=records[i][j].toLowerCase(); //column name
+					name = name.replace(/\s+/g, ''); //remove spaces - using regular expression
+					
+					//check which column the particular details reside in
+					var subject_code_result = (name.indexOf("code")!=-1);
+					
+					var subject_name_result = (name.indexOf("name")!=-1);
+							
+								
+					if(subject_code_result)
+					{
+						subject_code_column=j;
+					}
+					
+					else if(subject_name_result)
+					{
+						subject_name_column=j;
+					}
+					
+					if(subject_code_column!=-1 && subject_name_column!=-1)
+					{
+						//we have all the columns needed and can break out from this loop
+						has_column_offsets=true;
+						break;
+					}
+				}
+			}
+			
+			else
+			{
+				if(subject_code_column==-1 || subject_name_column==-1)
+				{
+					console.log("This is not supposed to happen - column=-1");
+				}
+				
+				else
+				{
+					subjects.push({'subject_id':records[i][subject_code_column], 'name':records[i][subject_name_column]});
+				}
+			}
+		}
+		
+		//should call database function from here and give it students array
+		if(subjects.length>0)
+		{
+			return subjects;
 		}
 	
 	}
