@@ -2,32 +2,24 @@
  <!------------------------ Main Content------------------------>   
 	<div class="content">	
    	
-		<div ng-click="invertMarks()">Upload marks</div>
-		<div ng-show="show_marks">
-			<div>
-				<select ng-model="test" id="mark_subject" ng-change="setSelectedMarkSubject()">
-				<option ng-repeat="item in subject" value={{item.id}}>{{item.name}}</option>
-				</select>
-			</div>
-			<div>
-				<h3>Select files</h3>
-                <input ng-file-select type="file"/><br/>
-            </div>
-		</div>
-	
-		<div ng-click="invertStudents()">Upload students </div>
-		<div ng-show="show_students">
-			<div>
-				<select ng-model="test2" id="student_subject" ng-change="setSelectedStudentSubject()">
-				<option ng-repeat="item in subject" value={{item.id}}>{{item.name}}</option>
-				</select>
-			</div>
-			<div>
-				<h3>Select files</h3>
-                <input ng-file-select type="file"/><br/>
-            </div>
-		</div>	 
+		<input type="radio" id="subject_id" ng-model="value" value="subjects" ng-change='changePath(value)'>Upload Subjects</input></br>
 		
+		<div ng-show="show_options">
+		<input type="radio" id="marks_id" ng-model="value" value="marks" ng-change='changePath(value)'>Upload Marks</input></br>
+		<input type="radio" ng-model="value" value="students" ng-change='changePath(value)'>Upload Students</input></br>
+				
+			<div ng-show="show_dropdown">
+				<select ng-model="test" id="subject" ng-change="setSelectedSubject()">
+				<option ng-repeat="item in subject" value={{item.id}}>{{item.name}}</option>
+				</select>
+			</div>
+			
+		</div>
+		
+			<div>
+				<h3>Select files</h3>
+                <input ng-file-select type="file"/><br/>
+            </div>		
 		
         <div >
 			<span ng-show="uploader.isHTML5">Progress</span>
