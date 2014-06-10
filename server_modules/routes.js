@@ -145,7 +145,9 @@ module.exports = function(app, pool, auth, dbquery, excelParser, excel, fs, dir,
 			console.log('Field [' + fieldname + ']: value: ' + val);
 			
 			if(fieldname=="path")
-				destination=path.resolve(__dirname,"../uploads/lecturer",val);
+				if(val!=undefined){
+					destination=path.resolve(__dirname,"../uploads/lecturer",val);
+				}
 			if(fieldname=="type")
 				type=val;
 			if(fieldname=="lecturer")
@@ -161,7 +163,14 @@ module.exports = function(app, pool, auth, dbquery, excelParser, excel, fs, dir,
 		req.busboy.on('file', function(fieldname, file, filename, encoding, mimetype) {
 			
 			ext = path.extname(filename);
+			
+			if(type=="subjects")
+			{
+				name="subjects";
+			}
+			
 			var f = name+"_temp"+ext;
+
 			saveTo = path.resolve(destination, f);
 			//console.log(saveTo);
 			file.pipe(fs.createWriteStream(saveTo));
@@ -170,20 +179,35 @@ module.exports = function(app, pool, auth, dbquery, excelParser, excel, fs, dir,
 		req.busboy.on('finish', function() {
 			var new_destination = path.resolve(destination, name+ext);
 
-			fs.rename(saveTo, new_destination, function (err) {
-				if (err) console.log(err);
+							
+				fs.rename(saveTo, new_destination, function (err) {
+					if (err) console.log(err);
 				
-				if(type=="students")
-				{
-					req.body.path=new_destination;
-					req.body.type="upload_students"; //used by parser to identify type of operation
+					if(type=="students" || type=="subjects")
+					{
+						req.body.path=new_destination;
+						if(type=="students")
+						{
+							req.body.type="upload_students"; //used by parser to identify type of operation
+						}
+						
+						else //has to be subjects
+						{
+							req.body.type="upload_subjects"; //used by parser to identify type of operation
+						}
 					
-					excel.parse(req, res, dbquery, pool, excelParser);
-				}
+						excel.parse(req, res, dbquery, pool, excelParser);
+					}
+					
+					else
+					{
+						res.send("success");
+					}
 			
-			});
-			
-			res.send("success");
+				});
+      
+	
+
 		});
 		
 		req.pipe(req.busboy);
@@ -276,6 +300,7 @@ module.exports = function(app, pool, auth, dbquery, excelParser, excel, fs, dir,
 		
 		req.busboy.on('field', function(fieldname, val, fieldnameTruncated, valTruncated) {
 			console.log('Field [' + fieldname + ']: value: ' + val);
+
 			destination=path.resolve(__dirname,"../uploads/student",val);
 		});
 	
