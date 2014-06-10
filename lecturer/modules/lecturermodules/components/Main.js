@@ -6,7 +6,7 @@ function MainController($scope,$http ,myNotices,$window, $fileUploader) {
 //hide the modal
 	document.getElementById('overlay').style.display='none';
     document.getElementById('fade').style.display='none';
-	var ip = myNotices.ip;
+	$scope.ip = myNotices.ip;
 	$scope.lecturer_id=localStorage.getItem("lecturer_id");
 	$scope.notice_text_limit=140;
 	$scope.path_history=[];
@@ -32,7 +32,7 @@ function MainController($scope,$http ,myNotices,$window, $fileUploader) {
 		//--------------------Makes call to factory to get subjects-----------------------------//
 		function getSubjects(){
 		var d={'id' : $scope.lecturer_id};
-		var url = ip+'/returnlecturersubjects';
+		var url = $scope.ip+'/returnlecturersubjects';
 
 		myNotices.post(url,d).then(function(subject) {
 						console.log(subject);
@@ -51,7 +51,7 @@ function MainController($scope,$http ,myNotices,$window, $fileUploader) {
 		//this function is also called when files are added so beware when changing this
 		$scope.addNotice = function(subject, title, body, type){
 
-			var url = ip+'/addlecturernotice';
+			var url = $scope.ip+'/addlecturernotice';
 
 			myNotices.post(url,{'subject':subject, 'title':title, 'body':body, 'type':type, 'lecturer':$scope.lecturer_id}).then(function(status) {
 
@@ -60,6 +60,7 @@ function MainController($scope,$http ,myNotices,$window, $fileUploader) {
 						$scope.notice_title="";
 						$scope.notice_body="";
 						$scope.notice_text_limit=140;
+						$scope.is_notice_button_disabled=true;
 					}
 
 			},
@@ -147,7 +148,7 @@ function MainController($scope,$http ,myNotices,$window, $fileUploader) {
 		{
 			$scope.path_history.push(path);
 		}
-		var url = ip+'/listlecturerdirectory';
+		var url = $scope.ip+'/listlecturerdirectory';
 
 		//push new path to file uploader
 		updateUploadPath();
@@ -280,7 +281,7 @@ function MainController($scope,$http ,myNotices,$window, $fileUploader) {
 		$scope.addFolder = function(folder){
 
 			var path=$scope.path_history[($scope.path_history.length-1)]+"/"+folder;
-			var url = ip+'/addlecturerfolder';
+			var url = $scope.ip+'/addlecturerfolder';
 
 			myNotices.post(url,{'path':path}).then(function(status) {
 
@@ -307,7 +308,7 @@ function MainController($scope,$http ,myNotices,$window, $fileUploader) {
 		$scope.removeFile = function(path){
 			console.log(path);
 
-			var url = ip+'/removelecturerfile';
+			var url = $scope.ip+'/removelecturerfile';
 
 			myNotices.post(url,{'path':path}).then(function(status) {
 
@@ -332,7 +333,7 @@ function MainController($scope,$http ,myNotices,$window, $fileUploader) {
 		$scope.removeFolder = function(path){
 			console.log(path);
 
-			var url = ip+'/removelecturerfolder';
+			var url = $scope.ip+'/removelecturerfolder';
 
 			myNotices.post(url,{'path':path}).then(function(status) {
 
