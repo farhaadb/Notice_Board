@@ -13,7 +13,8 @@
 	"subdomain": "*",
 	"rimraf": "*",
 	"node-gcm": "*",
-	"underscore": "*"
+	"underscore": "*",
+	"mkdirp": "*"
   },
   "scripts": {
     "start": "node server.js"
