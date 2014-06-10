@@ -3,17 +3,14 @@
 function StudentsController($scope,$http ,myNotices,$window, $fileUploader) {
 
 	var ip=myNotices.ip;
-	var m = document.getElementById("mark_subject");
-	var s = document.getElementById("student_subject");
+	var s = document.getElementById("subject");
+
 	var post_notice=false; //check if we need to post a notice or not
 	var subject; //used when adding a notice
 	
 	$scope.lecturer_id=localStorage.getItem("lecturer_id");
-
-	$scope.show_marks=false;
-	$scope.show_students=false;
-	$scope.is_mark_upload_complete=false;
-	$scope.is_student_upload_complete=false;
+	$scope.show_options=false;
+	$scope.show_dropdown=true;
 	
 	getSubjects();
 	
@@ -23,6 +20,14 @@ function StudentsController($scope,$http ,myNotices,$window, $fileUploader) {
 
 		myNotices.post(url,d).then(function(subject) {
 			console.log(subject);
+			if(subject.length!=0){
+				$scope.show_options=true;
+				document.getElementById("marks_id").checked=true;
+			}
+			
+			else{
+				document.getElementById("subject_id").checked=true;
+			}
 			$scope.subject=subject;
 		},
 		function(data) { //failure
@@ -33,6 +38,28 @@ function StudentsController($scope,$http ,myNotices,$window, $fileUploader) {
         });
 
 	};
+	
+	$scope.changePath = function(type){
+		if(type=="marks"){
+			updateUploadPath("marks");
+			$scope.show_dropdown=true;
+		}
+		
+		else if(type=="students"){
+			updateUploadPath("students");
+			$scope.show_dropdown=true;
+		}
+		
+		else if(type=="subjects"){
+			updateUploadPath("subjects");
+			$scope.show_dropdown=false;
+		}
+		
+		else{
+			console.log("We do not support the type "+ type);
+		}
+	
+	}
 	
 	//this function is also called only when marks are uploaded
 	$scope.addNotice = function(subject, title, body, type){
@@ -49,26 +76,7 @@ function StudentsController($scope,$http ,myNotices,$window, $fileUploader) {
 			$scope.conn = false;
        	});
 	}
-	
-	$scope.invertMarks = function(){
-	
-		$scope.show_marks=!$scope.show_marks;
-		if($scope.show_marks)
-		{
-			$scope.show_students=false;
-			updateUploadPath("marks");
-		}
-	}
-	
-	$scope.invertStudents = function(){
-	
-		$scope.show_students=!$scope.show_students;
-		if($scope.show_students)
-		{
-			$scope.show_marks=false;
-			updateUploadPath("students");
-		}
-	}
+
 	
 	var uploader = $scope.uploader = $fileUploader.create({
             scope: $scope,                          // to automatically update the html. Default: $rootScope
@@ -97,20 +105,23 @@ function StudentsController($scope,$http ,myNotices,$window, $fileUploader) {
 			$scope.addNotice(subject.value, title, body, "marks");
 			post_notice=false;
 		}
+		
+		getSubjects();
+		MainController($scope,$http ,myNotices,$window, $fileUploader); //used to update post notices modal
     });
 		
 	uploader.bind('afteraddingfile', function (event, items) {
 		$scope.is_upload_complete=false;  
 		
-		if($scope.show_marks)
+		if($scope.value=="marks")
 		{
-			subject = m.options[m.selectedIndex];
+			subject = s.options[s.selectedIndex];
 			post_notice=true;
 		}
     });
 	
 	function updateUploadPath(path){
-		uploader.formData.push({ path: $scope.lecturer_id+"/"+path }); //marks or students - path on file system
+		uploader.formData.push({ path: $scope.lecturer_id+"/"+path }); //marks/students/subjects - path on file system
 		updateType(path);
 	}
 	
@@ -121,27 +132,16 @@ function StudentsController($scope,$http ,myNotices,$window, $fileUploader) {
 	}
 	
 	function updateType(type){
-		uploader.formData.push({ type: type }); //marks or students - used to tell server to update table and add student
+		uploader.formData.push({ type: type }); //marks/students/subjects - used to tell server to update table and add student
 	}
 	
-	$scope.setSelectedMarkSubject = function(){
-		
-		console.log(m.options[m.selectedIndex].value);
-		s.selectedIndex=m.selectedIndex;
-		updateSubject(m.options[m.selectedIndex].value);
-	
-	}
-	
-	$scope.setSelectedStudentSubject = function(){
+	$scope.setSelectedSubject = function(){
 		
 		console.log(s.options[s.selectedIndex].value);
-		m.selectedIndex=s.selectedIndex;
+		s.selectedIndex=s.selectedIndex;
 		updateSubject(s.options[s.selectedIndex].value);
 	
 	}
-	
-	
-	
-		
+
 		
 } 										
