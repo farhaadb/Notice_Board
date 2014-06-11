@@ -1,11 +1,11 @@
 module.exports = function(app, pool, auth, dbquery, excelParser, excel, fs, dir, path){
 
 	app.get("/", function(req, res){
-		res.sendfile("studentlogin.html");
+		res.sendfile("unrestricted/studentlogin.html");
 	});
 
 	app.get("/lecturer", function(req, res){
-		res.sendfile("lecturerlogin.html");
+		res.sendfile("unrestricted/lecturerlogin.html");
 	});
 	
 	app.get("/android", function(req, res){
@@ -205,10 +205,7 @@ module.exports = function(app, pool, auth, dbquery, excelParser, excel, fs, dir,
 					}
 			
 				});
-      
-	
-
-		});
+      	});
 		
 		req.pipe(req.busboy);
 	
