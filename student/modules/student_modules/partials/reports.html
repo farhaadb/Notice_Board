@@ -5,8 +5,8 @@
          
 		 <li class="topcoat-list__item2"  style="height:88px">
 		    <a href="#/profile">
-			<img  id="personal-image" src="student_modules/resources/img/0003.png" />
-				<div id="personal">Hayden Sookchand<br>Electronic Eng</div>
+			<img  id="personal-image" ng-src="{{profile_image}}" />
+				<div id="personal">{{fname}} {{lname}}</div>
 			</a>
 		 </li>   
 		
@@ -22,7 +22,7 @@
         
 		<li class="topcoat-list__item2" >
 		    <img src="student_modules/resources/img/settings.png" />
-			<a href="#/settings">Settings</a>
+			<a href="#/profile">Profile</a>
 		</li>
 		
 		<li class="topcoat-list__item2" >
@@ -76,11 +76,7 @@
 	<!------------ Main Content------------------------>  	
  <div class="content" style="top:75px;">
 	<div ng-repeat="(key, val) in data">Visualize data - {{val}}
-<!--	<table border="1">
-		<tr ng-repeat="item in val track by $index">{{item.subject}}
-			<td ng-repeat="(key1, val1) in item">{{val1}}</td>
-		</tr>
-	</table>-->
+
 		<h4>{{val[0].subject}}<h4>
 		<table border=1>
 			<tr>

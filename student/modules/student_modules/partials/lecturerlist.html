@@ -5,8 +5,8 @@
          
 		 <li class="topcoat-list__item2"  style="height:88px">
 		    <a href="#/profile">
-			<img  id="personal-image" src="student_modules/resources/img/0003.png" />
-				<div id="personal">Hayden Sookchand<br>Electronic Eng</div>
+			<img  id="personal-image" ng-src="{{profile_image}}" />
+				<div id="personal">{{fname}} {{lname}}</div>
 			</a>
 		 </li>   
 		
@@ -22,7 +22,7 @@
         
 		<li class="topcoat-list__item2" >
 		    <img src="student_modules/resources/img/settings.png" />
-			<a href="#/settings">Settings</a>
+			<a href="#/profile">Profile</a>
 		</li>
 		
 		<li class="topcoat-list__item2" >
@@ -97,9 +97,9 @@
 					<a href="#lecturer?{{item.id}}">
 					<div style="margin-top:-12px">
 					  <img id="main_lecturer-image" class="movieimg" src="{{item.picture}}" />
-					  <strong id="main_lecturer-name">Lecturer Name</strong>
+					  <strong id="main_lecturer-name">{{item.title}} {{item.fname}} {{item.lname}} </strong>
 					  
-					<p id ="notice" style="font-size:11px;margin-top:10px;margin-left:76px;"><b>{{item.title}} {{item.fname}} {{item.lname}} </b></p>
+					<p id ="notice" style="font-size:11px;margin-top:10px;margin-left:76px;"><b></b></p>
 	
 					
 					
