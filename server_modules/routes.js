@@ -174,7 +174,7 @@ module.exports = function(app, pool, auth, dbquery, excelParser, excel, fs, dir,
 		req.busboy.on('file', function(fieldname, file, filename, encoding, mimetype) {
 			
 			ext = path.extname(filename);
-			console.log(type);
+			//console.log(type);
 			if(type=="subjects")
 			{
 				name="subjects";
@@ -182,7 +182,7 @@ module.exports = function(app, pool, auth, dbquery, excelParser, excel, fs, dir,
 			
 			var f = name+"_temp"+ext;
 
-			console.log(destination+" "+f);
+			//console.log(destination+" "+f);
 			saveTo = path.resolve(destination, f);
 			
 			file.pipe(fs.createWriteStream(saveTo));
