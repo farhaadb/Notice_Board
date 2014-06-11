@@ -12,6 +12,10 @@ function StudentsController($scope,$http ,myNotices,$window, $fileUploader) {
 	$scope.show_options=false;
 	$scope.show_dropdown=true;
 	
+	$scope.reload =function(){
+	$window.location.reload();
+	}
+	
 	getSubjects();
 	
 	function getSubjects(){
@@ -23,10 +27,12 @@ function StudentsController($scope,$http ,myNotices,$window, $fileUploader) {
 			if(subject.length!=0){
 				$scope.show_options=true;
 				document.getElementById("marks_id").checked=true;
+				updateUploadPath("marks");
 			}
 			
 			else{
 				document.getElementById("subject_id").checked=true;
+				updateUploadPath("subjects");
 			}
 			$scope.subject=subject;
 		},
@@ -106,8 +112,9 @@ function StudentsController($scope,$http ,myNotices,$window, $fileUploader) {
 			post_notice=false;
 		}
 		
-		getSubjects();
-		MainController($scope,$http ,myNotices,$window, $fileUploader); //used to update post notices modal
+		$scope.reload();
+		//getSubjects();
+		//MainController($scope,$http ,myNotices,$window, $fileUploader); //used to update post notices modal
     });
 		
 	uploader.bind('afteraddingfile', function (event, items) {
