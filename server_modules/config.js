@@ -8,6 +8,7 @@ module.exports = function(app, express, busboy, subdomain){
 		app.use(express.static(__dirname + '/../student/modules')); 		// set the static files location /public/img will be /img for users
 		app.use(express.static(__dirname + '/../lecturer/modules'));
 		app.use(express.static(__dirname + '/../uploads'));
+		app.use(express.static(__dirname + '/../unrestricted/resources'));
 		app.use(express.logger('dev')); 						// log every request to the console
 		//app.use(subdomain({ base : 'dutnoticeboard.co.za', removeWWW : true }));
 		app.use(busboy({
