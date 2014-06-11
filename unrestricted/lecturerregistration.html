@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Login Form</title>
+  <link rel="stylesheet" href="../lecturermodules/resources/css/custom/login.css">
+  <script type="text/javascript" src="../unrestricted.js"></script>
+  <style>
+  
+#login{
+  width:300px;
+  margin:0 auto;
+  margin-top: 142px;
+}
+
+#user, #password, #title, #fname, #lname, #email{
+  width:90%;
+  background:#fff;
+  border:1px solid #ccc;
+  padding:4%;
+  font-family:'Open Sans',sans-serif;
+  font-size:95%;
+  color:#555;
+  text-align:center;
+}
+
+#submitlogin{
+  width:100%;
+  background:#90EE90;
+  border:0;
+  padding:4%;
+  font-family:'Open Sans',sans-serif;
+  font-size:100%;
+  color:#fff;
+  text-align:center;
+  border-radius: 7px;
+}
+
+#loginlogo{
+  float:center; 
+  height:42px;
+  margin-right:10px;
+  margin-top: 32px;
+}
+
+#Help{
+  bottom: 10px;
+  position: absolute;
+  text-align:center;
+  width:100%;
+  color:white;
+  font-family:'Open Sans',sans-serif;
+  font-size:12;
+}
+  </style>
+  
+</head>
+<body style ="background:#34B57C" >
+ 
+	
+	 <div class="content">
+	<center>
+		<div id="loginlogo">
+			<img id="image_id" style="height: 160px;"></img>
+		</div>
+	</center>
+		
+	<div id="login"><span id="error"></span>
+		<input id="user" type="text" name="id" placeholder="Personnel ID">
+		<input id="title" type="text" name="title" placeholder="Title">
+		<input id="fname" type="text" name="fname" placeholder="Name">
+		<input id="lname" type="text" name="lname" placeholder="Surname">
+		<input id="email" type="email" name="email" placeholder="Email">
+		<input id="password" type="password" name="pass" placeholder="Password">
+		<input type="button" id="submitlogin" name="client_login" name="commit" value="Register" onclick="register()">
+
+	</div>
+	
+
+	<div id="Help">
+		<a href="http://www.dutnoticeboard.co.za/lecturer">Already Registered? Sign in</a></br>
+		<a href="http://www.dutnoticeboard.co.za/docs">Help Center</a>
+	</div>
+		
+	</div>
+	
+	<script>
+	document.getElementById("image_id").src=getIp()+"/lecturermodules/resources/img/login-green.jpg";
+	</script>
+</body>
+</html>
