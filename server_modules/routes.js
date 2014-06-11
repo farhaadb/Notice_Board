@@ -8,8 +8,16 @@ module.exports = function(app, pool, auth, dbquery, excelParser, excel, fs, dir,
 		res.sendfile("unrestricted/lecturerlogin.html");
 	});
 	
+	app.get("/register", function(req, res){
+		res.sendfile("unrestricted/lecturerregistration.html");
+	});
+	
 	app.get("/android", function(req, res){
 		res.sendfile("android/index.html");
+	});
+	
+	app.post("/registerlecturer", function(req, res){
+		dbquery.query(req, res, pool, "registerLecturer");
 	});
 	
 	app.post("/studentloginreq", function(req, res){
@@ -154,8 +162,11 @@ module.exports = function(app, pool, auth, dbquery, excelParser, excel, fs, dir,
 				req.body.lecturer=val;
 			if(fieldname=="subject")
 			{
-				name=val;
-				req.body.subject=val;
+				if(val!=undefined)
+				{
+					name=val;
+					req.body.subject=val;
+				}
 			}
 						
 		});
@@ -163,7 +174,7 @@ module.exports = function(app, pool, auth, dbquery, excelParser, excel, fs, dir,
 		req.busboy.on('file', function(fieldname, file, filename, encoding, mimetype) {
 			
 			ext = path.extname(filename);
-			
+			console.log(type);
 			if(type=="subjects")
 			{
 				name="subjects";
@@ -171,8 +182,9 @@ module.exports = function(app, pool, auth, dbquery, excelParser, excel, fs, dir,
 			
 			var f = name+"_temp"+ext;
 
+			console.log(destination+" "+f);
 			saveTo = path.resolve(destination, f);
-			//console.log(saveTo);
+			
 			file.pipe(fs.createWriteStream(saveTo));
 		});
 		

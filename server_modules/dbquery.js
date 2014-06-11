@@ -3,7 +3,63 @@ function query(req, res, pool, q){
 	pool.getConnection(function(err, connection) {
 		if(err) throw err;
 		
-		if(q=="studentLoginReq"){
+		if(q=="registerLecturer"){
+		
+			//first check if lecturer already exists
+			var sql="SELECT count(*) as count FROM lecturer WHERE id ='"+req.body.id+"'"; 
+			
+			connection.query(sql,
+			function(err, rows, fields){
+			
+				if(rows[0].count>0){
+					res.send({'status':'false', 'error':'Registration failed: User already exists.'});
+				}
+				
+				else{
+					var sql2="INSERT INTO lecturer VALUES('"+req.body.id+"','"+req.body.title+"','"+req.body.fname+"','"+req.body.lname+"','"+req.body.email+"','"+req.body.pass+"',null)";
+					
+					connection.query(sql2,
+					function(err, rows, fields){
+						if(err) throw err;
+						
+						var path=require("path");
+						var mkdirp=require("mkdirp");
+						
+						//folder to create
+						var marks=path.resolve(__dirname,"../uploads/lecturer",req.body.id+"/marks/");
+						var profile=path.resolve(__dirname,"../uploads/lecturer",req.body.id+"/profile/");
+						var students=path.resolve(__dirname,"../uploads/lecturer",req.body.id+"/students/");
+						var subjects=path.resolve(__dirname,"../uploads/lecturer",req.body.id+"/subjects/");
+						
+						//create folders for lecturer
+						mkdirp(marks, function (err) {
+							if (err) console.error(err);
+						
+							mkdirp(profile, function (err) {
+								if (err) console.error(err);
+							
+								mkdirp(students, function (err) {
+									if (err) console.error(err);
+								
+									mkdirp(subjects, function (err) {
+										if (err) console.error(err);
+									
+									});
+								});
+							});
+						});
+						
+						res.send({'status':'true'});
+					});
+				}
+				
+				
+			});
+		
+		}
+		
+		
+		else if(q=="studentLoginReq"){
 			connection.query("select count(*) as count from student where id='" + req.body.user + "' and password='" + req.body.pass + "'",
 			function(err, rows, fields){
 			
