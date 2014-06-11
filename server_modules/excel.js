@@ -15,8 +15,17 @@ function parse(req, res, dbquery, pool, parser, path){
 		},function(err, records){
 			if(err) console.error(err);
 			var students=getStudentDetails(records);
-			req.body.students=students;
-			dbquery.query(req, res, pool, "addStudent");
+			if(students!=false)
+			{
+				req.body.students=students;
+				dbquery.query(req, res, pool, "addStudent");
+			}
+			
+			else
+			{
+				console.log("Sending false");
+				res.send(400);
+			}
 		});
 	}
 	
@@ -29,9 +38,17 @@ function parse(req, res, dbquery, pool, parser, path){
 		},function(err, records){
 			if(err) console.error(err);
 			var subjects=getSubjectDetails(records);
-			req.body.subjects=subjects;
-			console.log(subjects);
-			dbquery.query(req, res, pool, "addSubject");
+			if(subjects!=false)
+			{
+				req.body.subjects=subjects;
+				console.log(subjects);
+				dbquery.query(req, res, pool, "addSubject");
+			}
+			
+			else
+			{
+				res.send(400);
+			}
 		});
 	}
 	else if(type=="get_marks")
@@ -154,6 +171,11 @@ function parse(req, res, dbquery, pool, parser, path){
 		{
 			return students;
 		}
+		
+		else
+		{
+			return false;
+		}
 	
 	}
 	
@@ -218,6 +240,11 @@ function parse(req, res, dbquery, pool, parser, path){
 		if(subjects.length>0)
 		{
 			return subjects;
+		}
+		
+		else
+		{
+			return false;
 		}
 	
 	}
@@ -348,7 +375,6 @@ function parse(req, res, dbquery, pool, parser, path){
 				send+='}]';
 				
 				console.log(send);
-				//res.send(send);
 				bufferAndSend(JSON.parse(send));
 		}
 	}
