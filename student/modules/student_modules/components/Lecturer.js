@@ -8,9 +8,16 @@ function LecturerController($scope,$http,myNotices,$location) {
 		$scope.full_name;
 		$scope.picture;
 		
+		$scope.reload =function(){
+			$window.location.reload();
+		}
+		
 		var url = $scope.ip+'/getnoticesbylecturerid';
 		var id = getUrlVars();
 	    $scope.id = id;
+		
+		getStudentDetails();
+		getStudentPicture();
 		//------------------------handle data from factory -------------------------------------//
 	    myNotices.post(url,{'lecturer_id':getUrlVars(), 'student_id':$scope.student_id}).then(function(data) {
 			console.log(data);
@@ -62,12 +69,55 @@ function LecturerController($scope,$http,myNotices,$location) {
 			$scope.ready =true;
 			$scope.conn = false;
         });
- //Always quuery the db???
+		//Always query the db???
 		//-------------- slice everything before the ? from the url ---------------------------//
 		function getUrlVars() {
 		
 			var urlId = $location.url().slice($location.url().indexOf('?')+ 1);
             return urlId;
 		}  
+		
+		function getStudentDetails()
+		{
+			var url=$scope.ip+'/returnstudentdetails';
+			
+			myNotices.post(url,{'id': $scope.student_id}).then(function(details) {
+				
+					var student=details[0];
+					$scope.fname=student.fname;
+					$scope.lname=student.lname;
+							
+				},
+					function(data) { //failure
+						console.log('WE ARE HAVING TROUBLE RETRIEVING THE PROFILE DETAILS');
+						$scope.statusmessage =  'WE ARE HAVING TROUBLE RETRIEVING THE PROFILE DETAILS';
+					}); 
+		}
+	
+
+		function getStudentPicture()
+		{
+			var url=$scope.ip+'/returnstudentpicture';
+			
+			myNotices.post(url,{'path': $scope.student_id}).then(function(pic) {
+				if(pic.status!=undefined)
+				{
+					$scope.profile_image=myNotices.default_profile_picture;
+				}
+							
+				else
+				{
+					console.log(myNotices.default_profile_picture);
+					$scope.image_name=pic[0].name;
+					$scope.profile_image=$scope.ip+"/student/"+$scope.student_id+"/profile/"+$scope.image_name;
+					
+				}
+
+			},
+			function(data) { //failure
+				console.log('WE ARE HAVING TROUBLE RETRIEVING THE PROFILE PICTURE');
+				$scope.statusmessage =  'WE ARE HAVING TROUBLE RETRIEVING THE PROFILE PICTURE';
+			}); 
+		}
 }		
 		

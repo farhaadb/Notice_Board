@@ -1,42 +1,21 @@
 'use strict';
    
-function ProfileController($scope,$http,myNotices, $fileUploader) {
+function ProfileController($scope,$http,myNotices,$fileUploader) {
 
 $scope.is_upload_complete=false;
-var ip=myNotices.ip;
-$scope.default_pic=ip+"/student_modules/resources/img/1.png";
-$scope.delete_pic=ip+"/default/y.png";
+$scope.ip=myNotices.ip;
+$scope.default_pic=myNotices.default_profile_picture;
+$scope.delete_pic=$scope.ip+"/default/y.png";
+
+$scope.reload =function(){
+	$window.location.reload();
+}
 
 $scope.show_default_image=false;
 $scope.show_custom_image=false;
 
 $scope.show_details_status=false;
 $scope.show_password_status=false;
-
-
-
-//not used at the moment
-$scope.titles =[
-    {
-        "name": "Prof"
-    },
-    {
-        "name": "Dr"
-    },
-    {
-        "name": "Mr"
-    },
-    {
-        "name": "Mrs"
-    },
-    {
-        "name": "Miss"
-    }
-];
-
-console.log($scope.titles);
-
-$scope.selectedTitle="Prof";
 
 $scope.student_id=localStorage.getItem("student_id");
 
@@ -49,7 +28,7 @@ getProfilePic();
 		var d=$scope.student_id;
 		
 		console.log(d);
-		var url = ip+'/returnstudentdetails';
+		var url = $scope.ip+'/returnstudentdetails';
 
 		myNotices.post(url,{'id': d}).then(function(details) {
 						var student=details[0]	;
@@ -73,7 +52,7 @@ getProfilePic();
 	function getProfilePic(){
 	
 		var d = $scope.student_id;
-		var url = ip+"/returnstudentpicture";
+		var url = $scope.ip+"/returnstudentpicture";
 
 		myNotices.post(url,{'path': d}).then(function(pic) {
 						if(pic.status!=undefined)
@@ -84,18 +63,21 @@ getProfilePic();
 							$scope.is_upload_complete=false; //we do this in case a picture is uploaded and then deleted
 							
 							updateStudentPicture("empty");
+							$scope.profile_image=$scope.default_pic;
 						}
 						
 						else
 						{
 							$scope.image_name=pic[0].name;
 							
-							$scope.img=ip+"/student/"+$scope.student_id+"/profile/"+$scope.image_name;
+							$scope.img=$scope.ip+"/student/"+$scope.student_id+"/profile/"+$scope.image_name;
+							$scope.profile_image=$scope.img;
 							$scope.show_default_image=false;
 							$scope.show_custom_image=true;	
 							
 							updateStudentPicture($scope.image_name);
 						}
+						
 		},
 				function(data) { //failure
 					console.log('WE ARE HAVING TROUBLE RETRIEVING THE PROFILE PICTURE');
@@ -106,7 +88,7 @@ getProfilePic();
 		
 		$scope.deleteProfilePic = function(){
 		
-			var url = ip+"/removestudentfile";
+			var url = $scope.ip+"/removestudentfile";
 			
 			var path = $scope.student_id+"/profile/"+$scope.image_name;
 
@@ -169,7 +151,7 @@ getProfilePic();
 			{
 				sql+=" WHERE id='"+$scope.student_id+"'";
 				
-				var url=ip+"/updatestudentsettings";
+				var url=i$scope.p+"/updatestudentsettings";
 				
 				myNotices.post(url,{'sql': sql}).then(function(status) {
 					getDetails();
@@ -242,7 +224,18 @@ getProfilePic();
 		
 		function updateStudentPicture(picture){
 		
-			var url=ip+"/updatestudentpicture";
+			var url=$scope.ip+"/updatestudentpicture";
+			
+			if(picture=="empty")
+			{
+				$scope.profile_image=myNotices.default_profile_picture;
+			}
+			
+			else
+			{
+				$scope.profile_image=$scope.ip+"/student/"+$scope.student_id+"/profile/"+picture;
+			}
+			localStorage.setItem("student_image", $scope.profile_image);
 		
 			myNotices.post(url,{'id': $scope.student_id, 'picture': picture}).then(function(pic) {
 				console.log("image successfully uploaded");

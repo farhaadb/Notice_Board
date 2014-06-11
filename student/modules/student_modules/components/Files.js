@@ -2,7 +2,7 @@
    
 function FilesController($scope,$http ,myNotices,$window,$location) {
 	$scope.statusmessage =  'Updating...';
-	var ip = myNotices.ip;
+	$scope.ip = myNotices.ip;
 	$scope.student_id=localStorage.getItem("student_id");;
 	
 	$scope.path_history=[];
@@ -20,34 +20,78 @@ function FilesController($scope,$http ,myNotices,$window,$location) {
 	$window.location.reload();
 	}
 	
+	getStudentDetails();
+	getStudentPicture();
 	
 		
-		//-------------- slice everything before the ? from the url ---------------------------//
-		function getUrlVars() {
+	//-------------- slice everything before the ? from the url ---------------------------//
+	function getUrlVars() {
 		
-			var urlId = $location.url().slice($location.url().indexOf('?')+ 1);
-            return urlId;
-		}  
+		var urlId = $location.url().slice($location.url().indexOf('?')+ 1);
+		return urlId;
+	}  
 
-		//--------------------Makes call to factory to get subjects-----------------------------//
-		function getSubjects(){
-		var d={'id' : $scope.student_id};
-		var url = ip+'/returnstudentsubjects';
-
-		myNotices.post(url,d).then(function(subject) {
-						console.log(subject);
-						$scope.subject=subject;
+	//--------------------Makes call to factory to get subjects-----------------------------//
+	function getSubjects(){
+	var d={'id' : $scope.student_id};
+	var url = $scope.ip+'/returnstudentsubjects';
+	myNotices.post(url,d).then(function(subject) {
+		console.log(subject);
+		$scope.subject=subject;
 						
 						//getNotices();
 		},
-				function(data) { //failure
-					console.log('WE ARE HAVING TROUBLE RETRIEVING SUBJECTS DATA');
-					$scope.statusmessage =  'WE ARE HAVING TROUBLE RETRIEVING SUBJECTS DATA';
-					$scope.ready =true;
-					$scope.conn = false;
-        		});
+		function(data) { //failure
+			console.log('WE ARE HAVING TROUBLE RETRIEVING SUBJECTS DATA');
+			$scope.statusmessage =  'WE ARE HAVING TROUBLE RETRIEVING SUBJECTS DATA';
+			$scope.ready =true;
+			$scope.conn = false;
+       	});
 
-		};
+	};
+		
+	function getStudentDetails()
+	{
+		var url=$scope.ip+'/returnstudentdetails';
+		
+		myNotices.post(url,{'id': $scope.student_id}).then(function(details) {
+			
+				var student=details[0];
+				$scope.fname=student.fname;
+				$scope.lname=student.lname;
+						
+			},
+				function(data) { //failure
+					console.log('WE ARE HAVING TROUBLE RETRIEVING THE PROFILE DETAILS');
+					$scope.statusmessage =  'WE ARE HAVING TROUBLE RETRIEVING THE PROFILE DETAILS';
+        		}); 
+	}
+	
+
+	function getStudentPicture()
+	{
+		var url=$scope.ip+'/returnstudentpicture';
+		
+		myNotices.post(url,{'path': $scope.student_id}).then(function(pic) {
+			if(pic.status!=undefined)
+			{
+				$scope.profile_image=myNotices.default_profile_picture;
+			}
+						
+			else
+			{
+				console.log(myNotices.default_profile_picture);
+				$scope.image_name=pic[0].name;
+				$scope.profile_image=$scope.ip+"/student/"+$scope.student_id+"/profile/"+$scope.image_name;
+				
+			}
+
+		},
+		function(data) { //failure
+			console.log('WE ARE HAVING TROUBLE RETRIEVING THE PROFILE PICTURE');
+			$scope.statusmessage =  'WE ARE HAVING TROUBLE RETRIEVING THE PROFILE PICTURE';
+        }); 
+	}
 
 		//-------------------------------------------------------------------------------------//
 		//All functions pertaining to the directory listing
@@ -106,8 +150,8 @@ function FilesController($scope,$http ,myNotices,$window,$location) {
 		{
 			$scope.path_history.push(path);
 		}
-		var url = ip+'/listlecturerdirectory';
-	console.log($scope.path_history);
+		var url = $scope.ip+'/listlecturerdirectory';
+	
 		myNotices.post(url,{'path':path}).then(function(dir) {
 						console.log(dir);
 						$scope.dir=dir;
@@ -246,5 +290,6 @@ function FilesController($scope,$http ,myNotices,$window,$location) {
 				
 			}
 		}
+		
 		$scope.init();
 }						
