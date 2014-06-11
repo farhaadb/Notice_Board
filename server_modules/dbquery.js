@@ -11,7 +11,7 @@ function query(req, res, pool, q){
 				if(rows[0].count==1)
 				{
 					req.session.student_id=req.body.user;
-					res.send({'status':'true','id':req.body.user});
+					res.send({'status':'true','id':req.body.user, 'type':'student'});
 				}
 			
 				else
@@ -32,7 +32,7 @@ function query(req, res, pool, q){
 				if(rows[0].count==1)
 				{
 					req.session.lecturer_id=req.body.user;
-					res.send({'status':'true','id':req.body.user});
+					res.send({'status':'true','id':req.body.user, 'type':'lecturer'});
 				}
 			
 				else
