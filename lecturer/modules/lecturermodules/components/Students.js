@@ -27,11 +27,13 @@ function StudentsController($scope,$http ,myNotices,$window, $fileUploader) {
 			if(subject.length!=0){
 				$scope.show_options=true;
 				document.getElementById("marks_id").checked=true;
+				$scope.is_adding_marks=true;
 				updateUploadPath("marks");
 			}
 			
 			else{
 				document.getElementById("subject_id").checked=true;
+				$scope.is_adding_marks=false;
 				updateUploadPath("subjects");
 			}
 			$scope.subject=subject;
@@ -48,16 +50,19 @@ function StudentsController($scope,$http ,myNotices,$window, $fileUploader) {
 	$scope.changePath = function(type){
 		if(type=="marks"){
 			updateUploadPath("marks");
+			$scope.is_adding_marks=true; //used to decide to post a notice
 			$scope.show_dropdown=true;
 		}
 		
 		else if(type=="students"){
 			updateUploadPath("students");
+			$scope.is_adding_marks=false;
 			$scope.show_dropdown=true;
 		}
 		
 		else if(type=="subjects"){
 			updateUploadPath("subjects");
+			$scope.is_adding_marks=false;
 			$scope.show_dropdown=false;
 		}
 		
@@ -111,7 +116,7 @@ function StudentsController($scope,$http ,myNotices,$window, $fileUploader) {
 			$scope.addNotice(subject.value, title, body, "marks");
 			post_notice=false;
 		}
-		
+
 		$scope.reload();
 		//getSubjects();
 		//MainController($scope,$http ,myNotices,$window, $fileUploader); //used to update post notices modal
@@ -119,8 +124,8 @@ function StudentsController($scope,$http ,myNotices,$window, $fileUploader) {
 		
 	uploader.bind('afteraddingfile', function (event, items) {
 		$scope.is_upload_complete=false;  
-		
-		if($scope.value=="marks")
+		console.log($scope.is_adding_marks);
+		if($scope.is_adding_marks)
 		{
 			subject = s.options[s.selectedIndex];
 			post_notice=true;
