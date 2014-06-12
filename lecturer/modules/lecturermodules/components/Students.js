@@ -79,12 +79,14 @@ function StudentsController($scope,$http ,myNotices,$window, $fileUploader) {
 
 		myNotices.post(url,{'subject':subject, 'title':title, 'body':body, 'type':type, 'lecturer':$scope.lecturer_id}).then(function(status) {
 			console.log("successfully added notice");
+			$scope.reload();
 		},
 		function(data) { //failure
 			console.log('WE ARE HAVING TROUBLE ADDING YOUR NOTICE');
 			$scope.statusmessage =  'WE ARE HAVING TROUBLE ADDING YOUR NOTICE';
 			$scope.ready =true;
 			$scope.conn = false;
+			$scope.reload();
        	});
 	}
 
@@ -117,7 +119,10 @@ function StudentsController($scope,$http ,myNotices,$window, $fileUploader) {
 			post_notice=false;
 		}
 
-		$scope.reload();
+		else
+		{
+			$scope.reload();
+		}
 		//getSubjects();
 		//MainController($scope,$http ,myNotices,$window, $fileUploader); //used to update post notices modal
     });
