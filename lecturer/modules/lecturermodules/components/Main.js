@@ -376,7 +376,8 @@ function MainController($scope,$http ,myNotices,$window,$location,$fileUploader)
                     console.info('filter1');
                     return true;
                 }
-            ]
+            ],
+			removeAfterUpload: true
         });
 
 
