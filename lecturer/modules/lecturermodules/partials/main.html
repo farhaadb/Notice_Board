@@ -38,7 +38,7 @@
             <li ng-repeat="item in uploader.queue" class="main_list">
 			<img class="main_folder" src="lecturermodules/resources/img/file.png" />
                 <div class="main_subject">{{ item.file.name }}</div>
-                <div class="main_code">{{ item.file.size/1024/1024|number:2 }} Mb</div>
+                <div class="main_code">{{ item.file.size/1024|number:2 }} KB</div>
                 <div ng-show="uploader.isHTML5">
                    {{ item.progress }}
                     <div class="item-progress-box">
@@ -52,8 +52,8 @@
                     <button ng-click="item.remove()">Remove</button>
                 </div>
             </li>
+		<button class="main_controls" ng-click="uploader.uploadAll()" ng-disabled="!uploader.getNotUploadedItems().length">Upload all</button>
         </ul>
-		
 		</div>
 <!--------------------------Folders Go Here--------------------------------------------->
 		<ul id="folder" ng-show="show_folder">
@@ -72,7 +72,7 @@
 			<li  ng-repeat="item in dir | filter:{folder:'false'}" class="main_list">
 				<div>
 				<img class="main_folder" src="lecturermodules/resources/img/file.png" />
-				<div class="main_subject"><a ng-href="http://localhost:3000/lecturer/{{item.path}}" download>{{item.name}}</a></div>
+				<div class="main_subject"><a ng-href="{{ip}}/lecturer/{{item.path}}" download>{{item.name}}</a></div>
 					<div>
 						<input class="main_delete" type="button" value="Delete File" ng-click="removeFile(item.path)"></p>
 					</div>
