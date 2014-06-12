@@ -448,7 +448,7 @@ function query(req, res, pool, q){
 			var lecturer=req.body.lecturer;
 			var all_students=req.body.all_students;
 			
-			var sql="SELECT student_id FROM student_ls WHERE student_id IN ("+all_students+")";
+			var sql="SELECT student_id FROM student_ls WHERE student_id IN ("+all_students+") AND lecturer_id='"+lecturer+"' AND subject_id='"+subject+"'";
 			
 			connection.query(sql,
 			function(err, rows, fields){
