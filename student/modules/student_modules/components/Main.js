@@ -54,7 +54,7 @@ function MainController($scope,$http ,myNotices,$window) {
 						//do something if it was marks
 						else if(data[i].type=="marks")
 						{
-						
+							data[i].body="Marks have been uploaded. <a href = #/reports/?>Click here to go to marks</a>";
 						}
 						
 					}
