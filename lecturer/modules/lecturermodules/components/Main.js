@@ -1,7 +1,7 @@
 'use strict';
   
    
-function MainController($scope,$http ,myNotices,$window, $fileUploader) {
+function MainController($scope,$http ,myNotices,$window,$location,$fileUploader) {
 	$scope.statusmessage =  'Updating...';
 //hide the modal
 	document.getElementById('overlay').style.display='none';
@@ -22,7 +22,7 @@ function MainController($scope,$http ,myNotices,$window, $fileUploader) {
 	$scope.dir;
 
 	$scope.reload =function(){
-	modalHide();
+	//modalHide();
 	$window.location.reload();
 	}
 	getSubjects();
@@ -61,6 +61,11 @@ function MainController($scope,$http ,myNotices,$window, $fileUploader) {
 						$scope.notice_body="";
 						$scope.notice_text_limit=140;
 						$scope.is_notice_button_disabled=true;
+						
+						if($location.url()=="/mynotices")
+						{
+							$scope.reload();
+						}
 					}
 
 			},
