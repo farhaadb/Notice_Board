@@ -2,15 +2,22 @@
 color: #A5A5A5;
 }
 
-ul{
+ul#folder{
+ border-bottom: 0px solid #C5C5C5;
+}
+ul {
  border-bottom: 1px solid #C5C5C5;
 }
 
 .main_list{
-  height:49px;
+  height:60px;
   border-bottom: 0px solid #C5C5C5;
   border-top:  1px solid #C5C5C5;
   margin-left: -37px;
+}
+
+ul #folder {
+ border-bottom: 0px solid #C5C5C5;;
 }
 
 .main_folder{
@@ -42,9 +49,27 @@ ul{
 }
 
 .main_controls{
- margin-left: 500px;
- margin-top: 13px; 
+ margin-left: 500px; 
  position:absolute;
+ margin-top: -34px;
 }
 
+.main-delete{
+  margin-left:500px;
+  margin-top:12px;
+  height:40px;
+  width:90px;
+  background-color:#36B77E;
+  border-radius: 10px;
+  position: absolute;
+}
+.main-delete-icon{
+  margin-top:15px;
+  margin-left:13px;
+}
 
+.main-delete-text{
+  margin-top:-20px;
+  margin-left:35px;
+  color:white;
+}
