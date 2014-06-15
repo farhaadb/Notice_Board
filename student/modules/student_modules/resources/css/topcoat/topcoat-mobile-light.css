@@ -1601,7 +1601,8 @@ input[type="checkbox"]:disabled:active + .topcoat-checkbox__checkmark:before {
   padding: 0.9rem;
   border-top: 1px solid #25282D;
   border-bottom: 1px solid #4B5356;
-  height: 15px
+  height: 15px;
+  list-style-type: none;
 }
 
 .topcoat-list__item2  > img {
