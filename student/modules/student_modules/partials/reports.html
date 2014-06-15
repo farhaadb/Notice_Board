@@ -67,35 +67,44 @@
 			<img id="topbar-logo" src="student_modules/resources/img/nb_logo.png" ></img>
 			</h1></a>
         </div>
-		
-		  <div class="topcoat-navigation-bar__item right quarter">
-             
-        </div>
-		
+		  <div class="topcoat-navigation-bar__item right quarter">    
+           </div>
     </div>
 	<!------------ Main Content------------------------>  	
- <div class="content" style="top:75px;">
-	<div ng-repeat="(key, val) in data">Visualize data - {{val}}
+ <div class="content" style="background-image: url({{ip}}/lecturermodules/resources/img/page_bg.jpg);
+}">
+	<div id="report-content" style="margin-top: -27px;" ng-repeat="(key, val) in data">
+		<center>
+		<h4 style="color:#0099CB">{{val[0].subject}}<br><br>
+		<table>
+		<th id = "report-nav1"> Assessments</th>
+		<th width="20px" id = "report-nav2"> Marks</th>
+		<th id = "report-nav3">Avg</th>
+		<th width="20px" id = "report-nav4">Rank</th>
+        <tr>
+		
+		<td>
+		<li class= "list1" ng-repeat="(anotherkey, anothervalue) in val[1]">{{anotherkey}}
+		</li>
+		</td>
+	
+		<td width="20px">
+		<li class= "list1" ng-repeat="(anotherkey, anothervalue) in val[1]">{{anothervalue}}%
+		</li>
+		</td>
+		
+		<td>
+		<li class= "list1" ng-repeat="(anotherkey, anothervalue) in val[2]">{{anothervalue}}%
+		</li>
+		</td>
 
-		<h4>{{val[0].subject}}<h4>
-		<table border=1>
-			<tr>
-				<th></th>
-				<th ng-repeat="(anotherkey, anothervalue) in val[1]">{{anotherkey}}</th>
-			</tr>
-			<tr>
-				<td>Marks</td>
-				<td ng-repeat="(anotherkey, anothervalue) in val[1]">{{anothervalue}}</td>
-			</tr>
-			<tr>
-				<td>Class Averages</td>
-				<td ng-repeat="(anotherkey, anothervalue) in val[2]">{{anothervalue}}</td>
-			</tr>
-			<tr>
-				<td>Position</td>
-				<td ng-repeat="(anotherkey, anothervalue) in val[3]">{{anothervalue}}</td>
-			</tr>
-		</table>
+		<td>
+		<li class= "list1" ng-repeat="(anotherkey, anothervalue) in val[3]">{{anothervalue}}
+		</li>
+		</td>
+	     </table>
+	</center>
+	<br><br>
 	</div>
  </div>
 
