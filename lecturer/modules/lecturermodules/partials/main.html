@@ -61,8 +61,9 @@
 			<div>
 				<img class="main_folder"  src="lecturermodules/resources/img/folder_icon.png" />
 				<div class="main_subject" ng-click='updateView(item.path)'>{{item.name}}</div>
-				<div>
-					<input class="main_delete" type="button" value="Delete Folder" ng-click="removeFolder(item.path)"></p>
+				<div class ="main-delete" ng-click="removeFolder(item.path)">
+					<img class="main-delete-icon" src="lecturermodules/resources/img/delete_icon.png">
+					<div class="main-delete-text"> Delete</div>
 				</div>
 			</div>
 			</li>
@@ -74,8 +75,10 @@
 				<img class="main_folder" src="lecturermodules/resources/img/file.png" />
 				<div class="main_subject"><a ng-href="{{ip}}/lecturer/{{item.path}}" download>{{item.name}}</a></div>
 					<div>
-						<input class="main_delete" type="button" value="Delete File" ng-click="removeFile(item.path)"></p>
-					</div>
+					<div class ="main-delete" ng-click="removeFile(item.path)">
+					<img class="main-delete-icon" src="lecturermodules/resources/img/delete_icon.png">
+					<div class="main-delete-text"> Delete</div>
+				</div>
 				</div>
 			</li>
 		</ul>
